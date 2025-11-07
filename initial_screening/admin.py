@@ -15,7 +15,8 @@ class QuestionBlockInline(admin.TabularInline):
 
 @admin.register(Questionnaire)
 class QuestionnaireAdmin(admin.ModelAdmin):
-    list_display = ('name', 'citation')
+    list_display = ('name', 'citation', 'description', 'order')
+    ordering=('order',)
     inlines = [QuestionBlockInline]
 
 @admin.register(QuestionBlock)
@@ -25,5 +26,8 @@ class QuestionBlockAdmin(admin.ModelAdmin):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'question_block', 'question_type', 'order')
+    list_display = ('text', 'question_block', 'question_type', 'is_required', 'order')
     inlines = [AnswerOptionInline]
+
+    class Media:
+        js = ('admin/js/question_admin.js')

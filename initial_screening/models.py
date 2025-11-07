@@ -1,8 +1,22 @@
 from django.db import models
+from django.contrib.auth.models import User
+
+class UserProgress(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    current_questionnaire = models.IntegerField(default=1)
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username} - Questionnaire {self.current_questionnaire}"
 
 class Questionnaire(models.Model):
     name = models.CharField(max_length=300, unique=True)
     citation = models.TextField(blank=True)
+    description = models.TextField(blank=True)
+    order = models.PositiveBigIntegerField(default=0,unique=True)
+
+    class Meta:
+        ordering = ['order']
 
     def __str__(self):
         return self.name
@@ -28,29 +42,29 @@ class QuestionBlock(models.Model):
 
 class Question(models.Model):
     QUESTION_TYPES = [
+        ('info', "Informational Block"),
         ('text', "Single Line Text"),
         ("textarea", "Long Text"),
         ('radio', "Multiple Choice (Single-select)"),
         ('checkbox', "Multiple Choice (Multi-select)"),
-        ('rating', "Rating (Stars or Scale)"),
         ('dropdown', "Dropdown"),
-        ('date', "Date"),
-        ('info', "Informational Block")
+        ('date', "Date")
     ]
 
     question_block = models.ForeignKey(
         QuestionBlock,
         related_name='questions',
-        n_delete=models.CASCADE
+        on_delete=models.CASCADE
     )
 
-    text = models.CharField(max_length=500)
+    text = models.TextField(max_length=1000)
     question_type = models.CharField(
         max_length=30,
         choices=QUESTION_TYPES,
         default='text'
     )
     order = models.PositiveBigIntegerField(default=0)
+    is_required = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['order']
@@ -67,4 +81,4 @@ class AnswerOption(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return f"{self.text} (weight={self.weight})"
+        return self.text

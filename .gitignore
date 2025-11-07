@@ -1,0 +1,8 @@
+/initial_screening/static/admin/js/
+/staticfiles/
+/initial_screening/__pycache__/
+__pycache__/
+/initial_screening/migrations/
+/step_protocol/__pycache__/
+/initial_screening/__pycache__
+*.pyc

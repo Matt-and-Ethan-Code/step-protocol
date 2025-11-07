@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ questionnaire.name }}</title>
+    </head>
+    <body>
+        <h1>{{ questionnaire.name }}</h1>
+        <form method="POST">
+
+            {% for block in questionnaire.question_blocks.all %}
+                <section>
+                    <h2>{{ block.header }}</h2>
+                    <p>{{ block.description }}</p>
+
+                    {% for question in block.questions.all %}
+                        <div>
+                            <p><strong>{{ question.text }}</strong></p>
+
+                            {% if question.question_type == 'text' %}
+                                <input type="text" name="question_{{ question.id }}">
+                            {% elif question.question_type == 'dropdown' %}
+                                <select name="question_{{question.id}}" id="question_{{question.id}}">
+                                    {% for option in question.options.all %}
+                                        <option value="{{ option.id }}">{{ option.text }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% elif question.question_type == 'radio' %}
+                                {% for option in question.options.all %}
+                                    <label>
+                                        <input type="radio" name="question_{{ question.id }}" value="{{ option.id }}">
+                                        {{ option.text }}
+                                    </label>
+                                    <br>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </section>
+            {% endfor %}
+
+            <button type="submit">
+                {% if questionnaire.order == questionnaire_count %}
+                    Submit
+                {% else %}
+                    Next 
+                {% endif %}
+            </button>
+
+
+            {% csrf_token %}
+        </form>
+    </body>
+</html>
