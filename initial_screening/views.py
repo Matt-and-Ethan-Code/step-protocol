@@ -22,8 +22,8 @@ def start_testing(request):
 def questionnaire_view(request, questionnaire_id):
     progress, created = UserProgress.objects.get_or_create(user=request.user)
 
-    if questionnaire_id != progress.current_questionnaire:
-        return redirect('questionnaire_view', questionnaire_id=progress.current_questionnaire)
+    # if questionnaire_id != progress.current_questionnaire:
+    #     return redirect('questionnaire_view', questionnaire_id=progress.current_questionnaire)
     
     questionnaire = get_object_or_404(
         Questionnaire.objects.prefetch_related('question_blocks__questions__options'),

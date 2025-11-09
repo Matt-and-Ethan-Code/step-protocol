@@ -1,54 +1,69 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="{% static 'initial_screening/styles.css' %}">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Karla:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Mono+One&display=swap" rel="stylesheet">
         <title>{{ questionnaire.name }}</title>
     </head>
     <body>
-        <h1>{{ questionnaire.name }}</h1>
-        <form method="POST">
+        <div id="questionnaire-container">
+            <h1>{{ questionnaire.name }}</h1>
+            <form method="POST">
 
-            {% for block in questionnaire.question_blocks.all %}
-                <section>
-                    <h2>{{ block.header }}</h2>
-                    <p>{{ block.description }}</p>
+                {% for block in questionnaire.question_blocks.all %}
+                    <section>
+                        <h2>{{ block.header }}</h2>
+                        <p>{{ block.description }}</p>
 
-                    {% for question in block.questions.all %}
-                        <div>
-                            <p><strong>{{ question.text }}</strong></p>
+                        {% for question in block.questions.all %}
+                            <div class="question-container">
+                                <div class="question-text-container">
+                                    {% if question.is_required %}
+                                        <p class="required-arrow">*</p>
+                                    {% endif %}
+                                    
+                                    <p class="question-text">{{ question.text }}</p>
 
-                            {% if question.question_type == 'text' %}
-                                <input type="text" name="question_{{ question.id }}">
-                            {% elif question.question_type == 'dropdown' %}
-                                <select name="question_{{question.id}}" id="question_{{question.id}}">
+                                </div>
+
+                                {% if question.question_type == 'text' %}
+                                    <input type="text" name="question_{{ question.id }}">
+                                {% elif question.question_type == 'dropdown' %}
+                                    <select name="question_{{question.id}}" id="question_{{question.id}}">
+                                        {% for option in question.options.all %}
+                                            <option value="{{ option.id }}">{{ option.text }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% elif question.question_type == 'radio' %}
                                     {% for option in question.options.all %}
-                                        <option value="{{ option.id }}">{{ option.text }}</option>
+                                        <label>
+                                            <input type="radio" name="question_{{ question.id }}" value="{{ option.id }}">
+                                            {{ option.text }}
+                                        </label>
+                                        <br>
                                     {% endfor %}
-                                </select>
-                            {% elif question.question_type == 'radio' %}
-                                {% for option in question.options.all %}
-                                    <label>
-                                        <input type="radio" name="question_{{ question.id }}" value="{{ option.id }}">
-                                        {{ option.text }}
-                                    </label>
-                                    <br>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                </section>
-            {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </section>
+                {% endfor %}
 
-            <button type="submit">
-                {% if questionnaire.order == questionnaire_count %}
-                    Submit
-                {% else %}
-                    Next 
-                {% endif %}
-            </button>
+                <button type="submit">
+                    {% if questionnaire.order == questionnaire_count %}
+                        Submit
+                    {% else %}
+                        Next 
+                    {% endif %}
+                </button>
 
 
-            {% csrf_token %}
-        </form>
+                {% csrf_token %}
+            </form>
+        </div>
     </body>
 </html>

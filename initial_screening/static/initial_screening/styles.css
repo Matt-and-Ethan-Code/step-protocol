@@ -1,0 +1,56 @@
+body {
+    background-color: rgb(128, 164, 169);
+    font-family: "Arial", "Helvetica Neue", Arial, "Lucida Grande", Tahoma, Verdana, sans-serif;
+    color: rgb(75, 53, 28);
+    font-style: normal;
+    font-weight: 400;
+}
+
+#questionnaire-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+
+#questionnaire-container > h1 {
+    background-color: rgb(198, 135, 60);
+    text-align: center;
+    color: white;
+    font-family: "Poppins";
+    font-weight: 400;
+    width: 90%;
+    padding: 20px;
+}
+
+#questionnaire-container form {
+    width: calc(90% + 40px)
+}
+
+.question-text-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.question-text, .required-arrow {
+    line-height: 1.8em;
+}
+
+
+.question-container {
+    padding-bottom: 5px;
+}
+
+.required-arrow {
+    color: red;
+    display: inline;
+    font-weight: bold;
+    padding-right: 5px;
+    display: inline;
+}
+
+
