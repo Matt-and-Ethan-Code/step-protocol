@@ -13,12 +13,20 @@
     <body>
         <div id="questionnaire-container">
             <h1>{{ questionnaire.name }}</h1>
+            <!-- <form method="POST">
+                {% csrf_token %}
+
+                {{ form }}
+            </form> -->
+
             <form method="POST">
 
                 {% for block in questionnaire.question_blocks.all %}
                     <section>
-                        <h2>{{ block.header }}</h2>
-                        <p>{{ block.description }}</p>
+                        <div class="question-header-container">
+                            <p class="question-block-title">{{ block.title }}</p>
+                            <p class="question-block-description">{{ block.description }}</p>
+                        </div>
 
                         {% for question in block.questions.all %}
                             <div class="question-container">
@@ -32,21 +40,26 @@
                                 </div>
 
                                 {% if question.question_type == 'text' %}
-                                    <input type="text" name="question_{{ question.id }}">
+                                    <input class="input-field" type="text" name="question_{{ question.id }}">
                                 {% elif question.question_type == 'dropdown' %}
-                                    <select name="question_{{question.id}}" id="question_{{question.id}}">
+                                    <select class="input-field" name="question_{{question.id}}" id="question_{{question.id}}">
                                         {% for option in question.options.all %}
                                             <option value="{{ option.id }}">{{ option.text }}</option>
                                         {% endfor %}
                                     </select>
                                 {% elif question.question_type == 'radio' %}
-                                    {% for option in question.options.all %}
-                                        <label>
-                                            <input type="radio" name="question_{{ question.id }}" value="{{ option.id }}">
-                                            {{ option.text }}
-                                        </label>
-                                        <br>
-                                    {% endfor %}
+                                    <div class="radio-input-container">
+                                        {% for option in question.options.all %}
+                                            <label>
+                                                <input class="input-field radio-input" type="radio" name="question_{{ question.id }}" value="{{ option.id }}">
+                                                {{ option.text }}
+                                            </label>
+                                            <br>
+                                        {% endfor %}
+                                    </div>
+                                {% elif question.question_type == 'textarea' %}
+                                    <textarea class="input-field textarea-input" name="question_{{ question.id }}" rows="4" cols="50"></textarea>
+
                                 {% endif %}
                             </div>
                         {% endfor %}
@@ -60,7 +73,6 @@
                         Next 
                     {% endif %}
                 </button>
-
 
                 {% csrf_token %}
             </form>

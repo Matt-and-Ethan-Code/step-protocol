@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Questionnaire, UserProgress
+from .intake_forms import QuestionnaireForm
 
 @login_required
 def start_testing(request):
@@ -49,7 +50,9 @@ def questionnaire_view(request, questionnaire_id):
             progress.save()
             return redirect('testing_complete')
         
-    return render(request, 'initial_screening/questionnaire.html', {'questionnaire': questionnaire, 'questionnaire_count': questionnaire_count})
+    form = QuestionnaireForm(questionnaire, request.POST or None)
+
+    return render(request, 'initial_screening/questionnaire.html', {'form': form, 'questionnaire': questionnaire, 'questionnaire_count': questionnaire_count})
 
 @login_required
 def testing_complete(request):

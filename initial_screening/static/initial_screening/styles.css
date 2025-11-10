@@ -46,11 +46,81 @@ body {
 }
 
 .required-arrow {
-    color: red;
+    color: rgb(198, 135, 60);
     display: inline;
     font-weight: bold;
     padding-right: 5px;
     display: inline;
 }
 
+.input-field {
+    padding: 7px;
+    width: 100%;
+    background-color: white;
+    border: 1px solid rgb(207, 212, 216);
+    border-radius: 2px;
+    box-sizing: border-box;
+    height: 40px;
+    color: rgb(75, 53, 28);
+    line-height: 1.4em;
+    font-size: 1em;
+}
+
+button {
+    margin: 10px auto;
+    margin-top: 40px;
+    border-radius: 0px;
+    border: 0px;
+    background-color: rgb(198, 135, 60);
+    color: white;
+    line-height: 14px;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    display: block;
+}
+
+#submit-button-container {
+    width: 100%;
+}
+
+.radio-input-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.radio-input-container label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 20px 20px 20px;
+}
+
+.radio-input-container .radio-input {
+    width: 20px;
+    accent-color: rgb(75, 53, 28);
+}
+
+textarea.textarea-input {
+    min-height: 100px;
+}
+
+section {
+    padding: 20px 0;
+}
+
+.question-block-title, .question-block-description {
+    font-size: 18px;
+    margin: 2px 0;
+}
+
+.question-header-container {
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.question-block-title {
+    font-weight: bold;
+}
 
