@@ -3,6 +3,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Questionnaire, UserProgress, QuestionnaireResponse
 from .intake_forms import QuestionnaireForm
 
+def home_view(request):
+    return render(request, "initial_screening/home_page.html")
+
 @login_required
 def start_testing(request):
     progress, created = UserProgress.objects.get_or_create(user=request.user)
@@ -43,11 +46,10 @@ def questionnaire_view(request, questionnaire_id):
 
         answers = request.POST.dict()
         answers.pop('csrfmiddlewaretoken', None)
-        QuestionnaireResponse.objects.create(
-            questionnaire=questionnaire,
-            user=request.user,
-            responses=answers
-        )
+#        QuestionnaireResponse.objects.create(
+ #           questionnaire=questionnaire,
+  #          user=request.user
+   #     )
         
         request.session[f'questionnaire_{questionnaire.id}_data'] = request.POST
 

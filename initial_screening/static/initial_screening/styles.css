@@ -64,6 +64,7 @@ body {
     color: rgb(75, 53, 28);
     line-height: 1.4em;
     font-size: 1em;
+    -webkit-appearance: none;
 }
 
 button {
