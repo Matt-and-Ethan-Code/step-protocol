@@ -9,6 +9,16 @@ class UserProgress(models.Model):
     def __str__(self):
         return f"{self.user.username} - Questionnaire {self.current_questionnaire}"
 
+class QuestionnaireResponse(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    questionnaire = models.ForeignKey('Questionnaire', on_delete=models.CASCADE)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+class ResponseItem(models.Model):
+    response = models.ForeignKey(QuestionnaireResponse, related_name='items', on_delete=models.CASCADE)
+    question = models.ForeignKey('Question', on_delete=models.CASCADE)
+    answer = models.TextField()
+
 class Questionnaire(models.Model):
     name = models.CharField(max_length=300, unique=True)
     citation = models.TextField(blank=True)
@@ -70,7 +80,7 @@ class Question(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return f"[{self.question_block.title or self.block.questionnaire.name}] {self.text}"
+        return f"[{self.question_block.title or self.question_block.questionnaire.name}] {self.text}"
 
 class AnswerOption(models.Model):
     question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)

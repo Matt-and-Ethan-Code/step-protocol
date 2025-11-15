@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Questionnaire, QuestionBlock, Question, AnswerOption
+from django.utils.html import format_html
+from .models import Questionnaire, QuestionBlock, Question, AnswerOption, QuestionnaireResponse
 
 class AnswerOptionInline(admin.TabularInline):
     model = AnswerOption
@@ -12,6 +13,20 @@ class QuestionInline(admin.TabularInline):
 class QuestionBlockInline(admin.TabularInline):
     model = QuestionBlock
     extra = 1
+
+@admin.register(QuestionnaireResponse)
+class QuestionnaireResponseAdmin(admin.ModelAdmin):
+    list_display = ('user', 'questionnaire', 'submitted_at', 'formatted_responses')
+    list_filter = ('questionnaire', 'submitted_at', 'user')
+    
+
+
+    def formatted_responses(self, obj):
+        import json 
+        formatted = json.dumps(obj.responses, indent=4, ensure_ascii=False)
+        return format_html("<pre>{}</pre>", obj.responses)
+    
+    formatted_responses.short_description = "Responses"
 
 @admin.register(Questionnaire)
 class QuestionnaireAdmin(admin.ModelAdmin):
@@ -26,8 +41,8 @@ class QuestionBlockAdmin(admin.ModelAdmin):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'question_block', 'question_type', 'is_required', 'order')
+    list_display = ('text', 'order', 'question_block', 'question_type', 'is_required', 'order')
     inlines = [AnswerOptionInline]
 
-    class Media:
-        js = ('admin/js/question_admin.js')
+    # class Media:
+    #     js = ('admin/js/question_admin.js')

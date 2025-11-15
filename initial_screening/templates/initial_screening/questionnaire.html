@@ -11,6 +11,7 @@
         <title>{{ questionnaire.name }}</title>
     </head>
     <body>
+        {% load form_extras %}
         <div id="questionnaire-container">
             <h1>{{ questionnaire.name }}</h1>
             <!-- <form method="POST">
@@ -63,6 +64,12 @@
                                 {% endif %}
                             </div>
                         {% endfor %}
+
+                        {% with blocks_count=questionnaire.question_blocks.count %}
+                            {% if block.order != blocks_count %} 
+                                <hr>
+                            {% endif %}
+                        {% endwith %}
                     </section>
                 {% endfor %}
 

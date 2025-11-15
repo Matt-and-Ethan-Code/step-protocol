@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Questionnaire, UserProgress
+from .models import Questionnaire, UserProgress, QuestionnaireResponse
 from .intake_forms import QuestionnaireForm
 
 @login_required
@@ -40,6 +40,19 @@ def questionnaire_view(request, questionnaire_id):
             .order_by('order')
             .first()
         )
+
+        answers = request.POST.dict()
+        answers.pop('csrfmiddlewaretoken', None)
+        QuestionnaireResponse.objects.create(
+            questionnaire=questionnaire,
+            user=request.user,
+            responses=answers
+        )
+        
+        request.session[f'questionnaire_{questionnaire.id}_data'] = request.POST
+
+        print("Questoinnaire data: ", request.POST)
+
         
         if next_questionnaire:
             progress.current_questionnaire = next_questionnaire.id
