@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from .models import Questionnaire, UserProgress, QuestionnaireResponse
 from .intake_forms import QuestionnaireForm
 
 def home_view(request):
     return render(request, "initial_screening/home_page.html")
 
-@login_required
 def start_testing(request):
     progress, created = UserProgress.objects.get_or_create(user=request.user)
     first_questionnaire = Questionnaire.objects.order_by('order').first()
@@ -22,7 +20,6 @@ def start_testing(request):
 
     return redirect('questionnaire_view', questionnaire_id=first_questionnaire.id)
 
-@login_required
 def questionnaire_view(request, questionnaire_id):
     progress, created = UserProgress.objects.get_or_create(user=request.user)
 
@@ -69,6 +66,5 @@ def questionnaire_view(request, questionnaire_id):
 
     return render(request, 'initial_screening/questionnaire.html', {'form': form, 'questionnaire': questionnaire, 'questionnaire_count': questionnaire_count})
 
-@login_required
 def testing_complete(request):
     return render(request, "initial_screening/testing_complete.html")
