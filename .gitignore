@@ -5,4 +5,3 @@ __pycache__/
 /initial_screening/migrations/
 /step_protocol/__pycache__/
 /initial_screening/__pycache__
-*.pyc
