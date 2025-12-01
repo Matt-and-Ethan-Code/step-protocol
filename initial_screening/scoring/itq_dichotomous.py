@@ -5,24 +5,24 @@ According to https://novopsych.com/assessments/diagnosis/international-trauma-qu
 
 from dataclasses import dataclass
 from typing import Literal
-from itq_scoring import ItqResponse, ItqForm, QuestionIndex
+from scoring import ItqResponse, ItqForm, ItqQuestion
 
 @dataclass
 class PtsdScore:
     label: Literal['reexperiencing', 'avoidance', 'sense_of_threat', 'ptsd_functional_impairment', 'functional_impairment']
-    from_response: QuestionIndex
+    from_response: ItqQuestion
 @dataclass
 class DsoScore:
     label: Literal['affective_disregulation', 'negative_self_concept', 'disturbances_in_relationships', 'functional_impairment']
-    from_response: QuestionIndex
+    from_response: ItqQuestion
 
 @dataclass
-class DichotomousScore:
+class ItqDichotomousScore:
     diagnosis: Literal['none', 'ptsd', 'cptsd']
     ptsd_scores: list[PtsdScore]
     dso_scores: list[DsoScore]
 
-def score(responses: ItqForm) -> DichotomousScore:
+def score(responses: ItqForm) -> ItqDichotomousScore:
     """
     Score the full ITQ form according to dichotomous criteria
     """
@@ -34,7 +34,7 @@ def score(responses: ItqForm) -> DichotomousScore:
         diagnosis = 'cptsd'
     elif ptsd_indicated:
         diagnosis = 'ptsd'
-    return DichotomousScore(diagnosis=diagnosis, ptsd_scores=ptsd_scores, dso_scores=dso_scores)
+    return ItqDichotomousScore(diagnosis=diagnosis, ptsd_scores=ptsd_scores, dso_scores=dso_scores)
 
 
 def score_significant(score: ItqResponse) -> bool:

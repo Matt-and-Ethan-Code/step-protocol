@@ -1,28 +1,29 @@
 from dataclasses import dataclass
-from itq_scoring import ItqForm
+from scoring import ItqForm
 from typing import Literal, cast
 
 type QualitiativeDescriptor = Literal['minimal', 'mild', 'moderate', 'severe', 'very_severe']
 type DimensionalScaleValue = Literal[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
+
 def validate_dimensional_score(score: DimensionalScaleValue):
     if score < 0 or score > 24:
         raise Exception(f'DimensionalScore is out of range: {score}')
 @dataclass
-class DimensionalScore:
+class ItqDimensionalScore:
     ptsd_severity_score: DimensionalScaleValue
     ptsd_qualitative_descriptor: QualitiativeDescriptor
     dso_severity_score: DimensionalScaleValue
     dso_qualitative_descriptor: QualitiativeDescriptor
 
 
-def score(responses: ItqForm) -> DimensionalScore:
+def score(responses: ItqForm) -> ItqDimensionalScore:
     ptsd_severity = ptsd_score(responses)
     ptsd_descriptor = descriptor_from_score(ptsd_severity)
 
     dso_severity = dso_score(responses)
     dso_descriptor = descriptor_from_score(dso_severity)
     
-    return DimensionalScore(
+    return ItqDimensionalScore(
         ptsd_severity_score=ptsd_severity,
         ptsd_qualitative_descriptor=ptsd_descriptor,
         dso_severity_score=dso_severity,
