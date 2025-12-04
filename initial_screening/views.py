@@ -110,6 +110,10 @@ def itq_email(request):
         "reexperiencing_met": yes_no(itq_score.reexperiencing_met),
         "avoidance_met": yes_no(itq_score.avoidance_met),
         "sense_of_threat_met": yes_no(itq_score.sense_of_threat_met),
-        "ptsd_functional_impairment_met": yes_no(itq_score.ptsd_functional_impairment_met)
+        "ptsd_functional_impairment_met": yes_no(itq_score.ptsd_functional_impairment_met),
+        "affective_dysregulation_met": yes_no(itq_score.affective_disregulation_met),
+        "negative_self_concept_met": yes_no(itq_score.negative_self_concept_met),
+        "disturbances_in_relationships_met": yes_no(itq_score.disturbances_in_relationships_met),
+        "dso_functional_impairment_met": yes_no(itq_score.dso_functional_impairment_met),
     }
     return render(request, 'initial_screening/itq_email.html', context)

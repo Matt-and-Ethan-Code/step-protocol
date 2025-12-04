@@ -24,17 +24,21 @@ class ItqDichotomousScore:
     avoidance_met: bool
     sense_of_threat_met: bool
     ptsd_functional_impairment_met: bool
-    dso_scores: list[DsoScoreReason]
+    dso_reasons: list[DsoScoreReason]
+    affective_disregulation_met: bool
+    negative_self_concept_met: bool
+    disturbances_in_relationships_met: bool
+    dso_functional_impairment_met: bool
 
 def score(responses: ItqForm) -> ItqDichotomousScore:
     """
     Score the full ITQ form according to dichotomous criteria
     """
     ptsd: PtsdScore = ptsd_score(responses)
-    dso_indicated, dso_scores = dso_score(responses)
+    dso = dso_score(responses)
 
     diagnosis: Literal['none', 'ptsd', 'cptsd'] = 'none'
-    if ptsd.indicated and dso_indicated:
+    if ptsd.indicated and dso.indicated:
         diagnosis = 'cptsd'
     elif ptsd.indicated:
         diagnosis = 'ptsd'
@@ -45,7 +49,11 @@ def score(responses: ItqForm) -> ItqDichotomousScore:
         avoidance_met=ptsd.avoidance_met,
         sense_of_threat_met=ptsd.sense_of_threat_met,
         ptsd_functional_impairment_met=ptsd.functional_impairment_met,
-        dso_scores=dso_scores,
+        dso_reasons=dso.reasons,
+        affective_disregulation_met=dso.affective_disregulation_met,
+        negative_self_concept_met=dso.negative_self_concept_met,
+        disturbances_in_relationships_met=dso.disturbances_in_relationships_met,
+        dso_functional_impairment_met=dso.functional_impairment_met
     )
 
 
@@ -157,16 +165,36 @@ def dso_functional_impairment_score(q16: ItqResponse, q17: ItqResponse, q18: Itq
         scores.append(DsoScoreReason(label='functional_impairment', from_response=18))
     return scores
 
-def dso_score(responses: ItqForm) -> tuple[bool, list[DsoScoreReason]]:
+@dataclass
+class DsoScore:
+    indicated: bool
+    reasons: list[DsoScoreReason]
+    affective_disregulation_met: bool
+    negative_self_concept_met: bool
+    disturbances_in_relationships_met: bool
+    functional_impairment_met: bool
+def dso_score(responses: ItqForm) -> DsoScore:
     affective_disregulation_cluster = dso_affective_disregulation_score(responses[10], responses[11])
     negative_self_concept_cluster = dso_negative_self_concept_score(responses[12], responses[13])
     disturbances_in_relationships_cluster = dso_disturbances_in_relationships_score(responses[14], responses[15])
 
 
     dso_functional_impairments = dso_functional_impairment_score(responses[16], responses[17], responses[18])
-    at_least_one_cluster_met = len(affective_disregulation_cluster) > 0 or len(negative_self_concept_cluster) > 0 or len(disturbances_in_relationships_cluster) > 0
-    at_least_one_functional_impairment_met = len(dso_functional_impairments) > 0
+    affective_disregulation_met = len(affective_disregulation_cluster) > 0
+    negative_self_concept_met = len(negative_self_concept_cluster) > 0
+    disturbances_in_relationships_met = len(disturbances_in_relationships_cluster) > 0
+    functional_impairment_met = len(dso_functional_impairments) > 0
+
+    at_least_one_cluster_met = affective_disregulation_met or negative_self_concept_met or disturbances_in_relationships_met
+    at_least_one_functional_impairment_met = functional_impairment_met
     dso_indicated = at_least_one_cluster_met and at_least_one_functional_impairment_met
 
     accumulated_dso_scores: list[DsoScoreReason] = [*affective_disregulation_cluster, *negative_self_concept_cluster, *disturbances_in_relationships_cluster, *dso_functional_impairments]
-    return (dso_indicated, accumulated_dso_scores)
+    return DsoScore(
+        indicated=dso_indicated,
+        reasons=accumulated_dso_scores,
+        affective_disregulation_met=affective_disregulation_met,
+        negative_self_concept_met=negative_self_concept_met,
+        disturbances_in_relationships_met=disturbances_in_relationships_met,
+        functional_impairment_met=functional_impairment_met
+    )
