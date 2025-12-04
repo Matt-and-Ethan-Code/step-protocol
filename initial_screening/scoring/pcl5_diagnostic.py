@@ -2,7 +2,7 @@
 Scoring from https://www.ptsd.va.gov/professional/assessment/documents/using-PCL5.pdf
 Found by searching since Olivia did not provide a resource
 """
-from scoring import Pcl5Form
+from .pcl5_types import Pcl5Form
 from dataclasses import dataclass
 
 @dataclass

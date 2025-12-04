@@ -5,42 +5,63 @@ According to https://novopsych.com/assessments/diagnosis/international-trauma-qu
 
 from dataclasses import dataclass
 from typing import Literal
-from scoring import ItqResponse, ItqForm, ItqQuestion
+from .itq_types import ItqResponse, ItqForm, ItqQuestion
 
 @dataclass
-class PtsdScore:
+class PtsdScoreReason:
     label: Literal['reexperiencing', 'avoidance', 'sense_of_threat', 'ptsd_functional_impairment', 'functional_impairment']
     from_response: ItqQuestion
 @dataclass
-class DsoScore:
+class DsoScoreReason:
     label: Literal['affective_disregulation', 'negative_self_concept', 'disturbances_in_relationships', 'functional_impairment']
     from_response: ItqQuestion
 
 @dataclass
 class ItqDichotomousScore:
     diagnosis: Literal['none', 'ptsd', 'cptsd']
-    ptsd_scores: list[PtsdScore]
-    dso_scores: list[DsoScore]
+    ptsd_reasons: list[PtsdScoreReason]
+    reexperiencing_met: bool
+    avoidance_met: bool
+    sense_of_threat_met: bool
+    ptsd_functional_impairment_met: bool
+    dso_scores: list[DsoScoreReason]
 
 def score(responses: ItqForm) -> ItqDichotomousScore:
     """
     Score the full ITQ form according to dichotomous criteria
     """
-    ptsd_indicated, ptsd_scores = ptsd_score(responses)
+    ptsd: PtsdScore = ptsd_score(responses)
     dso_indicated, dso_scores = dso_score(responses)
 
     diagnosis: Literal['none', 'ptsd', 'cptsd'] = 'none'
-    if ptsd_indicated and dso_indicated:
+    if ptsd.indicated and dso_indicated:
         diagnosis = 'cptsd'
-    elif ptsd_indicated:
+    elif ptsd.indicated:
         diagnosis = 'ptsd'
-    return ItqDichotomousScore(diagnosis=diagnosis, ptsd_scores=ptsd_scores, dso_scores=dso_scores)
+    return ItqDichotomousScore(
+        diagnosis=diagnosis,
+        ptsd_reasons=ptsd.reasons,
+        reexperiencing_met=ptsd.reexperiencing_met,
+        avoidance_met=ptsd.avoidance_met,
+        sense_of_threat_met=ptsd.sense_of_threat_met,
+        ptsd_functional_impairment_met=ptsd.functional_impairment_met,
+        dso_scores=dso_scores,
+    )
 
 
 def score_significant(score: ItqResponse) -> bool:
     return score >= 2
 
-def ptsd_score(responses: ItqForm) -> tuple[bool, list[PtsdScore]]:
+@dataclass
+class PtsdScore:
+    indicated: bool
+    reasons: list[PtsdScoreReason]
+    reexperiencing_met: bool
+    avoidance_met: bool
+    sense_of_threat_met: bool
+    functional_impairment_met: bool
+
+def ptsd_score(responses: ItqForm) -> PtsdScore:
     # PTSD Clusters
     reexperiencing_cluster = ptsd_reexperiencing_score(responses[1], responses[2])
     avoidance_cluster = ptsd_avoidance_score(responses[3], responses[4])
@@ -48,84 +69,95 @@ def ptsd_score(responses: ItqForm) -> tuple[bool, list[PtsdScore]]:
 
     # PTSD functional impairment
     functional_impairment_cluster = ptsd_functional_impairment_score(responses[7], responses[8], responses[9])
+    reexperiencing_met = len(reexperiencing_cluster) > 0
+    avoidance_met = len(avoidance_cluster) > 0
+    sense_of_threat_met = len(sense_of_threat_cluster) > 0
+    functional_impairment_met = len(functional_impairment_cluster) > 0
 
     at_least_one_cluster_met = len(reexperiencing_cluster) > 0 or len(avoidance_cluster) > 0 or len(sense_of_threat_cluster) > 0
     at_least_one_functional_impairment_met = len(functional_impairment_cluster) > 0
     ptsd_indicated = at_least_one_cluster_met and at_least_one_functional_impairment_met
 
-    accumulated_scores: list[PtsdScore] = [*reexperiencing_cluster, *avoidance_cluster, *sense_of_threat_cluster, *functional_impairment_cluster]
-    return ptsd_indicated, accumulated_scores
+    accumulated_scores: list[PtsdScoreReason] = [*reexperiencing_cluster, *avoidance_cluster, *sense_of_threat_cluster, *functional_impairment_cluster]
+    return PtsdScore(
+        indicated=ptsd_indicated,
+        reasons=accumulated_scores,
+        reexperiencing_met=reexperiencing_met,
+        avoidance_met=avoidance_met,
+        sense_of_threat_met=sense_of_threat_met,
+        functional_impairment_met=functional_impairment_met
+    )
 
-def ptsd_reexperiencing_score(q1: ItqResponse, q2: ItqResponse) -> list[PtsdScore]:
-    scores: list[PtsdScore] = []
+def ptsd_reexperiencing_score(q1: ItqResponse, q2: ItqResponse) -> list[PtsdScoreReason]:
+    scores: list[PtsdScoreReason] = []
     if score_significant(q1):
-        scores.append(PtsdScore(label='reexperiencing', from_response=1))
+        scores.append(PtsdScoreReason(label='reexperiencing', from_response=1))
     if score_significant(q2):
-        scores.append(PtsdScore(label='reexperiencing', from_response=2))
+        scores.append(PtsdScoreReason(label='reexperiencing', from_response=2))
     return scores
 
-def ptsd_avoidance_score(q3: ItqResponse, q4: ItqResponse) -> list[PtsdScore]:
-    scores: list[PtsdScore] = []
+def ptsd_avoidance_score(q3: ItqResponse, q4: ItqResponse) -> list[PtsdScoreReason]:
+    scores: list[PtsdScoreReason] = []
     if score_significant(q3):
-        scores.append(PtsdScore(label='avoidance', from_response=3))
+        scores.append(PtsdScoreReason(label='avoidance', from_response=3))
     if score_significant(q4):
-        scores.append(PtsdScore(label='avoidance', from_response=4))
+        scores.append(PtsdScoreReason(label='avoidance', from_response=4))
     return scores
 
-def ptsd_sense_of_threat_score(q5: ItqResponse, q6: ItqResponse) -> list[PtsdScore]:
-    scores: list[PtsdScore] = []
+def ptsd_sense_of_threat_score(q5: ItqResponse, q6: ItqResponse) -> list[PtsdScoreReason]:
+    scores: list[PtsdScoreReason] = []
     if score_significant(q5):
-        scores.append(PtsdScore(label='sense_of_threat', from_response=5))
+        scores.append(PtsdScoreReason(label='sense_of_threat', from_response=5))
     if score_significant(q6):
-        scores.append(PtsdScore(label='sense_of_threat', from_response=6))
+        scores.append(PtsdScoreReason(label='sense_of_threat', from_response=6))
     return scores
 
 
-def ptsd_functional_impairment_score(q7: ItqResponse, q8: ItqResponse, q9: ItqResponse) -> list[PtsdScore]:
-    scores: list[PtsdScore] = []
+def ptsd_functional_impairment_score(q7: ItqResponse, q8: ItqResponse, q9: ItqResponse) -> list[PtsdScoreReason]:
+    scores: list[PtsdScoreReason] = []
     if score_significant(q7):
-        scores.append(PtsdScore(label='ptsd_functional_impairment', from_response=7))
+        scores.append(PtsdScoreReason(label='ptsd_functional_impairment', from_response=7))
     if score_significant(q8):
-        scores.append(PtsdScore(label='ptsd_functional_impairment', from_response=8))
+        scores.append(PtsdScoreReason(label='ptsd_functional_impairment', from_response=8))
     if score_significant(q9):
-        scores.append(PtsdScore(label='ptsd_functional_impairment', from_response=9))
+        scores.append(PtsdScoreReason(label='ptsd_functional_impairment', from_response=9))
     return scores
 
-def dso_affective_disregulation_score(q10: ItqResponse, q11: ItqResponse) -> list[DsoScore]:
-    scores: list[DsoScore] = []
+def dso_affective_disregulation_score(q10: ItqResponse, q11: ItqResponse) -> list[DsoScoreReason]:
+    scores: list[DsoScoreReason] = []
     if score_significant(q10):
-        scores.append(DsoScore(label='affective_disregulation', from_response=10))
+        scores.append(DsoScoreReason(label='affective_disregulation', from_response=10))
     if score_significant(q11):
-        scores.append(DsoScore(label='affective_disregulation', from_response=11))
+        scores.append(DsoScoreReason(label='affective_disregulation', from_response=11))
     return scores
 
-def dso_negative_self_concept_score(q12: ItqResponse, q13: ItqResponse) -> list[DsoScore]:
-    scores: list[DsoScore] = []
+def dso_negative_self_concept_score(q12: ItqResponse, q13: ItqResponse) -> list[DsoScoreReason]:
+    scores: list[DsoScoreReason] = []
     if score_significant(q12):
-        scores.append(DsoScore(label='negative_self_concept', from_response=12))
+        scores.append(DsoScoreReason(label='negative_self_concept', from_response=12))
     if score_significant(q13):
-        scores.append(DsoScore(label='negative_self_concept', from_response=13))
+        scores.append(DsoScoreReason(label='negative_self_concept', from_response=13))
     return scores
 
-def dso_disturbances_in_relationships_score(q14: ItqResponse, q15: ItqResponse) -> list[DsoScore]:
-    scores: list[DsoScore] = []
+def dso_disturbances_in_relationships_score(q14: ItqResponse, q15: ItqResponse) -> list[DsoScoreReason]:
+    scores: list[DsoScoreReason] = []
     if score_significant(q14):
-        scores.append(DsoScore(label='disturbances_in_relationships', from_response=14))
+        scores.append(DsoScoreReason(label='disturbances_in_relationships', from_response=14))
     if score_significant(q15):
-        scores.append(DsoScore(label='disturbances_in_relationships', from_response=15))
+        scores.append(DsoScoreReason(label='disturbances_in_relationships', from_response=15))
     return scores
 
-def dso_functional_impairment_score(q16: ItqResponse, q17: ItqResponse, q18: ItqResponse) -> list[DsoScore]:
-    scores: list[DsoScore] = []
+def dso_functional_impairment_score(q16: ItqResponse, q17: ItqResponse, q18: ItqResponse) -> list[DsoScoreReason]:
+    scores: list[DsoScoreReason] = []
     if score_significant(q16):
-        scores.append(DsoScore(label='functional_impairment', from_response=17))
+        scores.append(DsoScoreReason(label='functional_impairment', from_response=17))
     if score_significant(q17):
-        scores.append(DsoScore(label='functional_impairment', from_response=17))
+        scores.append(DsoScoreReason(label='functional_impairment', from_response=17))
     if score_significant(q18):
-        scores.append(DsoScore(label='functional_impairment', from_response=18))
+        scores.append(DsoScoreReason(label='functional_impairment', from_response=18))
     return scores
 
-def dso_score(responses: ItqForm) -> tuple[bool, list[DsoScore]]:
+def dso_score(responses: ItqForm) -> tuple[bool, list[DsoScoreReason]]:
     affective_disregulation_cluster = dso_affective_disregulation_score(responses[10], responses[11])
     negative_self_concept_cluster = dso_negative_self_concept_score(responses[12], responses[13])
     disturbances_in_relationships_cluster = dso_disturbances_in_relationships_score(responses[14], responses[15])
@@ -136,5 +168,5 @@ def dso_score(responses: ItqForm) -> tuple[bool, list[DsoScore]]:
     at_least_one_functional_impairment_met = len(dso_functional_impairments) > 0
     dso_indicated = at_least_one_cluster_met and at_least_one_functional_impairment_met
 
-    accumulated_dso_scores: list[DsoScore] = [*affective_disregulation_cluster, *negative_self_concept_cluster, *disturbances_in_relationships_cluster, *dso_functional_impairments]
+    accumulated_dso_scores: list[DsoScoreReason] = [*affective_disregulation_cluster, *negative_self_concept_cluster, *disturbances_in_relationships_cluster, *dso_functional_impairments]
     return (dso_indicated, accumulated_dso_scores)

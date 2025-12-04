@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from scoring import ItqForm
+from .itq_types import ItqForm
 from typing import Literal, cast
 
 type QualitiativeDescriptor = Literal['minimal', 'mild', 'moderate', 'severe', 'very_severe']
