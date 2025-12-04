@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Questionnaire, UserProgress, QuestionnaireResponse
 from .intake_forms import QuestionnaireForm
+from . import scoring
 
 def home_view(request):
     return render(request, "initial_screening/home_page.html")
@@ -68,3 +69,47 @@ def questionnaire_view(request, questionnaire_id):
 
 def testing_complete(request):
     return render(request, "initial_screening/testing_complete.html")
+def itq_email(request):
+    form_response: scoring.ItqForm = {
+        1: 1,
+        2: 3,
+
+        3: 0,
+        4: 1,
+        
+        5: 2,
+        6: 4,
+        
+        7: 0,
+        8: 1,
+        9: 4,
+
+        10: 0,
+        11: 2,
+        
+        12: 1,
+        13: 2,
+
+        14: 0,
+        15: 0,
+
+        16: 1,
+        17: 1,
+        18: 2,
+    }
+
+    itq_score = scoring.itq_dichotomous_score(form_response)
+
+    yes_no = lambda b: "Yes" if b else "No"
+    
+    context = {
+        "client_id": "esme!!!",
+        "troubling_experience": "this is my troubling experience",
+        "responses": form_response,
+        "diagnosis": itq_score.diagnosis.upper(),
+        "reexperiencing_met": yes_no(itq_score.reexperiencing_met),
+        "avoidance_met": yes_no(itq_score.avoidance_met),
+        "sense_of_threat_met": yes_no(itq_score.sense_of_threat_met),
+        "ptsd_functional_impairment_met": yes_no(itq_score.ptsd_functional_impairment_met)
+    }
+    return render(request, 'initial_screening/itq_email.html', context)

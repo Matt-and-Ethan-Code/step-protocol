@@ -1,0 +1,160 @@
+<p style="font-family: Arial;">Client ID: {{ client_id }}</p>
+<p style="font-family: Arial;">Identify the Experience that Troubles You: {{ troubling_experience }}</p>
+
+<br><br>
+<div style="display:flex;justify-content:center;">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(5,1fr);gap:.25rem;">
+        <!-- Table Headers -->
+        <div style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:.5rem;display:flex;align-items:center;justify-content:center;">
+            PTSD <br/> Symptom Cluster
+        </div>
+        <div style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:.5rem;display:flex;align-items:center;justify-content:center;">
+            Items
+        </div>
+        <div style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:.5rem;display:flex;align-items:center;justify-content:center;">
+            Scores
+        </div>
+        <div style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:.5rem;display:flex;align-items:center;justify-content:center;">
+            Criteria Met?
+        </div>
+
+        <!-- Row 1 -->
+
+        <div style="font-family:Arial;padding:.5rem;">
+            Re-Experiencing
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            P1, P2
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{responses.1}} and {{responses.2}}
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{ reexperiencing_met }}
+        </div>
+        
+
+        <div style="font-family:Arial;padding:.5rem;">
+            Avoidance
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            P3, P4
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{responses.3}} and {{responses.4}}
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{ avoidance_met }}
+        </div>
+
+
+        <div style="font-family:Arial;padding:.5rem;">
+            Sense of Threat
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            P5, P6
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{responses.5}} and {{responses.6}}
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{ sense_of_threat_met }}
+        </div>
+
+
+        <div style="font-family:Arial;padding:.5rem;">
+            Functional Impairment
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            P7, P8, P9
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{responses.7}}, {{responses.8}}, and {{responses.9}}
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{ ptsd_functional_impairment_met }}
+        </div>
+    </div>
+</div>
+<p style="font-family:Arial;font-weight:bold;">Scoring: If one of the scores for each cluster is 2 or greater, they meet the criteria for probable PTSD</p>
+<br/><br/>
+
+<div style="display:flex;justify-content:center;">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(5,1fr);gap:.25rem;">
+        <!-- Table Headers -->
+        <div style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:.5rem;display:flex;align-items:center;justify-content:center;">
+            CPTSD <br/> Symptom Cluster
+        </div>
+        <div style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:.5rem;display:flex;align-items:center;justify-content:center;">
+            Items
+        </div>
+        <div style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:.5rem;display:flex;align-items:center;justify-content:center;">
+            Scores
+        </div>
+        <div style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:.5rem;display:flex;align-items:center;justify-content:center;">
+            Criteria Met?
+        </div>
+
+        <div style="font-family:Arial;padding:.5rem;">
+            Affective Dysregulation
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            C1, C2
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{responses.10}} and {{responses.11}}
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{ affective_dysregulation_met }}
+        </div>
+        
+
+        <div style="font-family:Arial;padding:.5rem;">
+            Negative Self-Concept
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            C3, C4
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{responses.12}} and {{responses.13}}
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{ negative_self_concept_met }}
+        </div>
+
+
+        <div style="font-family:Arial;padding:.5rem;">
+            Disturbances <br/>in Relationships
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            C5, C6
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{responses.14}} and {{responses.15}}
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{ disturbances_in_relationships_met }}
+        </div>
+
+
+        <div style="font-family:Arial;padding:.5rem;">
+            Functional Impairment
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            C7, C8, C9
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{responses.16}}, {{responses.17}}, and {{responses.18}}
+        </div>
+        <div style="font-family:Arial;padding:.5rem;">
+            {{ cptsd_functional_impairment_met }}
+        </div>
+    </div>
+</div>
+<p style="font-family:Arial;font-weight:bold;">Scoring: If one of the scores for each cluster is 2 or greater, they meet the criteria for probable CPTSD</p>
+
+<p style="font-family:Arial;">Diagnosis: {{ diagnosis }}</p>
+
+<p style="font-family:Arial;"><span style="font-weight:bold;">STEP Solo:</span> As a reminder, those experiencing post-traumatic stress disorder (PTSD) or a complex post-traumatic injury (complex PTSD) are not recommended to participate in STEP Solo. Instead, the clinician may prefer to evaluate if STEP Together or one-to-one interventions would be most appropriate for these individuals.</p>
+
+<p style="font-family:Arial;"><span style="font-weight:bold;">STEP Together:</span> As a reminder, those experiencing a complex post-traumatic injury (complex PTSD) are not recommended to participate in a STEP Together group. Instead, the clinician may prefer to select or refer for an appropriate one-to-one intervention for these individuals.</p>
