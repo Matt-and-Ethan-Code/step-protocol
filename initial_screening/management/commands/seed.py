@@ -13,14 +13,14 @@ class Command(BaseCommand):
 
         self.stdout.write("Deleted all old data.")
 
-        call_command('loaddata', 'questionnaire.json')
+        call_command('loaddata', 'fixtures/questionnaire.json')
         self.stdout.write("Loaded questionnaire data.")
 
-        call_command('loaddata', 'questionblock.json')
+        call_command('loaddata', 'fixtures/questionblock.json')
         self.stdout.write("Loaded question block data.")
 
-        call_command('loaddata', 'question.json')
+        call_command('loaddata', 'fixtures/question.json')
         self.stdout.write("Loaded question data.")
 
-        call_command('loaddata', 'answeroption.json')
+        call_command('loaddata', 'fixtures/answeroption.json')
         self.stdout.write("Loaded answer option data.")
