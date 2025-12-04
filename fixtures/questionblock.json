@@ -1,0 +1,102 @@
+[
+{
+  "model": "initial_screening.questionblock",
+  "pk": 1,
+  "fields": {
+    "questionnaire": 1,
+    "title": "",
+    "description": "",
+    "order": 1
+  }
+},
+{
+  "model": "initial_screening.questionblock",
+  "pk": 2,
+  "fields": {
+    "questionnaire": 2,
+    "title": "",
+    "description": "",
+    "order": 1
+  }
+},
+{
+  "model": "initial_screening.questionblock",
+  "pk": 3,
+  "fields": {
+    "questionnaire": 2,
+    "title": "Below are a number of problems that people sometimes report in response to traumatic or stressful life events.",
+    "description": "Please read each item carefully, then select one of the numbers to indicate how much you have been bothered by that problem in the past month.",
+    "order": 2
+  }
+},
+{
+  "model": "initial_screening.questionblock",
+  "pk": 4,
+  "fields": {
+    "questionnaire": 2,
+    "title": "In the past month have the above problems:",
+    "description": "",
+    "order": 3
+  }
+},
+{
+  "model": "initial_screening.questionblock",
+  "pk": 5,
+  "fields": {
+    "questionnaire": 2,
+    "title": "How true is this of you?",
+    "description": "",
+    "order": 4
+  }
+},
+{
+  "model": "initial_screening.questionblock",
+  "pk": 6,
+  "fields": {
+    "questionnaire": 2,
+    "title": "In the past month, have the above problems in emotions, in beliefs about yourself and in relationships:",
+    "description": "",
+    "order": 5
+  }
+},
+{
+  "model": "initial_screening.questionblock",
+  "pk": 7,
+  "fields": {
+    "questionnaire": 3,
+    "title": "",
+    "description": "",
+    "order": 1
+  }
+},
+{
+  "model": "initial_screening.questionblock",
+  "pk": 8,
+  "fields": {
+    "questionnaire": 4,
+    "title": "In the past week, how much were you bothered by:",
+    "description": "",
+    "order": 1
+  }
+},
+{
+  "model": "initial_screening.questionblock",
+  "pk": 9,
+  "fields": {
+    "questionnaire": 5,
+    "title": "",
+    "description": "",
+    "order": 1
+  }
+},
+{
+  "model": "initial_screening.questionblock",
+  "pk": 10,
+  "fields": {
+    "questionnaire": 6,
+    "title": "",
+    "description": "",
+    "order": 1
+  }
+}
+]

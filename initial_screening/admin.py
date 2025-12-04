@@ -44,6 +44,3 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ('text', 'order', 'question_block', 'question_type', 'is_required', 'order')
     list_filter = ('question_type', 'question_block__questionnaire', 'question_block')
     inlines = [AnswerOptionInline]
-
-    # class Media:
-    #     js = ('admin/js/question_admin.js')
