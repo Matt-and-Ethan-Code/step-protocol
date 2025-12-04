@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from .models import Questionnaire, UserProgress, QuestionnaireResponse
 from .intake_forms import QuestionnaireForm
 from . import scoring
@@ -61,6 +63,21 @@ def questionnaire_view(request, questionnaire_id):
         else:
             progress.completed = True
             progress.save()
+
+            client_id = "our id"
+            troubling_experience = "this is my experience"
+            from_email = "noreply@step.com"
+            to_email = "physician@step.com"
+            text_body = "we need a text body as well as an HTML body"
+            html_body = render_to_string('initial_screening/itq_email.html', context=itq_email_template_context(client_id, troubling_experience, sample_response()))
+
+            email = EmailMultiAlternatives(subject=f"ITQ Questionnaire Repsonse: {client_id}",
+                                   body=text_body,
+                                   from_email=from_email,
+                                   to=[to_email])
+            email.attach_alternative(html_body, 'text/html')
+
+            email.send()
             return redirect('testing_complete')
         
     form = QuestionnaireForm(questionnaire, request.POST or None)
@@ -69,7 +86,12 @@ def questionnaire_view(request, questionnaire_id):
 
 def testing_complete(request):
     return render(request, "initial_screening/testing_complete.html")
+
 def itq_email(request):
+    context = itq_email_template_context("esme!!!", "this is my troubling experience", sample_response())
+    return render(request, 'initial_screening/itq_email.html', context)
+
+def sample_response() -> scoring.ItqForm:
     form_response: scoring.ItqForm = {
         1: 1,
         2: 3,
@@ -97,14 +119,14 @@ def itq_email(request):
         17: 1,
         18: 2,
     }
+    return form_response
 
+def itq_email_template_context(client_id: str, troubling_experience: str, form_response: scoring.ItqForm):
     itq_score = scoring.itq_dichotomous_score(form_response)
-
     yes_no = lambda b: "Yes" if b else "No"
-    
     context = {
-        "client_id": "esme!!!",
-        "troubling_experience": "this is my troubling experience",
+        "client_id": client_id,
+        "troubling_experience": troubling_experience,
         "responses": form_response,
         "diagnosis": itq_score.diagnosis.upper(),
         "reexperiencing_met": yes_no(itq_score.reexperiencing_met),
@@ -116,4 +138,4 @@ def itq_email(request):
         "disturbances_in_relationships_met": yes_no(itq_score.disturbances_in_relationships_met),
         "dso_functional_impairment_met": yes_no(itq_score.dso_functional_impairment_met),
     }
-    return render(request, 'initial_screening/itq_email.html', context)
+    return context
