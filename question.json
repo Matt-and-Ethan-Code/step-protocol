@@ -158,7 +158,7 @@
   "pk": 15,
   "fields": {
     "question_block": 3,
-    "text": "Being �super-alert�, watchful, or on guard?",
+    "text": "Being \"super-alert\", watchful, or on guard?",
     "question_type": "radio",
     "order": 5,
     "is_required": true
@@ -334,7 +334,7 @@
   "pk": 31,
   "fields": {
     "question_block": 7,
-    "text": "By providing your unique identifier and group leader�s name on this form, you understand that while we make every effort to protect your information, using digital systems may involve some small risks, such as accidental access or errors in transmission. The responses you provide will be sent to your group leader via email to ensure your clinician has the necessary information for your treatment. Your clinician will use the unique identifier to link your responses to your identity and provide personalized care. By continuing, you agree to how your information will be used, shared with your group leader, securely stored, and your anonymized data shared with protocol developers, Prepped 4 Learning Inc. While we take precautions to protect your data, we are not responsible for any issues such as unauthorized access, data transmission errors, or technical problems that may occur.",
+    "text": "By providing your unique identifier and group leader's name on this form, you understand that while we make every effort to protect your information, using digital systems may involve some small risks, such as accidental access or errors in transmission. The responses you provide will be sent to your group leader via email to ensure your clinician has the necessary information for your treatment. Your clinician will use the unique identifier to link your responses to your identity and provide personalized care. By continuing, you agree to how your information will be used, shared with your group leader, securely stored, and your anonymized data shared with protocol developers, Prepped 4 Learning Inc. While we take precautions to protect your data, we are not responsible for any issues such as unauthorized access, data transmission errors, or technical problems that may occur.",
     "question_type": "info",
     "order": 1,
     "is_required": false
@@ -521,7 +521,7 @@
   "pk": 48,
   "fields": {
     "question_block": 8,
-    "text": "Being �superalert� or watchful or on guard?",
+    "text": "Being \"superalert\" or watchful or on guard?",
     "question_type": "radio",
     "order": 17,
     "is_required": true
@@ -587,7 +587,7 @@
   "pk": 54,
   "fields": {
     "question_block": 9,
-    "text": "I couldn�t seem to experience any positive feeling at all",
+    "text": "I couldn't seem to experience any positive feeling at all",
     "question_type": "radio",
     "order": 3,
     "is_required": true
@@ -741,7 +741,7 @@
   "pk": 68,
   "fields": {
     "question_block": 9,
-    "text": "I felt I wasn�t worth much as a person",
+    "text": "I felt I wasn't worth much as a person",
     "question_type": "radio",
     "order": 17,
     "is_required": true
