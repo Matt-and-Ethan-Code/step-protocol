@@ -35,9 +35,7 @@
                                     {% if question.is_required %}
                                         <p class="required-arrow">*</p>
                                     {% endif %}
-                                    
                                     <p class="question-text">{{ question.text }}</p>
-
                                 </div>
 
                                 {% if question.question_type == 'text' %}
@@ -47,7 +45,7 @@
                                         {% endif %}
                                         class="input-field" 
                                         type="text" 
-                                        name="question_{{ question.id }}"
+                                        name="{{ question.id }}"
                                         >
                                 {% elif question.question_type == 'dropdown' %}
                                     <select
@@ -55,7 +53,7 @@
                                             required 
                                         {% endif %} 
                                         class="input-field" 
-                                        name="question_{{question.id}}" 
+                                        name="{{question.id}}" 
                                         id="question_{{question.id}}">
                                         {% for option in question.options.all %}
                                             <option value="{{ option.id }}">{{ option.text }}</option>
@@ -71,7 +69,7 @@
                                                     {% endif %} 
                                                     class="input-field radio-input" 
                                                     type="radio" 
-                                                    name="question_{{ question.id }}" 
+                                                    name="{{ question.id }}" 
                                                     value="{{ option.id }}">
                                                 {{ option.text }}
                                             </label>
@@ -84,7 +82,7 @@
                                             required 
                                         {% endif %} 
                                         class="input-field textarea-input" 
-                                        name="question_{{ question.id }}"
+                                        name="{{ question.id }}"
                                         rows="4" 
                                         cols="50"></textarea>
 
