@@ -35,15 +35,26 @@
                                     {% if question.is_required %}
                                         <p class="required-arrow">*</p>
                                     {% endif %}
-                                    
                                     <p class="question-text">{{ question.text }}</p>
-
                                 </div>
 
                                 {% if question.question_type == 'text' %}
-                                    <input class="input-field" type="text" name="question_{{ question.id }}">
+                                    <input 
+                                        {% if question.is_required %}
+                                            required 
+                                        {% endif %}
+                                        class="input-field" 
+                                        type="text" 
+                                        name="{{ question.id }}"
+                                        >
                                 {% elif question.question_type == 'dropdown' %}
-                                    <select class="input-field" name="question_{{question.id}}" id="question_{{question.id}}">
+                                    <select
+                                        {% if question.is_required %}
+                                            required 
+                                        {% endif %} 
+                                        class="input-field" 
+                                        name="{{question.id}}" 
+                                        id="question_{{question.id}}">
                                         {% for option in question.options.all %}
                                             <option value="{{ option.id }}">{{ option.text }}</option>
                                         {% endfor %}
@@ -52,14 +63,28 @@
                                     <div class="radio-input-container">
                                         {% for option in question.options.all %}
                                             <label>
-                                                <input class="input-field radio-input" type="radio" name="question_{{ question.id }}" value="{{ option.id }}">
+                                                <input 
+                                                    {% if question.is_required %}
+                                                        required 
+                                                    {% endif %} 
+                                                    class="input-field radio-input" 
+                                                    type="radio" 
+                                                    name="{{ question.id }}" 
+                                                    value="{{ option.id }}">
                                                 {{ option.text }}
                                             </label>
                                             <br>
                                         {% endfor %}
                                     </div>
                                 {% elif question.question_type == 'textarea' %}
-                                    <textarea class="input-field textarea-input" name="question_{{ question.id }}" rows="4" cols="50"></textarea>
+                                    <textarea 
+                                        {% if question.is_required %}
+                                            required 
+                                        {% endif %} 
+                                        class="input-field textarea-input" 
+                                        name="{{ question.id }}"
+                                        rows="4" 
+                                        cols="50"></textarea>
 
                                 {% endif %}
                             </div>
@@ -72,6 +97,9 @@
                         {% endwith %}
                     </section>
                 {% endfor %}
+                <div id="questionnaire-citation">
+                    {{ questionnaire.citation }}
+                </div>
 
                 <button type="submit">
                     {% if questionnaire.order == questionnaire_count %}

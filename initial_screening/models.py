@@ -1,16 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
 
-class UserProgress(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    current_questionnaire = models.IntegerField(default=1)
-    completed = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"{self.user.username} - Questionnaire {self.current_questionnaire}"
 
 class QuestionnaireResponse(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_identifier = models.CharField(max_length=300, null=True, blank=True)
     questionnaire = models.ForeignKey('Questionnaire', on_delete=models.CASCADE)
     submitted_at = models.DateTimeField(auto_now_add=True)
 
@@ -18,6 +10,7 @@ class ResponseItem(models.Model):
     response = models.ForeignKey(QuestionnaireResponse, related_name='items', on_delete=models.CASCADE)
     question = models.ForeignKey('Question', on_delete=models.CASCADE)
     answer = models.TextField()
+    answerID = models.ForeignKey('AnswerOption', null=True, blank=True, on_delete=models.SET_NULL)
 
 class Questionnaire(models.Model):
     name = models.CharField(max_length=300, unique=True)
@@ -86,6 +79,7 @@ class AnswerOption(models.Model):
     question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)
     text = models.TextField()
     order = models.PositiveBigIntegerField(default=0)
+    internal_value = models.CharField(max_length=255,  null=True)
 
     class Meta:
         ordering = ['order']

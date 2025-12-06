@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=keyboard_arrow_down,keyboard_arrow_up" />
+
         <meta charset="UTF-8">
         <link rel="stylesheet" href="{% static 'initial_screening/styles.css' %}">
 
@@ -12,8 +14,190 @@
     </head>
     <body>
         <div id="thank-you-container">
-            <h1>Thank you!</h1>
-            <p>You've completed the initial screening.</p>
+            <img id="step-logo" src="{% static 'initial_screening/images/STEP+Logo_White.png' %}" alt="STEP Logo">
+            <h1>Thank You</h1>
+            <p>Your responses have been submitted</p>
+        </div>
+        <div id="bottom-text">
+            <p class="thank-you-paragraph">
+                Thank you for taking the time to complete the forms as part of the STEP process. Your responses are sent directly to your STEP Intervention Provider, who will review your results and contact you to determine the next steps. <strong>Your STEP Intervention Provider may not monitor the results in real time. If you need additional support, please contact your clinician directly.</strong>
+            </p>
+            <h2 class="bottom-text-header">
+                What's next?
+            </h2>
+            <p class="thank-you-paragraph">
+                We encourage you to use the available self-regulation strategies as you move forward. Techniques such as deep breathing, mindfulness, and grounding can help you stay present and maintain balance. 
+                Specific strategies like the Container and <a class="thank-you-link" href="https://www.prepped4learning.com/4-elements-exercise-step-together">4 Elements exercises</a> may be helpful. Integrating these tools into your routine can help you feel more grounded and resilient.
+            </p>
+
+            <p class="thank-you-paragraph">
+                Additionally, explore the Prepped 4 Learning video membership, where you’ll find guided audio and videos to support your well-being.
+            </p>
+
+            <a href="{% static 'initial_screening/images/Double+Breathing.png' %}" target="_blank" id="thank-you-button">
+                Download a Breathing Exercise
+            </a>
+            <div id="accordion-div">
+                <div id="accordion-header-container">
+                    <h3 class="bottom-text-header">
+                        What if I need help?
+                    </h3>
+
+                    <div class="material-symbols-outlined" id="accordion-icon">
+                        keyboard_arrow_down
+                    </div>
+                </div>
+                <p class="thank-you-paragraph">
+                    
+
+                    If you are experiencing severe distress, please contact a crisis support service, call 911, or visit your local emergency department for immediate assistance. These services are available 24/7 to provide urgent support. 
+
+                    In Canada, the Crisis helpline can be accessed by calling or texting 988. Additional community resources specific to your province can be found here. 
+
+                    During difficult times, it's important to take steps to care for your mental health. Please remember that there are resources available to provide the support you need, and reaching out can be an essential part of the process.
+
+                </p>
+            </div>
         </div>
     </body>
+
+    <script>
+        const accordionDiv = document.getElementById('accordion-div');
+        const accordionIcon = document.getElementById('accordion-icon');
+
+        accordionDiv.addEventListener('click', () => {
+            const paragraph = accordionDiv.querySelector('p');
+            if (paragraph.style.display === 'block') {
+                paragraph.style.display = 'none';
+                accordionIcon.textContent = 'keyboard_arrow_down';
+            } else {
+                paragraph.style.display = 'block';
+                accordionIcon.textContent = 'keyboard_arrow_up';
+            }
+        });
+
+        // Initially hide the paragraph
+        const paragraph = accordionDiv.querySelector('p');
+        paragraph.style.display = 'none';
+
+    </script>
+
+    <style>
+
+        .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+        }
+
+        #accordion-icon {
+            font-size: 2rem;
+            cursor: pointer;
+            color: black;
+        }
+
+        #accordion-header-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #accordion-div {
+            border-top: solid 1px hsla(216,12.2%,16.08%,0.2);
+            border-bottom: solid 1px hsla(216,12.2%,16.08%,0.2);
+        }
+
+        #thank-you-button {
+            text-decoration: none;
+            display: block;
+            color: white;
+            text-align: center;
+            width: fit-content;
+            margin: 40px auto;
+            padding: 2em 2.5em;
+            background-color: hsl(186,43.69%,40.39%);
+            font-weight: 500;
+            font-family: 'Poppins';
+            letter-spacing: 0.02em;
+            font-size: 1em;
+        }
+
+        .thank-you-link {
+            color: hsl(186,43.69%,40.39%);
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        .bottom-text-header {
+            font-family: 'Poppins';
+            font-weight: 500;
+            color: hsl(186,43.69%,40.39%);
+            font-size: 1.2em;
+            margin: 30px 0;
+        }
+
+        .thank-you-paragraph {
+            font-family: 'Poppins';
+            font-weight: 300;
+            color: hsl(216,12.2%,16.08%);
+        }
+
+        #button-text>* {
+            margin: 10px 0;
+        }
+
+
+        #bottom-text {
+            margin: 0 15vw;
+            line-height: 1.8em;
+            margin-bottom: 5em;
+        }
+        
+        #step-logo {
+            width: 300px;
+        }
+
+        body {
+            background-color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        #thank-you-container {
+            background-image: url("{% static 'initial_screening/images/thank-you-background.jpg' %}");
+            background-size: cover;
+            clip-path: ellipse(87.31% 84.15% at 50% 10.5%);
+            background-position: 50% 50%;
+            padding-bottom: 3px;
+            width: 100%;
+            height: 100vh;
+            x: 0;
+            y: 0;
+            justify-content: flex-start;
+            margin-top: 0;
+        }
+
+        #thank-you-container>h1 {
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            font-family: 'Poppins';
+            font-weight: 500;
+            font-size: 16rem;
+        }
+
+        #thank-you-container>p {
+            color: white;
+            font-weight: 500;
+            font-size: 2.5rem;
+            font-family: 'Poppins';
+            margin: 0;
+
+        }
+    </style>
 </html>
