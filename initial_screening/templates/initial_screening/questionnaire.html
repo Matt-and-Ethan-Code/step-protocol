@@ -72,6 +72,9 @@
                         {% endwith %}
                     </section>
                 {% endfor %}
+                <div id="questionnaire-citation">
+                    {{ questionnaire.citation }}
+                </div>
 
                 <button type="submit">
                     {% if questionnaire.order == questionnaire_count %}
