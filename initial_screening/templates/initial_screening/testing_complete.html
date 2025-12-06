@@ -34,9 +34,9 @@
                 Additionally, explore the Prepped 4 Learning video membership, where you’ll find guided audio and videos to support your well-being.
             </p>
 
-            <button id="thank-you-button">
+            <a href="{% static 'initial_screening/images/Double+Breathing.png' %}" target="_blank" id="thank-you-button">
                 Download a Breathing Exercise
-            </button>
+            </a>
             <div id="accordion-div">
                 <div id="accordion-header-container">
                     <h3 class="bottom-text-header">
@@ -111,14 +111,18 @@
         }
 
         #thank-you-button {
+            text-decoration: none;
+            display: block;
+            color: white;
+            text-align: center;
+            width: fit-content;
+            margin: 40px auto;
             padding: 2em 2.5em;
             background-color: hsl(186,43.69%,40.39%);
             font-weight: 500;
             font-family: 'Poppins';
             letter-spacing: 0.02em;
             font-size: 1em;
-            margin-top: 40px;
-            margin-bottom: 40px;
         }
 
         .thank-you-link {
