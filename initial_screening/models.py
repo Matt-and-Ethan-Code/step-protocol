@@ -73,7 +73,9 @@ class Question(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return f"[{self.question_block.title or self.question_block.questionnaire.name}] {self.text}"
+        displayText = self.text[:60] + "..." if len(self.text) > 60 else self.text
+
+        return displayText
 
 class AnswerOption(models.Model):
     question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)
