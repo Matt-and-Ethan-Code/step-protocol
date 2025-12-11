@@ -34,6 +34,9 @@ body {
     padding: 20px;
 }
 
+
+
+
 #questionnaire-container form {
     width: calc(90% + 40px)
 }
@@ -168,3 +171,54 @@ section {
     font-weight: bold;
 }
 
+
+
+
+@media (max-width: 500px) {
+    body {
+        margin: 0;
+    }
+
+    #questionnaire-container {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    } 
+
+    #questionnaire-container > h1 {
+        width: 80%;
+    }
+
+    .question-container {
+        width: 80%;
+        margin: auto;
+    }
+
+    button {
+        margin-top: 10px;
+        margin-bottom: 50px;
+        padding: 15px 30px;
+        width: 50%;
+    }
+
+    .radio-input-container {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .radio-input-container label {
+        flex-direction: row;
+    }
+
+    .radio-input.input-field {
+        width: 25px;
+        height: 25px;
+    }
+
+    #questionnaire-citation {
+        margin: auto;
+        width: 80%;
+        margin-bottom: 2em;
+    }
+
+}
