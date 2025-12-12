@@ -94,6 +94,7 @@ button {
 
 hr {
     color: rgb(198, 135, 60);
+    width: 90%;
 }
 
 #submit-button-container {
@@ -219,6 +220,20 @@ section {
         margin: auto;
         width: 80%;
         margin-bottom: 2em;
+    }
+
+    .question-block-title {
+        margin-bottom: 15px;
+    }
+
+    .question-header-container {
+        width: 80%;
+        margin: auto;
+        line-height: 1.5em;
+        margin-bottom: 20px;
+    }
+    section {
+        padding-top: 0;
     }
 
 }
