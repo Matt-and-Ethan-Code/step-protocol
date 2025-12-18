@@ -82,7 +82,7 @@ def ptsd_score(responses: ItqForm) -> PtsdScore:
     sense_of_threat_met = len(sense_of_threat_cluster) > 0
     functional_impairment_met = len(functional_impairment_cluster) > 0
 
-    at_least_one_cluster_met = len(reexperiencing_cluster) > 0 or len(avoidance_cluster) > 0 or len(sense_of_threat_cluster) > 0
+    at_least_one_cluster_met = len(reexperiencing_cluster) > 0 and len(avoidance_cluster) > 0 and len(sense_of_threat_cluster) > 0
     at_least_one_functional_impairment_met = len(functional_impairment_cluster) > 0
     ptsd_indicated = at_least_one_cluster_met and at_least_one_functional_impairment_met
 
@@ -185,7 +185,7 @@ def dso_score(responses: ItqForm) -> DsoScore:
     disturbances_in_relationships_met = len(disturbances_in_relationships_cluster) > 0
     functional_impairment_met = len(dso_functional_impairments) > 0
 
-    at_least_one_cluster_met = affective_disregulation_met or negative_self_concept_met or disturbances_in_relationships_met
+    at_least_one_cluster_met = affective_disregulation_met and negative_self_concept_met and disturbances_in_relationships_met
     at_least_one_functional_impairment_met = functional_impairment_met
     dso_indicated = at_least_one_cluster_met and at_least_one_functional_impairment_met
 
