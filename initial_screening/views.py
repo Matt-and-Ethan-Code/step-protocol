@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Questionnaire, UserProgress, QuestionnaireResponse
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from .models import Questionnaire, QuestionnaireResponse
 from .intake_forms import QuestionnaireForm
 from . import scoring
 
@@ -187,6 +189,26 @@ def dass21_sample_response() -> scoring.Dass21Form:
     return form_response
 
 def dass21_email(request):
+
+    if False:
+        # send itq email
+        itq_email = EmailMultiAlternatives(
+            subject="ITQ Test",
+            to=['email@email.com']
+        )
+        itq_html_body = render_to_string("initial_screening/itq_email.html", itq_email_template_context("My id", "This is my troubling experience", sample_response()))
+        itq_email.attach_alternative(itq_html_body, "text/html")
+        itq_email.send(fail_silently=False)
+    if False:
+        # send dass21 email
+        dass21_html_body = render_to_string("initial_screening/dass21_email.html", dass21_email_context("This is my client id", dass21_sample_response()))
+        dass21_email_ = EmailMultiAlternatives(
+            subject="Dass21 Sample",
+            to=['email@email.com']
+        )
+        dass21_email_.attach_alternative(dass21_html_body, "text/html")
+        dass21_email_.send(fail_silently=False)
+
     context = dass21_email_context("client id", dass21_sample_response())
     return render(request, "initial_screening/dass21_email.html", context)
 
@@ -202,7 +224,7 @@ def dass21_email_context(client_id: str, responses: scoring.Dass21Form):
       "anxiety_severity": score.anxiety_severity,
       "stress_score": score.stress,
       "stress_severity": score.stress_severity,
-      "total": score.total
+      "total_score": score.total
     }
 
     return context
