@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption
+from .models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question
 from .intake_forms import QuestionnaireForm
 
 def home_view(request):
@@ -74,9 +74,7 @@ def questionnaire_view(request, questionnaire_id):
                 question_id=question_id,
                 answerID_id=answer_option_id,
                 answer=answer_text
-            )            
-            pass
-
+            )         
 
         next_questionnaire = (
             Questionnaire.objects 
@@ -86,8 +84,6 @@ def questionnaire_view(request, questionnaire_id):
         )
 
 
-
-        print("Questionnaire ID: ", questionnaire_id, "Questoinnaire data: ", answers)
 
         
         if next_questionnaire:
