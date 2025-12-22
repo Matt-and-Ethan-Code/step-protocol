@@ -55,26 +55,34 @@ def questionnaire_view(request, questionnaire_id):
 
         for answer in answers.keys():
             question_id = int(answer)
-            answer_option_id = None
-            try:
+            matching_question = Question.objects.filter(id=question_id).first()
+            question_type = matching_question.question_type
+
+            if question_type == "checkbox" or question_type == "radio" or question_type == "dropdown":
                 answer_option_id = int(answers[answer])
                 matching_option = AnswerOption.objects.filter(question_id=question_id, id=answer_option_id).first()
+
                 if matching_option.internal_value:
-                    answer_text = matching_option.internal_value
-                else:
-                    answer_text = matching_option.text
+                    ResponseItem.objects.create(
+                        response = new_response, 
+                        question_id = question_id, 
+                        answerID_id = answer_option_id, 
+                        answer = matching_option.internal_value
+                    )
+                else: 
+                    ResponseItem.objects.create(
+                        response = new_response, 
+                        question_id = question_id, 
+                        answerID_id = answer_option_id,
+                        answer = matching_option.text
+                    )
+            else:
+                ResponseItem.objects.create(
+                    response = new_response,
+                    question_id = question_id,
+                    answer = answers[answer]
+                )             
 
-            except:
-
-                answer_text = answers[answer]
-
-
-            ResponseItem.objects.create(
-                response=new_response,
-                question_id=question_id,
-                answerID_id=answer_option_id,
-                answer=answer_text
-            )         
 
         next_questionnaire = (
             Questionnaire.objects 
@@ -82,8 +90,6 @@ def questionnaire_view(request, questionnaire_id):
             .order_by('order')
             .first()
         )
-
-
 
         
         if next_questionnaire:
