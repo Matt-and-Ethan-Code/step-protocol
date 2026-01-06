@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from initial_screening.models import Questionnaire, QuestionnaireResponse, AnswerOption, ResponseItem
-from initial_screening.intake_forms import QuestionnaireForm
+from .models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question
+from .intake_forms import QuestionnaireForm
 
 def home_view(request):
     return render(request, "initial_screening/home_page.html")
@@ -55,27 +55,33 @@ def questionnaire_view(request, questionnaire_id):
 
         for answer in answers.keys():
             question_id = int(answer)
-            answer_option_id = None
-            try:
+            matching_question = Question.objects.filter(id=question_id).first()
+            question_type = matching_question.question_type
+
+            if question_type == "checkbox" or question_type == "radio" or question_type == "dropdown":
                 answer_option_id = int(answers[answer])
                 matching_option = AnswerOption.objects.filter(question_id=question_id, id=answer_option_id).first()
+
                 if matching_option.internal_value:
-                    answer_text = matching_option.internal_value
-                else:
-                    answer_text = matching_option.text
-
-            except:
-
-                answer_text = answers[answer]
-
-
-            ResponseItem.objects.create(
-                response=new_response,
-                question_id=question_id,
-                answerID_id=answer_option_id,
-                answer=answer_text
-            )            
-            pass
+                    ResponseItem.objects.create(
+                        response = new_response, 
+                        question_id = question_id, 
+                        answerID_id = answer_option_id, 
+                        answer = matching_option.internal_value
+                    )
+                else: 
+                    ResponseItem.objects.create(
+                        response = new_response, 
+                        question_id = question_id, 
+                        answerID_id = answer_option_id,
+                        answer = matching_option.text
+                    )
+            else:
+                ResponseItem.objects.create(
+                    response = new_response,
+                    question_id = question_id,
+                    answer = answers[answer]
+                )             
 
 
         next_questionnaire = (
@@ -84,10 +90,6 @@ def questionnaire_view(request, questionnaire_id):
             .order_by('order')
             .first()
         )
-
-
-
-        print("Questionnaire ID: ", questionnaire_id, "Questoinnaire data: ", answers)
 
         
         if next_questionnaire:
