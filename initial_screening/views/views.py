@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question
-from .intake_forms import QuestionnaireForm
+from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question
+from ..intake_forms import QuestionnaireForm
 
 def home_view(request):
     return redirect('start_testing')
@@ -96,8 +96,6 @@ def questionnaire_view(request, questionnaire_id):
         if next_questionnaire:
             return redirect('questionnaire_view', questionnaire_id=next_questionnaire.id)
         else:
-            progress.completed = True
-            progress.save()
             return redirect('testing_complete')
         
     form = QuestionnaireForm(questionnaire, request.POST or None)
