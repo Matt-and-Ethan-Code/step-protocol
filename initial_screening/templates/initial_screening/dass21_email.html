@@ -1,0 +1,77 @@
+<p style="font-family:Arial;">This information is provided to support your treatment planning.</p>
+<p style="font-family:Arial;">Client Id: <span style="text-decoration:underline;">{{ client_id }}</span></p>
+<p style="font-family:Arial;margin-bottom:0;">Scores:</p>
+<table style="font-family:Arial;border-spacing:12px;text-align:center;text-transform:capitalize;">
+  <tr>
+    <th></th>
+    <th>Severity</th>
+    <th>Score</th>
+  </tr>
+
+  <tr>
+    <td style="text-align:start;">Depression</td>
+    <td>{{ depression_severity }}</td>
+    <td>{{ depression_score }}</td>
+  </tr>
+  <tr>
+    <td style="text-align:start;">Anxiety</td>
+    <td>{{ anxiety_severity }}</td>
+    <td>{{ anxiety_score }}</td>
+  </tr>
+  <tr>
+    <td style="text-align:start;">Stress</td>
+    <td>{{ stress_severity }}</td>
+    <td>{{ stress_score }}</td>
+  </tr>
+  <tr style="border-top: 4px solid black;">
+    <td style="text-align:start;font-weight:bold;">Total Score</td>
+    <td></td>
+    <td style="font-weight:bold;">{{ total_score }}</td>
+  </tr>
+</table>
+<p style="font-family:Arial;">A total score above <span style="font-weight:bold;">60</span> indicate the client is experiencing Severe distress.</p>
+<p style="font-family:Arial;"><span style="font-weight:bold;">STEP Solo:</span> As a reminder, those with severe symptoms of distress (total scores above 60) or severe symptoms of depression (depression scores of 21 or greater) are not recommended to participate in STEP Solo. Instead, the clinician may prefer to evaluate if STEP Together or one-to-one interventions would be most appropriate for these individuals.</p>
+<p style="font-family:Arial;"><span style="font-weight:bold;">STEP Together:</span> As a reminder, there are no cut-off scores on the DASS-21 for participation in a STEP Together group.  These scores are provided to monitor participant progress.</p>
+
+<br><br>
+<p style="font-family:Arial;margin-bottom:0;">Below is a rubric showing scores in each category and their corresponding severity label:</p>
+<table style="font-family:Arial;border-spacing:8px;text-align:center;">
+  <tr>
+    <th></th>
+    <th>Depression</th>
+    <th>Anxiety</th>
+    <th>Stress</th>
+  </tr>
+
+  <tr>
+    <td style="text-align:start;">Normal</td>
+    <td>0-9</td>
+    <td>0-7</td>
+    <td>0-14</td>
+  </tr>
+  <tr>
+    <td style="text-align:start;">Mild</td>
+    <td>10-13</td>
+    <td>8-9</td>
+    <td>15-18</td>
+  </tr>
+  <tr>
+    <td style="text-align:start;">Moderate</td>
+    <td>14-20</td>
+    <td>10-14</td>
+    <td>19-25</td>
+  </tr>
+  <tr>
+    <td style="text-align:start;">Severe</td>
+    <td>21-27</td>
+    <td>15-19</td>
+    <td>26-33</td>
+  </tr>
+  <tr>
+    <td>Extremely Severe</td>
+    <td>28+</td>
+    <td>20+</td>
+    <td>34+</td>
+  </tr>
+</table>
+<p style="font-family:Arial">To learn more about the scoring for the DASS-21, <a href="https://novopsych.com/assessments/depression/depression-anxiety-stress-scales-short-form-dass-21/">see here</a>.</p>

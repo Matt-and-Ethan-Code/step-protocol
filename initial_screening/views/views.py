@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question
-from .intake_forms import QuestionnaireForm
+from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question
+from ..intake_forms import QuestionnaireForm
 
 def home_view(request):
     return redirect('start_testing')
@@ -104,3 +104,8 @@ def questionnaire_view(request, questionnaire_id):
 
 def testing_complete(request):
     return render(request, "initial_screening/testing_complete.html")
+
+
+
+
+
