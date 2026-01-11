@@ -3,7 +3,8 @@ from .models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerO
 from .intake_forms import QuestionnaireForm
 
 def home_view(request):
-    return render(request, "initial_screening/home_page.html")
+    return redirect('start_testing')
+    #return render(request, "initial_screening/home_page.html")
 
 def start_testing(request):
     first_questionnaire = Questionnaire.objects.order_by('order').first()
