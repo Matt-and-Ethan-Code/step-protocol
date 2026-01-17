@@ -1,6 +1,21 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question
 from ..intake_forms import QuestionnaireForm
+from django.db.models import OuterRef, Subquery
+from django.db.models.query import QuerySet
+from ..scoring import DesTForm, Dass21Form, GSEForm, ItqForm, Pcl5Form
+import initial_screening.scoring as scoring
+from typing import Literal, TypedDict, Any
+import random
+from dataclasses import dataclass
+@dataclass
+class AnswersDict:
+    DEST: DesTForm
+    DASS: Dass21Form
+    GSE: GSEForm
+    ITQ: ItqForm
+    PCL: Pcl5Form
+
 
 def home_view(request):
     return redirect('start_testing')
@@ -102,10 +117,153 @@ def questionnaire_view(request, questionnaire_id):
 
     return render(request, 'initial_screening/questionnaire.html', {'form': form, 'questionnaire': questionnaire, 'questionnaire_count': questionnaire_count})
 
+def calculate_map(latest_respnoses: QuerySet[QuestionnaireResponse]) -> AnswersDict: 
+    answer_maps = {}
+
+    for q_response in latest_responses:
+        answers = (ResponseItem.objects
+        .filter(response=q_response)
+        .select_related('question')
+        .order_by('question__order')
+        )
+
+        
+        if ("DES-T" not in q_response.questionnaire.name) and ("DASS-21" not in q_response.questionnaire.name) and ("GSE" not in q_response.questionnaire.name) and ("ITQ" not in q_response.questionnaire.name) and ("PCL-5" not in q_response.questionnaire.name):
+            print("Encountered unhandled answer", q_response.questionnaire.name)
+        else:
+            answers = (
+                ResponseItem.objects
+                .filter(response=q_response)
+                .select_related('question', 'answerID')
+                .order_by('question__order')
+            )
+
+            dest_map = {}
+
+            for i in range(len(answers)):
+                question_index = i + 1
+                answer = answers[i]
+
+                options = list(
+                    AnswerOption.objects
+                    .filter(question=answer.question)
+                    .order_by('order')
+                )
+
+                matching_option = [x for x in options if x == answer.answerID]
+
+                if len(matching_option) == 0:
+                    # text-only answer, no answer options
+                    continue
+                matching_option = matching_option[0]
+                matching_option_index = options.index(matching_option)
+
+                # one-indexed
+                if ("GSE" in q_response.questionnaire.name):
+                    matching_option_index += 1
+                elif ("DES-T" in q_response.questionnaire.name):
+                    matching_option_index *= 10
+
+                dest_map[question_index] = matching_option_index
+
+            answer_maps[q_response.questionnaire.name] = dest_map
+
+    return answer_maps
+
+
 def testing_complete(request):
+    # retrieve all questionnaire responses
+    unique_identifier = request.session.get('unique_identifier')
+    latest_response_subquery = (
+        QuestionnaireResponse.objects
+        .filter(
+            user_identifier = unique_identifier,
+            questionnaire=OuterRef('questionnaire')
+        )
+        .order_by('-submitted_at')
+        .values('id')[:1]
+    )
+
+    latest_responses = (
+        QuestionnaireResponse.objects
+        .filter(user_identifier=unique_identifier)
+        .filter(id=Subquery(latest_response_subquery))
+        .select_related('questionnaire')
+    )
+
+    answer_maps = calculate_map(latest_responses)
+
     return render(request, "initial_screening/testing_complete.html")
 
 
 
 
 
+def summary_email_context(client_id: str, itq_troubling_experience: str, responses_map: AnswersDict) -> dict[str, Any]:
+    # these have less information and no pre-existing email template
+    gse_score = scoring.gse_score(responses_map.GSE)
+    dest_score = scoring.dest_score(responses_map.DEST)
+    from .itq_sample import itq_email_template_context
+    from .dass21_sample import dass21_email_context
+    from .pcl5_sample import pcl5_email_context
+    return {
+        "client_id": client_id,
+        "itq_troubling_experience": itq_troubling_experience,
+        "ITQ": itq_email_template_context(client_id, itq_troubling_experience, responses_map.ITQ),
+        "DASS": dass21_email_context(client_id, responses_map.DASS),
+        "GSE": gse_score,
+        "PCL": pcl5_email_context(client_id, responses_map.PCL),
+        "DEST": dest_score
+    }
+
+def summary_email_preview(request):
+    itq_form: scoring.ItqForm = {
+        1: 1,
+        2: 3,
+
+        3: 0,
+        4: 1,
+        
+        5: 2,
+        6: 4,
+        
+        7: 0,
+        8: 1,
+        9: 4,
+
+        10: 0,
+        11: 2,
+        
+        12: 1,
+        13: 2,
+
+        14: 0,
+        15: 0,
+
+        16: 1,
+        17: 1,
+        18: 2,
+    }
+
+    gse_form: scoring.GSEForm = {
+        1:2,
+        2:2,
+        3:2,
+        4:2,
+        5:2,
+        6:2,
+        7:2,
+        8:2,
+        9:2,
+        10:2,
+    }
+
+    
+    dest_form: scoring.DesTForm = {key: random.randint(0,10)*10 for key in range(1,28+1)}
+    dass_form: scoring.Dass21Form = {key: random.randint(0,3) for key in range(1, 21+1) }
+    pcl_form: scoring.Pcl5Form = { key: random.randint(0,4) for key in range(1, 20+1)}
+
+    answers_dict = AnswersDict(ITQ=itq_form, GSE=gse_form, DEST=dest_form, DASS=dass_form, PCL=pcl_form)
+    ctx = summary_email_context("this is a client id", "this is a significant event", answers_dict)
+
+    return render(request, "initial_screening/summary_email.html", ctx)
