@@ -9,4 +9,5 @@ urlpatterns = [
     path('itq-sample-response/', views.itq_email, name='itq_email'),
     path('dass21-sample-response/', views.dass21_email, name='dass21_email'),
     path('pcl5-sample-response/', views.pcl5_email, name='pcl5_email'),
+    path('summary-email-preview/', views.summary_email_preview, name='summary_email')
 ]

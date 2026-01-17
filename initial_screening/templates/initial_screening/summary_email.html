@@ -1,0 +1,295 @@
+<div style="font-family:Arial;">
+<p>One of your patients has recently completed STEP Protocol intake forms. Here are their results:</p>
+<p>Client Id: <span style="text-decoration:underline;">{{ client_id }}</span></p>
+
+<hr>
+<h2>ITQ Results</h2>
+<p style="font-family: Arial;">Identify the Experience that Troubles You: {{ itq_troubling_experience }}</p>
+
+<h2 style="font-family:Arial;">Diagnosis Result: {{ ITQ.diagnosis }}</h2>
+
+<br><br>
+<div style="display:flex;justify-content:center;">
+    <table>
+        <tr>
+            <!-- Table Headers -->
+            <th style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:1rem;">
+                PTSD <br/> Symptom Cluster
+            </th>
+            <th style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:1rem;">
+                Items
+            </th>
+            <th style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:1rem;">
+                Scores
+            </th>
+            <th style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:1rem;">
+                Criteria Met?
+            </th>
+        </tr>
+
+        <!-- Row 1 -->
+        <tr>
+            <td style="font-family:Arial;padding:.5rem;">
+                Re-Experiencing
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                P1, P2
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ITQ.responses.1}} and {{ITQ.responses.2}}
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ ITQ.reexperiencing_met }}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="font-family:Arial;padding:.5rem;">
+                Avoidance
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                P3, P4
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ITQ.responses.3}} and {{ITQ.responses.4}}
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ ITQ.avoidance_met }}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="font-family:Arial;padding:.5rem;">
+                Sense of Threat
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                P5, P6
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ITQ.responses.5}} and {{ITQ.responses.6}}
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ ITQ.sense_of_threat_met }}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="font-family:Arial;padding:.5rem;">
+                Functional Impairment
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                P7, P8, P9
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ITQ.responses.7}}, {{ITQ.responses.8}}, and {{ITQ.responses.9}}
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ ITQ.ptsd_functional_impairment_met }}
+            </td>
+        </tr>
+    </table>
+</div>
+<p style="font-family:Arial;font-weight:bold;">Scoring: If one of the scores for each cluster is 2 or greater, they meet the criteria for probable PTSD</p>
+<br/><br/>
+
+<div style="display:flex;justify-content:center;">
+    <table>
+        <tr>
+            <!-- Table Headers -->
+            <th style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:1rem;">
+                CPTSD <br/> Symptom Cluster
+            </th>
+            <th style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:1rem;">
+                Items
+            </th>
+            <th style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:1rem;">
+                Scores
+            </th>
+            <th style="font-family:Arial; text-transform:uppercase; background-color:rgb(125,164,170);text-align:center;padding:1rem;">
+                Criteria Met?
+            </th>
+        </tr>
+
+        <tr>
+            <td style="font-family:Arial;padding:.5rem;">
+                Affective Dysregulation
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                C1, C2
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ITQ.responses.10}} and {{ITQ.responses.11}}
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ ITQ.affective_dysregulation_met }}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="font-family:Arial;padding:.5rem;">
+                Negative Self-Concept
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                C3, C4
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ITQ.responses.12}} and {{ITQ.responses.13}}
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ ITQ.negative_self_concept_met }}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="font-family:Arial;padding:.5rem;">
+                Disturbances <br/>in Relationships
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                C5, C6
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ITQ.responses.14}} and {{ITQ.responses.15}}
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ ITQ.disturbances_in_relationships_met }}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="font-family:Arial;padding:.5rem;">
+                Functional Impairment
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                C7, C8, C9
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ITQ.responses.16}}, {{ITQ.responses.17}}, and {{ITQ.responses.18}}
+            </td>
+            <td style="font-family:Arial;padding:.5rem;">
+                {{ ITQ.dso_functional_impairment_met }}
+            </td>
+        </tr>
+    </table>
+</div>
+<p style="font-family:Arial;font-weight:bold;">Scoring: If one of the scores for each cluster is 2 or greater and they meet the criteria for PTSD, they meet the criteria for probable CPTSD.</p>
+<p style="font-family:Arial;">To learn more about scoring the ITQ, <a href="https://novopsych.com/assessments/diagnosis/international-trauma-questionnaire-itq/">see here</a>.</p>
+
+<p style="font-family:Arial;"><span style="font-weight:bold;">STEP Solo:</span> As a reminder, those experiencing post-traumatic stress disorder (PTSD) or a complex post-traumatic injury (complex PTSD) are not recommended to participate in STEP Solo. Instead, the clinician may prefer to evaluate if STEP Together or one-to-one interventions would be most appropriate for these individuals.</p>
+
+<p style="font-family:Arial;"><span style="font-weight:bold;">STEP Together:</span> As a reminder, those experiencing a complex post-traumatic injury (complex PTSD) are not recommended to participate in a STEP Together group. Instead, the clinician may prefer to select or refer for an appropriate one-to-one intervention for these individuals.</p>
+
+<br><br>
+<hr>
+<h2>DASS-21 Results</h2>
+<p style="font-family:Arial;margin-bottom:0;">Scores:</p>
+<table style="font-family:Arial;border-spacing:12px;text-align:center;text-transform:capitalize;">
+  <tr>
+    <th></th>
+    <th>Severity</th>
+    <th>Score</th>
+  </tr>
+
+  <tr>
+    <td style="text-align:start;">Depression</td>
+    <td>{{ DASS.depression_severity }}</td>
+    <td>{{ DASS.depression_score }}</td>
+  </tr>
+  <tr>
+    <td style="text-align:start;">Anxiety</td>
+    <td>{{ DASS.anxiety_severity }}</td>
+    <td>{{ DASS.anxiety_score }}</td>
+  </tr>
+  <tr>
+    <td style="text-align:start;">Stress</td>
+    <td>{{ DASS.stress_severity }}</td>
+    <td>{{ DASS.stress_score }}</td>
+  </tr>
+  <tr style="border-top: 4px solid black;">
+    <td style="text-align:start;font-weight:bold;">Total Score</td>
+    <td></td>
+    <td style="font-weight:bold;">{{ DASS.total_score }}</td>
+  </tr>
+</table>
+<p style="font-family:Arial;">A total score above <span style="font-weight:bold;">60</span> indicate the client is experiencing Severe distress.</p>
+<p style="font-family:Arial;"><span style="font-weight:bold;">STEP Solo:</span> As a reminder, those with severe symptoms of distress (total scores above 60) or severe symptoms of depression (depression scores of 21 or greater) are not recommended to participate in STEP Solo. Instead, the clinician may prefer to evaluate if STEP Together or one-to-one interventions would be most appropriate for these individuals.</p>
+<p style="font-family:Arial;"><span style="font-weight:bold;">STEP Together:</span> As a reminder, there are no cut-off scores on the DASS-21 for participation in a STEP Together group.  These scores are provided to monitor participant progress.</p>
+
+<br><br>
+<p style="font-family:Arial;margin-bottom:0;">Below is a rubric showing scores in each category and their corresponding severity label:</p>
+<table style="font-family:Arial;border-spacing:8px;text-align:center;">
+  <tr>
+    <th></th>
+    <th>Depression</th>
+    <th>Anxiety</th>
+    <th>Stress</th>
+  </tr>
+
+  <tr>
+    <td style="text-align:start;">Normal</td>
+    <td>0-9</td>
+    <td>0-7</td>
+    <td>0-14</td>
+  </tr>
+  <tr>
+    <td style="text-align:start;">Mild</td>
+    <td>10-13</td>
+    <td>8-9</td>
+    <td>15-18</td>
+  </tr>
+  <tr>
+    <td style="text-align:start;">Moderate</td>
+    <td>14-20</td>
+    <td>10-14</td>
+    <td>19-25</td>
+  </tr>
+  <tr>
+    <td style="text-align:start;">Severe</td>
+    <td>21-27</td>
+    <td>15-19</td>
+    <td>26-33</td>
+  </tr>
+  <tr>
+    <td>Extremely Severe</td>
+    <td>28+</td>
+    <td>20+</td>
+    <td>34+</td>
+  </tr>
+</table>
+<p style="font-family:Arial">To learn more about the scoring for the DASS-21, <a href="https://novopsych.com/assessments/depression/depression-anxiety-stress-scales-short-form-dass-21/">see here</a>.</p>
+
+<br><br>
+<hr>
+<h2>PCL-5 Results</h2>
+<p>Score: <span style="font-weight:bold">{{PCL.score}}</span></p>
+
+<p>This information is provided to support your treatment planning. Scores above <span style="font-weight:bold;">33</span> indicate clinically significant symptoms of PTSD.</p>
+
+<p><span style="font-weight:bold;">STEP Solo:</span> As a reminder, those with clinically significant symptoms of PTSD (scores above 33) are not recommended to participate in STEP Solo. Instead, the clinician may prefer to evaluate if STEP Together or one-to-one interventions would be most appropriate for these individuals. </p>
+
+<p><span style="font-weight:bold;">STEP Together:</span> Please note that this measure does not include cut-off scores for participation in a STEP Together group.</p>
+
+<p>To learn more about how the PCL5 is scored, <a href="https://novopsych.com/assessments/diagnosis/ptsd-checklist-5-pcl-5/">see here</a>.</p>
+
+<br><br>
+<hr>
+<h2>GSE Results</h2>
+<p>Score: <span style="font-weight:bold;">{{GSE.score}}</span></p>
+<br>
+<p>This information is provided to support your treatment planning and to monitor client progress. </p>
+
+<p>Higher scores on the GSE indicate higher levels of self-efficacy. Scores range from 10-40. </p>
+<br>
+
+<p><span style="font-weight:bold;">STEP Solo:</span> Please note that this measure does not include cut-off scores for participation in STEP Solo. </p>
+
+<p><span style="font-weight:bold;">STEP Together:</span> Please note that this measure does not include cut-off scores for participation in STEP Together. </p>
+
+
+<br><br>
+<hr>
+<h2>DEST Results</h2>
+<p>Score: <span style="font-weight:bold">{{DEST.total_score}}</span></p>
+<br>
+
+<p>As a reminder, clients experiencing high levels of dissociation are not recommended to participate in STEP Solo or a STEP Together group. Scores of 20-30 indicate possible PTSD or dissociative disorders. Instead, the clinician may prefer to select or refer for an appropriate one-to-one intervention for these individuals. </p>
+</div>
