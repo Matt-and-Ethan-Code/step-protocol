@@ -12,6 +12,7 @@ class DesTScore:
   depersonalisation_descriptor: DesTDescriptor
   absorption_score: int
   absorption_descriptor: DesTDescriptor
+  total_score: int
 
 def amnesia_questions() -> list[DesTQuestion]:
   return [3,4,5,8,25,26]
@@ -48,12 +49,14 @@ def score(responses: DesTForm) -> DesTScore:
   absorption_score = sum_map(absorption_questions())
   absorption_descriptor = descriptor_from_score(absorption_score)
   
+  total_score = amnesia_score + depersonalisation_score + absorption_score
   return DesTScore(
     amnesia_score=amnesia_score,
     amnesia_descriptor=amnesia_descriptor,
     depersonalisation_score=depersonalisation_score,
     depersonalisation_descriptor=depersonalisation_descriptor,
     absorption_score=absorption_score,
-    absorption_descriptor=absorption_descriptor
+    absorption_descriptor=absorption_descriptor,
+    total_score=total_score
   )
 
