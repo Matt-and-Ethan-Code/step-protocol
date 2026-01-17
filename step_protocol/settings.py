@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-import dj_database_url
+from typing import Any
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "initial_screening"
+    "initial_screening", 
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -54,7 +55,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'step_protocol.urls'
 
-TEMPLATES = [
+TEMPLATES: list[dict[str, Any]] = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
@@ -75,7 +76,7 @@ WSGI_APPLICATION = 'step_protocol.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
+DATABASES: dict[str, Any] = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
