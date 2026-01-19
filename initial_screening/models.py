@@ -1,16 +1,5 @@
 from django.db import models
-
-
-class QuestionnaireResponse(models.Model):
-    user_identifier = models.CharField(max_length=300, null=True, blank=True)
-    questionnaire = models.ForeignKey('Questionnaire', on_delete=models.CASCADE)
-    submitted_at = models.DateTimeField(auto_now_add=True)
-
-class ResponseItem(models.Model):
-    response = models.ForeignKey(QuestionnaireResponse, related_name='items', on_delete=models.CASCADE)
-    question = models.ForeignKey('Question', on_delete=models.CASCADE)
-    answer = models.TextField()
-    answerID = models.ForeignKey('AnswerOption', null=True, blank=True, on_delete=models.SET_NULL)
+from django.db.models import ForeignKey
 
 class Questionnaire(models.Model):
     name = models.CharField(max_length=300, unique=True)
@@ -23,7 +12,12 @@ class Questionnaire(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+class QuestionnaireResponse(models.Model):
+    user_identifier = models.CharField(max_length=300, null=True, blank=True)
+    questionnaire: ForeignKey[Questionnaire] = models.ForeignKey('Questionnaire', on_delete=models.CASCADE)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
 class QuestionBlock(models.Model):
     questionnaire = models.ForeignKey(
         Questionnaire,
@@ -42,6 +36,7 @@ class QuestionBlock(models.Model):
         if self.title:
             return f"{self.questionnaire.name}: {self.title}"
         return f"{self.questionnaire.name} (Untitled Block)"
+
 
 class Question(models.Model):
     QUESTION_TYPES = [
@@ -77,6 +72,13 @@ class Question(models.Model):
 
         return displayText
 
+class ResponseItem(models.Model):
+    response: ForeignKey[QuestionnaireResponse] = models.ForeignKey(QuestionnaireResponse, related_name='items', on_delete=models.CASCADE)
+    question: ForeignKey[Question] = models.ForeignKey('Question', on_delete=models.CASCADE)
+    answer = models.TextField()
+    answerID = models.ForeignKey('AnswerOption', null=True, blank=True, on_delete=models.SET_NULL)
+
+    
 class AnswerOption(models.Model):
     question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)
     text = models.TextField()

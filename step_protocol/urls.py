@@ -20,7 +20,6 @@ from django.urls import URLPattern, URLResolver, path, include
 
 urlpatterns: list[URLPattern | URLResolver] = [
     path('admin/', admin.site.urls),
-    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='/login/'), name='logout'),
-    path('', include('initial_screening.urls'))
+    path('', include('initial_screening.urls')), 
+    path("accounts/", include("allauth.urls"))
 ]
