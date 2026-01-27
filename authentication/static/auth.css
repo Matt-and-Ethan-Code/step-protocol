@@ -19,12 +19,16 @@ body {
 }
 
 .auth-form input {
-    /* width: 90%; */
+    width: 90%;
     padding: 12px 14px;
     margin: 10px 0;
     border: 1px solid #ddd;
     border-radius: 6px;
     font-size: 14px;
+}
+
+.auth-form input[type=radio] {
+    width: fit-content;
 }
 
 /* #id_password_helptext, #create-account-link {
