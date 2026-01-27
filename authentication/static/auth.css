@@ -10,15 +10,16 @@ body {
 
 .auth-form {
     width: 360px;
-    padding: 32px;
+    padding: 20px 30px;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    margin: 30px 10px;
+    display: block;
 }
 
 .auth-form input {
-    width: 100%;
+    /* width: 90%; */
     padding: 12px 14px;
     margin: 10px 0;
     border: 1px solid #ddd;
@@ -26,8 +27,15 @@ body {
     font-size: 14px;
 }
 
+/* #id_password_helptext, #create-account-link {
+    grid-column: span 3;
+} */
+
+#id_remember {
+    width: 30px;
+}
+
 .auth-form button {
-    width: 100%;
     padding: 12px;
     border: none;
     background: #3b82f6;
