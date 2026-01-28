@@ -1,11 +1,11 @@
+from django.http import HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question
 from ..intake_forms import QuestionnaireForm
-from django.db.models import OuterRef, Subquery
 from django.db.models.query import QuerySet
 from ..scoring import DesTForm, Dass21Form, GSEForm, ItqForm, Pcl5Form
 import initial_screening.scoring as scoring
-from typing import Literal, TypedDict, Any
+from typing import Any
 import random
 from dataclasses import dataclass
 @dataclass
@@ -17,22 +17,22 @@ class AnswersDict:
     PCL: Pcl5Form
 
 
-def home_view(request):
+def home_view(request: HttpRequest):
     return redirect('start_testing')
     #return render(request, "initial_screening/home_page.html")
 
-def start_testing(request):
-    first_questionnaire = Questionnaire.objects.order_by('order').first()
+def start_testing(_):
+    first_questionnaire: Questionnaire | None = Questionnaire.objects.order_by('order').first()
 
     if not first_questionnaire:
         return redirect('testing_complete')
 
     return redirect('questionnaire_view', questionnaire_id=first_questionnaire.id)
 
-def get_answer_text(question_id, form_value):
+def get_answer_text(question_id: int, form_value: str):
     try: 
         answer_option_id = int(form_value)
-        matching_option = AnswerOption.objects.filter(question_id=question_id, id=answer_option_id).first()
+        matching_option: AnswerOption = AnswerOption.objects.filter(question_id=question_id, id=answer_option_id).first()
         if matching_option.internal_value:
             return matching_option.internal_value
         else:
@@ -42,7 +42,7 @@ def get_answer_text(question_id, form_value):
 
 
 
-def questionnaire_view(request, questionnaire_id):
+def questionnaire_view(request: HttpRequest, questionnaire_id: int | None):
     
     questionnaire = get_object_or_404(
         Questionnaire.objects.prefetch_related('question_blocks__questions__options'),
@@ -78,14 +78,14 @@ def questionnaire_view(request, questionnaire_id):
                 answer_option_id = int(answers[answer])
                 matching_option = AnswerOption.objects.filter(question_id=question_id, id=answer_option_id).first()
 
-                if matching_option.internal_value:
+                if matching_option and matching_option.internal_value:
                     ResponseItem.objects.create(
                         response = new_response, 
                         question_id = question_id, 
                         answerID_id = answer_option_id, 
                         answer = matching_option.internal_value
                     )
-                else: 
+                elif matching_option: 
                     ResponseItem.objects.create(
                         response = new_response, 
                         question_id = question_id, 
@@ -117,7 +117,7 @@ def questionnaire_view(request, questionnaire_id):
 
     return render(request, 'initial_screening/questionnaire.html', {'form': form, 'questionnaire': questionnaire, 'questionnaire_count': questionnaire_count})
 
-def calculate_map(latest_respnoses: QuerySet[QuestionnaireResponse]) -> AnswersDict: 
+def calculate_map(latest_responses: QuerySet[QuestionnaireResponse]) -> AnswersDict: 
     answer_maps = {}
 
     for q_response in latest_responses:
@@ -171,27 +171,27 @@ def calculate_map(latest_respnoses: QuerySet[QuestionnaireResponse]) -> AnswersD
     return answer_maps
 
 
-def testing_complete(request):
+def testing_complete(request: HttpRequest):
     # retrieve all questionnaire responses
-    unique_identifier = request.session.get('unique_identifier')
-    latest_response_subquery = (
-        QuestionnaireResponse.objects
-        .filter(
-            user_identifier = unique_identifier,
-            questionnaire=OuterRef('questionnaire')
-        )
-        .order_by('-submitted_at')
-        .values('id')[:1]
-    )
+    # unique_identifier = request.session.get('unique_identifier')
+    # latest_response_subquery = (
+    #     QuestionnaireResponse.objects
+    #     .filter(
+    #         user_identifier = unique_identifier,
+    #         questionnaire=OuterRef('questionnaire')
+    #     )
+    #     .order_by('-submitted_at')
+    #     .values('id')[:1]
+    # )
 
-    latest_responses = (
-        QuestionnaireResponse.objects
-        .filter(user_identifier=unique_identifier)
-        .filter(id=Subquery(latest_response_subquery))
-        .select_related('questionnaire')
-    )
+    # latest_responses = (
+    #     QuestionnaireResponse.objects
+    #     .filter(user_identifier=unique_identifier)
+    #     .filter(id=Subquery(latest_response_subquery))
+    #     .select_related('questionnaire')
+    # )
 
-    answer_maps = calculate_map(latest_responses)
+    #answer_maps = calculate_map(latest_responses)
 
     return render(request, "initial_screening/testing_complete.html")
 
@@ -216,7 +216,7 @@ def summary_email_context(client_id: str, itq_troubling_experience: str, respons
         "DEST": dest_score
     }
 
-def summary_email_preview(request):
+def summary_email_preview(request: HttpRequest):
     itq_form: scoring.ItqForm = {
         1: 1,
         2: 3,
