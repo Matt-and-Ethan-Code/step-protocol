@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "initial_screening"
+    "initial_screening",
+    "clinician_overview"
 ]
 
 MIDDLEWARE = [
