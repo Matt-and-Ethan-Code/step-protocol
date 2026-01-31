@@ -1,0 +1,19 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block head_title %}Accounts{% endblock %}</title>
+
+  <link rel="stylesheet" href="{% static 'auth.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="allauth">
+
+  <main class="auth-form">
+    {% block content %}{% endblock %}
+  </main>
+
+</body>
+</html>
