@@ -20,21 +20,41 @@
         </div>
         <div id="bottom-text">
             <p class="thank-you-paragraph">
-                Thank you for taking the time to complete the forms as part of the STEP process. Your responses are sent directly to your STEP Intervention Provider, who will review your results and contact you to determine the next steps. <strong>Your STEP Intervention Provider may not monitor the results in real time. If you need additional support, please contact your clinician directly.</strong>
+                We're excited that you're interested in becoming a STEP intervention provider. This form helps us get to know you, your professional background, and your experience with EMDR. If you’re looking to bring STEP into your clinical work, please complete the application below. Once we review your information, a member of our team will be in touch with you to discuss the next steps.
             </p>
-            <h2 class="bottom-text-header">
-                What's next?
-            </h2>
-            <p class="thank-you-paragraph">
-                We encourage you to use the available self-regulation strategies as you move forward. Techniques such as deep breathing, mindfulness, and grounding can help you stay present and maintain balance. 
-                Specific strategies like the Container and <a class="thank-you-link" href="https://www.prepped4learning.com/4-elements-exercise-step-together">4 Elements exercises</a> may be helpful. Integrating these tools into your routine can help you feel more grounded and resilient.
-            </p>
-
-            <p class="thank-you-paragraph">
-                Additionally, explore the Prepped 4 Learning video membership, where you’ll find guided audio and videos to support your well-being.
-            </p>
-
         </div>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                {{form.first_name.label_tag}}
+                {{form.first_name}}
+                {{form.first_name.help_text}}
+                {{form.first_name.errors}}
+            </div>
+            <div>
+                {{form.last_name.label_tag}}
+                {{form.last_name}}
+                {{form.last_name.help_text}}
+                {{form.last_name.errors}}
+            </div>
+            <div>
+                {{form.email.label_tag}}
+                {{form.email}}
+                {{form.email.help_text}}
+                {{form.email.errors}}
+            </div>
+            <div>
+                <label>Phone</label>
+                <div style="display:flex; gap:0.5rem;">
+                    {{form.phone_country}}
+                    {{form.phone_number}}
+                </div>
+                {{form.phone_contry.help_text}}
+                {{form.phone_number.errors}}
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
     </body>
 
 
@@ -128,10 +148,10 @@
             background-image: url("{% static 'provider_intake/images/sand-background.jpg' %}");
             background-size: cover;
             clip-path: ellipse(87.31% 84.15% at 50% 10.5%);
-            background-position: 50% 50%;
+            background-position: center 25%;
             padding-bottom: 3px;
             width: 100%;
-            height: 100vh;
+            height: max(350px, 40vh);
             x: 0;
             y: 0;
             justify-content: flex-start;
