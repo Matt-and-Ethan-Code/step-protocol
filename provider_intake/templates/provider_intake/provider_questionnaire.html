@@ -11,13 +11,12 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Karla:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Mono+One&display=swap" rel="stylesheet">
-        <title>Testing Complete</title>
+        <title>Apply for STEP</title>
     </head>
     <body>
         <div id="thank-you-container">
             <img id="step-logo" src="{% static 'initial_screening/images/STEP+Logo_White.png' %}" alt="STEP Logo">
-            <h1>Thank You</h1>
-            <p>Your responses have been submitted</p>
+            <h1>Apply for STEP</h1>
         </div>
         <div id="bottom-text">
             <p class="thank-you-paragraph">
@@ -35,53 +34,9 @@
                 Additionally, explore the Prepped 4 Learning video membership, where you’ll find guided audio and videos to support your well-being.
             </p>
 
-            <a href="{% static 'initial_screening/images/Double+Breathing.png' %}" target="_blank" id="thank-you-button">
-                Download a Breathing Exercise
-            </a>
-            <div id="accordion-div">
-                <div id="accordion-header-container">
-                    <h3 class="bottom-text-header">
-                        What if I need help?
-                    </h3>
-
-                    <div class="material-symbols-outlined" id="accordion-icon">
-                        keyboard_arrow_down
-                    </div>
-                </div>
-                <p class="thank-you-paragraph">
-                    
-
-                    If you are experiencing severe distress, please contact a crisis support service, call 911, or visit your local emergency department for immediate assistance. These services are available 24/7 to provide urgent support. 
-
-                    In Canada, the Crisis helpline can be accessed by calling or texting 988. Additional community resources specific to your province can be found here. 
-
-                    During difficult times, it's important to take steps to care for your mental health. Please remember that there are resources available to provide the support you need, and reaching out can be an essential part of the process.
-
-                </p>
-            </div>
         </div>
     </body>
 
-    <script>
-        const accordionDiv = document.getElementById('accordion-div');
-        const accordionIcon = document.getElementById('accordion-icon');
-
-        accordionDiv.addEventListener('click', () => {
-            const paragraph = accordionDiv.querySelector('p');
-            if (paragraph.style.display === 'block') {
-                paragraph.style.display = 'none';
-                accordionIcon.textContent = 'keyboard_arrow_down';
-            } else {
-                paragraph.style.display = 'block';
-                accordionIcon.textContent = 'keyboard_arrow_up';
-            }
-        });
-
-        // Initially hide the paragraph
-        const paragraph = accordionDiv.querySelector('p');
-        paragraph.style.display = 'none';
-
-    </script>
 
     <style>
 
@@ -170,7 +125,7 @@
         }
 
         #thank-you-container {
-            background-image: url("{% static 'initial_screening/images/thank-you-background.jpg' %}");
+            background-image: url("{% static 'provider_intake/images/sand-background.jpg' %}");
             background-size: cover;
             clip-path: ellipse(87.31% 84.15% at 50% 10.5%);
             background-position: 50% 50%;
