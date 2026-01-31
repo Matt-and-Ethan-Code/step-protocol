@@ -1,5 +1,7 @@
+from django.http import HttpRequest
 from django.shortcuts import render
 import initial_screening.scoring as scoring
+from typing import Any
 
 def pcl5_sample() -> scoring.Pcl5Form:
   form: scoring.Pcl5Form = {
@@ -25,7 +27,7 @@ def pcl5_sample() -> scoring.Pcl5Form:
   }
   return form
 
-def pcl5_email_context(client_id: str, responses: scoring.Pcl5Form):
+def pcl5_email_context(client_id: str, responses: scoring.Pcl5Form) -> dict[str, Any]:
   pcl5_score = scoring.pcl5_score(responses)
   return {
     "client_id": client_id,
@@ -33,6 +35,6 @@ def pcl5_email_context(client_id: str, responses: scoring.Pcl5Form):
     "score": pcl5_score.score,
   }
 
-def pcl5_email(request):
+def pcl5_email(request: HttpRequest):
   context = pcl5_email_context("This is a client id", pcl5_sample())
   return render(request, "initial_screening/pcl5_email.html", context)
