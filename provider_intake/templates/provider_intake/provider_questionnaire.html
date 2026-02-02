@@ -27,49 +27,67 @@
             <form method="post" id="info-form">
                 {% csrf_token %}
                 <div>
-                    <span>Name</span>
+                    <span>Name <span class="required-label">(required)</span></span>
                     <div class="side-by-side-input">
                         <div class="django-form-input">
-                            {% render_label form.first_name %}
+                            <span class="label-small">
+                                {% render_label form.first_name %}
+                            </span>
                             {{form.first_name}}
                             {{form.first_name.errors}}
                         </div>
                         <div class="django-form-input">
-                            {% render_label form.last_name %}
+                            <span class="label-small">
+                                {% render_label form.last_name %}
+                            </span>
                             {{form.last_name}}
                             {{form.last_name.errors}}
                         </div>
                     </div>
                 </div>
                 <div class="django-form-input">
-                    {% render_label form.email %}
-                    {{form.email.help_text}}
+                    <span class="label-large">
+                        {% render_label form.email %}
+                    </span>
+                    <span class="form-helptext">
+                        {{form.email.help_text}}
+                    </span>
                     {{form.email}}
                     {{form.email.errors}}
                 </div>
                 <div class="django-form-input-checkbox">
-                    {% render_label form.signup_news %}
                     {{form.signup_news}}
+                    <span class="label-large">
+                        {% render_label form.signup_news %}
+                    </span>
                     {{form.signup_news.errors}}
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.scoring_email %}
-                    {{form.scoring_email.help_text}}
+                    <span class="label-large">
+                        {% render_label form.scoring_email %}
+                    </span>
+                    <span class="form-helptext">
+                        {{form.scoring_email.help_text}}
+                    </span>
                     {{form.scoring_email}}
                     {{form.scoring_email.errors}}
                 </div>
 
                 <div>
-                    <span>Phone</span>
+                    <span>Phone <span class="required-label">(required)</span></span>
                     <div class="side-by-side-input">
-                        <div class="django-form-input">
-                            {% render_label form.phone_country %}
+                        <div class="django-form-input" style="max-width: 200px;">
+                            <span class="label-small">
+                                {% render_label form.phone_country %}
+                            </span>
                             {{form.phone_country}}
                             {{form.phone_country.errors}}
                         </div>
                         <div class="django-form-input">
-                            {% render_label form.phone_number %}
+                            <span class="label-small">
+                                {% render_label form.phone_number %}
+                            </span>
                             {{form.phone_number}}
                             {{form.phone_number.errors}}
                         </div>
@@ -77,86 +95,137 @@
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.profession %}
+                    <span class="label-large">
+                        {% render_label form.profession %}
+                    </span>
                     {{form.profession}}
                     {{form.profession.errors}}
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.profession_other %}
+                    <span class="label-large">
+                        {% render_label form.profession_other %}
+                    </span>
                     {{form.profession_other}}
                     {{form.profession_other.errors}}
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.practice_years %}
+                    <span class="label-large">
+                        {% render_label form.practice_years %}
+                    </span>
                     {{form.practice_years}}
                     {{form.practice_years.errors}}
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.emdr %}
-                    {{form.emdr.help_text}}
+                    <span class="label-large">
+                        {% render_label form.emdr %}
+                    </span>
+                    <span class="form-helptext">
+                        {{form.emdr.help_text}}
+                    </span>
                     {{form.emdr}}
                     {{form.emdr.errors}}
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.emdr_other %}
+                    <span class="label-large">
+                        {% render_label form.emdr_other %}
+                    </span>
                     {{form.emdr_other}}
                     {{form.emdr_other.errors}}
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.practice_setting %}
+                    <span class="label-large">
+                        {% render_label form.practice_setting %}
+                    </span>
                     {{form.practice_setting}}
                     {{form.practice_setting.errors}}
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.practice_other %}
+                    <span class="label-large">
+                        {% render_label form.practice_other %}
+                    </span>
                     {{form.practice_other}}
                     {{form.practice_other.errors}}
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.access_type %}
+                    <span class="label-large">
+                        {% render_label form.access_type %}
+                    </span>
                     {{form.access_type}}
                     {{form.access_type.errors}}
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.client_population %}
-                    {{form.client_population.help_text}}
+                    <span class="label-large">
+                        {% render_label form.client_population %}
+                    </span>
+                    <span class="form-helptext">
+                        {{form.client_population.help_text}}
+                    </span>
                     {{form.client_population}}
                     {{form.client_population.errors}}
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.client_population_other %}
+                    <span class="label-large">
+                        {% render_label form.client_population_other %}
+                    </span>
                     {{form.client_population_other}}
                     {{form.client_population_other.errors}}
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.country %}
+                    <span class="label-large">
+                        {% render_label form.country %}
+                    </span>
                     {{form.country}}
                     {{form.country.errors}}
                 </div>
 
                 <div class="django-form-input">
-                    {% render_label form.message %}
+                    <span class="label-large">
+                        {% render_label form.message %}
+                    </span>
                     {{form.message}}
                     {{form.message.errors}}
                 </div>
 
-                <button type="submit">Submit</button>
+                <button type="submit" id="provider-info-submit">Submit</button>
             </form>
         </div>
     </body>
 
 
     <style>
+        #provider-info-submit {
+            margin-left: 0;
+            margin-top: 10px;
+            padding: 24px 35px;
+            background-color: rgb(58, 139, 148);
+            font-size: 16px;
+            font-weight: 500;
+            font-family: "Poppins";
+        }
+
+        #info-form .label-large {
+            color: rgb(36, 40, 46);
+            font-family: 'Poppins';
+            font-size: '16px';
+            font-weight: 300;
+        }
+
+        #info-form .label-small {
+            font-size: 14.4px;
+            color: rgb(36, 40, 46);
+            font-weight: 300;
+        }
+
         .django-form-input {
             display: flex;
             flex-direction: column;
@@ -169,10 +238,14 @@
             gap: 10px;
         }
 
+        .side-by-side-input .django-form-input {
+            flex-grow: 1;
+        }
+
         #info-form {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 1.2rem;
         }
 
         #info-form span {
@@ -181,6 +254,66 @@
             font-size: 16px;
             font-weight: 300;
             line-height: 28px;
+        }
+
+        #info-form .label-small span.required-label {
+            display: none;
+        }
+
+        #info-form span.required-label {
+            font-size: 14.4px;
+            opacity: 0.7;
+            margin-left: 8px;
+        }
+
+        #info-form .form-helptext {
+            opacity: 0.7;
+            color: rgb(36, 40, 46);
+            font-size: 14.4px;
+            font-weight: 300;
+            line-height: 26px;
+        }
+
+        input[type=text], input[type=email] {
+            height: 28px;
+            background-color: rgb(250, 250, 250);
+            border-color: rgb(169, 169, 169);
+            border-style: solid;
+            border-width: 0.8px;
+            font-family: "Poppins";
+            font-size: 16px;
+            line-height: 28.8px;
+            padding: 10px;
+
+        }
+
+        input[type=text]:focus, input[type=email]:focus {
+            outline-color: rgb(36, 40, 46);
+            outline-offset: 2px;
+            outline-style: solid;
+            outline-width: 1.6px;
+            outline-color: rgb(36, 40, 46);
+        }
+
+        #info-form select {
+            background-color: rgb(250, 250, 250);
+            border-color: rgb(169, 169, 169);
+            border-style: solid;
+            border-width: 0.8px;
+            font-family: "Poppins";
+            font-size: 16px;
+            height: 48px;
+            padding: 10px;
+            line-height: 28px;
+        }
+
+        label:has(input[type=checkbox]) {
+            color: rgb(36, 40, 46);
+            font-family: "Poppins";
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 26px;
+
         }
 
         .material-symbols-outlined {
@@ -302,9 +435,6 @@
 
         }
 
-    @media (max-width: 500px) {
 
-
-    }
     </style>
 </html>
