@@ -68,6 +68,8 @@ SITE_ID = 1
 
 ROOT_URLCONF = 'step_protocol.urls'
 
+AUTH_USER_MODEL = "authentication.User"
+
 TEMPLATES: list[dict[str, Any]] = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

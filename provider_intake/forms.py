@@ -1,7 +1,12 @@
 from django import forms
 from typing import Any
+from .models import Provider
 
-class ProviderIntakeForm(forms.Form):
+class ProviderIntakeForm(forms.ModelForm):
+    class Meta:
+        model = Provider 
+        exclude=("user")
+
     first_name = forms.CharField(
         label="First Name",
         max_length=50,
