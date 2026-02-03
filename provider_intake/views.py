@@ -14,7 +14,7 @@ def provider_success(request: HttpRequest) -> HttpResponse:
 def provider_intake(request: HttpRequest):
     if request.method == "POST":
         user = cast(User, request.user)
-        provider = user.provider
+        provider = getattr(user, "provider", None)
         form = ProviderIntakeForm(request.POST or None, instance=provider)
         
         if form.is_valid():

@@ -5,7 +5,7 @@ from .models import Provider
 class ProviderIntakeForm(forms.ModelForm):
     class Meta:
         model = Provider 
-        exclude=("user")
+        exclude=('user',)
 
     first_name = forms.CharField(
         label="First Name",

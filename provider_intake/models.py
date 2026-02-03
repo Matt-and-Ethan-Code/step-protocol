@@ -27,10 +27,10 @@ class Provider(models.Model):
     emdr=models.CharField(max_length=50)
     emdr_other=models.CharField(max_length=250, blank=True)
 
-    practice_setting: JSONField[str] =JSONField()
+    practice_setting =JSONField("") # type: ignore[type-arg]
     practice_other=models.TextField(blank=True)
 
-    client_population: JSONField[str] =JSONField()
+    client_population =JSONField("") # type: ignore[type-arg]
     client_population_other=models.TextField(blank=True)
 
     access_type=models.CharField(max_length=50)
