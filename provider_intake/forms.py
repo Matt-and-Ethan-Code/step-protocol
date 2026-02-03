@@ -5,7 +5,7 @@ from .models import Provider
 class ProviderIntakeForm(forms.ModelForm):
     class Meta:
         model = Provider 
-        exclude=('user',)
+        exclude=('user', )
 
     first_name = forms.CharField(
         label="First Name",
@@ -17,11 +17,6 @@ class ProviderIntakeForm(forms.ModelForm):
         label="Last Name",
         max_length=50,
         required=True
-    )
-
-    email = forms.EmailField(
-        label="Your Email",
-        help_text="Please indicate the email you would like us to use to contact you"
     )
 
     signup_news = forms.BooleanField(

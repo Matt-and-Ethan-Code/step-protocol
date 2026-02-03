@@ -23,9 +23,17 @@ def provider_intake(request: HttpRequest):
                 provider.user = user
                 provider.save()
             return redirect("provider_success")
+        
+        return render(request, "provider_intake/provider_questionnaire.html", {
+                "form": form
+            })
     else: 
+        user: User = cast(User, request.user)
+        user_email: str = user.email 
         form = ProviderIntakeForm()
+
+        return render(request, "provider_intake/provider_questionnaire.html", {
+                "form": form,
+                "user_email": user_email
+            })
     
-    return render(request, "provider_intake/provider_questionnaire.html", {
-            "form": form
-        })

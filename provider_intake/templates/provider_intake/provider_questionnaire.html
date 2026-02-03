@@ -26,6 +26,11 @@
 
             <form method="post" id="info-form">
                 {% csrf_token %}
+                <div class="django-form-input">
+                    <span class="label-large">Your Email</span>
+                    <span class="form-helptext">This email will be used to contact you.</span>
+                    <div id="user-email">{{user_email}}</div>
+                </div>
                 <div>
                     <span>Name <span class="required-label">(required)</span></span>
                     <div class="side-by-side-input">
@@ -44,16 +49,6 @@
                             {{form.last_name.errors}}
                         </div>
                     </div>
-                </div>
-                <div class="django-form-input">
-                    <span class="label-large">
-                        {% render_label form.email %}
-                    </span>
-                    <span class="form-helptext">
-                        {{form.email.help_text}}
-                    </span>
-                    {{form.email}}
-                    {{form.email.errors}}
                 </div>
                 <div class="django-form-input-checkbox">
                     {{form.signup_news}}
@@ -203,6 +198,23 @@
 
 
     <style>
+        #user-email {
+            height: 28px;
+            padding: 10px;
+            line-height: 28px;
+            background-color: #f5f5f5;
+            border-color: #d1d1d1;
+            border-style: solid;
+            border-width: 0.8px;
+            font-family: "Poppins";
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            color: #434343;
+            cursor: default;
+            opacity: 0.7;
+        }
+
         #provider-info-submit {
             margin-left: 0;
             margin-top: 10px;
