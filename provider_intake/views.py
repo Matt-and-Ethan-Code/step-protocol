@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from .models import Provider
 from django.contrib.auth.decorators import login_required
 from typing import cast
-from authentication.models import User
+from django.contrib.auth.models import User
 
 from provider_intake.forms import ProviderIntakeForm
 
