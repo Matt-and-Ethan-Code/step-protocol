@@ -10,7 +10,7 @@ from typing import Any, cast
 
 # Create your views here.
 @login_required
-def overview_page(request: HttpRequest, client_id: str) -> HttpResponse:
+def client_responses_page(request: HttpRequest, client_id: str) -> HttpResponse:
   user = cast(User, request.user)
   if not user_is_clinician(user):
     return not_clinician(request)
@@ -18,7 +18,7 @@ def overview_page(request: HttpRequest, client_id: str) -> HttpResponse:
 
   context: dict[str, Any] = overview_page_context(client_id, client_responses(client_id))
 
-  return render(request, "clinician_overview/overview_page.html", context=context)
+  return render(request, "clinician_overview/client_responses_page.html", context=context)
 
 
 def not_clinician(request: HttpRequest) -> HttpResponse:
@@ -51,7 +51,7 @@ def overview_page_context(client_id: str, responses: list[QuestionnaireResponse]
       submitted_at=response.submitted_at,
       questionnaire_name=response.questionnaire.name
     ))
-  
+    
   return {
     'client_id': client_id,
     'responses': view_responses,

@@ -1,0 +1,26 @@
+{% load static %}
+<html lang="en">
+  <head>
+    <title>Responses from {{ client_id }}</title>
+    <link rel="stylesheet" href="{% static 'clinician_overview/client_responses_page_styles.css' %}">
+  </head>
+  <body>
+    <main>
+      <h1>Responses from {{ client_id }}</h1>
+      <table>
+        <thead>
+          <th>Questionnaire</th>
+          <th>Submitted At</th>
+        </thead>
+        <tbody>
+          {% for response in responses %}
+          <tr>
+            <td><a href="/clinician/response/{{response.questionnaire_response_id}}">{{response.questionnaire_name}}</a></td>
+            <td>{{response.submitted_at}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </main>
+  </body>         
+</html>
