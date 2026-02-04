@@ -97,9 +97,9 @@
                     {{form.profession.errors}}
                 </div>
 
-                <div class="django-form-input">
+                <div class="django-form-input" style="display: none;">
                     <span class="label-large">
-                        {% render_label form.profession_other %}
+                        {% render_label form.profession_other %}<span class="required-label">(required)</span>
                     </span>
                     {{form.profession_other}}
                     {{form.profession_other.errors}}
@@ -124,9 +124,9 @@
                     {{form.emdr.errors}}
                 </div>
 
-                <div class="django-form-input">
+                <div class="django-form-input" style="display: none;">
                     <span class="label-large">
-                        {% render_label form.emdr_other %}
+                        {% render_label form.emdr_other %}<span class="required-label">(required)</span>
                     </span>
                     {{form.emdr_other}}
                     {{form.emdr_other.errors}}
@@ -140,7 +140,7 @@
                     {{form.practice_setting.errors}}
                 </div>
 
-                <div class="django-form-input">
+                <div class="django-form-input" style="display: none;">
                     <span class="label-large">
                         {% render_label form.practice_other %}
                     </span>
@@ -167,7 +167,7 @@
                     {{form.client_population.errors}}
                 </div>
 
-                <div class="django-form-input">
+                <div class="django-form-input" style="display: none;">
                     <span class="label-large">
                         {% render_label form.client_population_other %}
                     </span>
@@ -194,6 +194,42 @@
                 <button type="submit" id="provider-info-submit">Submit</button>
             </form>
         </div>
+
+        <script>
+            const profession = document.getElementById("id_profession");
+            const profession_other = document.querySelector("div.django-form-input:has(#id_profession_other)");
+            const training = document.getElementById("id_emdr");
+            const training_other = document.querySelector("div.django-form-input:has(#id_emdr_other)");
+            const practice_setting = document.getElementById("id_practice_setting_10");
+            const practice_setting_other = document.querySelector("div.django-form-input:has(#id_practice_other)");
+            const population = document.getElementById("id_client_population_9");
+            const population_other = document.querySelector("div.django-form-input:has(#id_client_population_other)");
+
+
+            const toggleOtherOnChange = (targetValue, element) => {
+                if (targetValue) {
+                    element.style.display = "flex";
+                } else {
+                    element.style.display = "none";
+                }
+            }
+            profession.addEventListener("change", () => {
+                toggleOtherOnChange(profession.value == "other", profession_other)
+            })
+
+            training.addEventListener("change", () => {
+                toggleOtherOnChange(training.value == "other", training_other)
+            })
+
+            practice_setting.addEventListener("change", () => {
+                toggleOtherOnChange(practice_setting.checked, practice_setting_other)
+            })
+
+            population.addEventListener("change", () => {
+                toggleOtherOnChange(population.checked, population_other)
+            })
+            
+        </script>
     </body>
 
 
@@ -223,6 +259,12 @@
             font-size: 16px;
             font-weight: 500;
             font-family: "Poppins";
+        }
+
+        #provider-info-submit:hover{
+            opacity: 0.9;
+            cursor: pointer;
+            transition: opacity 0.25s ease;
         }
 
         #info-form .label-large {
@@ -268,6 +310,16 @@
             line-height: 28px;
         }
 
+        #info-form textarea {
+            background-color: rgb(250, 250, 250);
+            border-color: rgb(169, 169, 169);
+            border-style: solid;
+            border-width: 0.8px;
+            font-family: "Poppins";
+            font-size: 16px;
+            padding: 10px;
+        }
+
         #info-form .label-small span.required-label {
             display: none;
         }
@@ -299,7 +351,7 @@
 
         }
 
-        input[type=text]:focus, input[type=email]:focus {
+        input[type=text]:focus, input[type=email]:focus, textarea:focus {
             outline-color: rgb(36, 40, 46);
             outline-offset: 2px;
             outline-style: solid;
@@ -317,6 +369,14 @@
             height: 48px;
             padding: 10px;
             line-height: 28px;
+            width: 100%;
+        }
+
+        #info-form option {
+            font-family: "Poppins", sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: #000000;
         }
 
         label:has(input[type=checkbox]) {
@@ -449,4 +509,5 @@
 
 
     </style>
+
 </html>

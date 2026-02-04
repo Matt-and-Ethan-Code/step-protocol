@@ -130,7 +130,7 @@ class ProviderIntakeForm(forms.ModelForm):
 
     practice_years = forms.ChoiceField(
         label="How many years have you been practicing?", 
-        choices=profession_choices, 
+        choices=practice_years_choices, 
         required=True
     )
 
