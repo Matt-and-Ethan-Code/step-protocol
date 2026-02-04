@@ -42,9 +42,9 @@ INSTALLED_APPS = [
     'authentication', 
     'allauth',
     'allauth.account', 
-    'allauth.socialaccount', 
     'django.contrib.sites', 
-    'provider_intake'
+    'provider_intake', 
+    'allauth.mfa'
 ]
 
 MIDDLEWARE = [

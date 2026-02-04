@@ -9,3 +9,5 @@ psycopg2-binary==2.9.11
 sqlparse==0.5.5
 uvicorn==0.38.0
 whitenoise==6.11.0
+django-allauth==65.14.0
+django-allauth[mfa]=65.14.0
