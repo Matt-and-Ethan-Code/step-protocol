@@ -70,13 +70,6 @@ class Question(models.Model):
 
         return displayText
 
-class ResponseItem(models.Model):
-    response: ForeignKey[QuestionnaireResponse] = models.ForeignKey(QuestionnaireResponse, related_name='items', on_delete=models.CASCADE)
-    question: ForeignKey[Question] = models.ForeignKey('Question', on_delete=models.CASCADE)
-    answer = models.TextField()
-    answerID = models.ForeignKey('AnswerOption', null=True, blank=True, on_delete=models.SET_NULL)
-
-    
 class AnswerOption(models.Model):
     question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)
     text = models.TextField()
@@ -90,7 +83,7 @@ class AnswerOption(models.Model):
         return self.text
 
 class ResponseItem(models.Model):
-    response = models.ForeignKey(QuestionnaireResponse, related_name='items', on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    response: ForeignKey[QuestionnaireResponse] = models.ForeignKey(QuestionnaireResponse, related_name='items', on_delete=models.CASCADE)
+    question: ForeignKey[Question] = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.TextField()
-    answerID = models.ForeignKey(AnswerOption , null=True, blank=True, on_delete=models.SET_NULL)
+    answerID = models.ForeignKey(AnswerOption, null=True, blank=True, on_delete=models.SET_NULL)

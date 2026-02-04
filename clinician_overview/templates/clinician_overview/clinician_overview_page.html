@@ -3,22 +3,17 @@
   <head>
     <title>Clinician Overview</title>
     <link rel="stylesheet" href="{% static 'clinician_overview/client_responses_page_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'clinician_overview/nav_styles.css' %}">
   </head>
   <body>
-    <h1>Responses for {{ client_id }}</h1>
-    <table>
-      <thead>
-        <th>Questionnaire</th>
-        <th>Submitted At</th>
-      </thead>
-      <tbody>
-        {% for response in responses %}
-        <tr class="row">
-          <td><a href="/clinician/response/{{response.questionnaire_response_id}}">{{response.questionnaire_name}}</a></td>
-          <td>{{response.submitted_at}}</td>
-        </tr>
+    {% include 'clinician_overview/navbar.html' %}
+    <main>
+      <h1>My Clients</h1>
+      <ul>
+        {% for client_id in client_ids %}
+          <li><a href="/clinician/{{client_id}}">{{client_id}}</a></li>
         {% endfor %}
-      </tbody>
-    </table>
+      </ul>
+    </main>
   </body>         
 </html>

@@ -3,8 +3,10 @@
   <head>
     <title>Responses from {{ client_id }}</title>
     <link rel="stylesheet" href="{% static 'clinician_overview/client_responses_page_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'clinician_overview/nav_styles.css'%}">
   </head>
   <body>
+    {% include "clinician_overview/navbar.html" %}
     <main>
       <h1>Responses from {{ client_id }}</h1>
       <table>
