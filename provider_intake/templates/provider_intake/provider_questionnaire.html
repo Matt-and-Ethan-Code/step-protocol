@@ -24,6 +24,12 @@
                 We're excited that you're interested in becoming a STEP intervention provider. This form helps us get to know you, your professional background, and your experience with EMDR. If you’re looking to bring STEP into your clinical work, please complete the application below. Once we review your information, a member of our team will be in touch with you to discuss the next steps.
             </p>
 
+            {% if form.errors %}
+            <div id="error-message">
+                There are errors in the form. Your form could not be submitted.
+            </div>
+            {% endif %}
+
             <form method="post" id="info-form">
                 {% csrf_token %}
                 <div class="django-form-input">
@@ -250,13 +256,17 @@
 
 
     <style>
-        .errorlist {
+        #bottom-text #error-message {
+            margin: 20px 0 35px 0;
+        }
+
+        .errorlist, #error-message {
             list-style: none;
             margin: 6px 0 0;
             padding: 0;
         }
 
-        .errorlist li {
+        .errorlist li, #error-message {
             font-family: "Poppins", sans-serif;
             font-size: 14px;
             color: #b00020;
