@@ -232,6 +232,49 @@ class ProviderIntakeForm(forms.ModelForm):
         required=False
     )
 
+    def clean(self):
+        cleaned_data = super().clean()
+
+        other_error = "This field is required when selecting 'Other'."
+        
+        profession = cleaned_data.get('profession')
+        profession_other = cleaned_data.get('profession_other')
+        if profession == 'other' and not profession_other:
+            self.add_error(
+                "profession_other", 
+                other_error
+            )
+
+        emdr = cleaned_data.get("emdr")
+        emdr_other = cleaned_data.get("emdr_other")
+        if emdr == 'other' and not emdr_other:
+            print("FOUND EMDR ERROR!")
+            self.add_error(
+                'emdr_other', 
+                other_error
+            )
+
+        practice_setting = cleaned_data.get("practice_setting")
+        practice_other = cleaned_data.get("practice_other")
+
+        if practice_setting and ('other' in practice_setting) and not practice_other:
+            self.add_error(
+                "practice_other", 
+                other_error
+            )
+
+        population = cleaned_data.get("client_population")
+        population_other = cleaned_data.get("client_population_other")
+
+        if population and ('other' in population) and not population_other: 
+            self.add_error(
+                'client_population_other', 
+                other_error
+            )
+
+
+        return cleaned_data
+
     def __init__(self, *args: Any, **kwargs: Any):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():

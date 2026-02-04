@@ -97,7 +97,11 @@
                     {{form.profession.errors}}
                 </div>
 
-                <div class="django-form-input" style="display: none;">
+                <div class="django-form-input" 
+                    {% if not form.profession_other.errors %}
+                    style="display: none;"
+                    {% endif %}
+                    >
                     <span class="label-large">
                         {% render_label form.profession_other %}<span class="required-label">(required)</span>
                     </span>
@@ -124,7 +128,11 @@
                     {{form.emdr.errors}}
                 </div>
 
-                <div class="django-form-input" style="display: none;">
+                <div class="django-form-input" 
+                {% if not form.emdr_other.errors %}
+                    style="display: none;"
+                {% endif %}
+                >
                     <span class="label-large">
                         {% render_label form.emdr_other %}<span class="required-label">(required)</span>
                     </span>
@@ -140,9 +148,13 @@
                     {{form.practice_setting.errors}}
                 </div>
 
-                <div class="django-form-input" style="display: none;">
+                <div class="django-form-input"
+                {% if not form.practice_other.errors %}
+                    style="display: none;"
+                {% endif %} 
+                >
                     <span class="label-large">
-                        {% render_label form.practice_other %}
+                        {% render_label form.practice_other %}<span class="required-label">(required)</span>
                     </span>
                     {{form.practice_other}}
                     {{form.practice_other.errors}}
@@ -167,9 +179,13 @@
                     {{form.client_population.errors}}
                 </div>
 
-                <div class="django-form-input" style="display: none;">
+                <div class="django-form-input" 
+                {% if not form.client_population_other.errors %}
+                    style="display: none;"
+                {% endif %}
+                >
                     <span class="label-large">
-                        {% render_label form.client_population_other %}
+                        {% render_label form.client_population_other %}<span class="required-label">(required)</span>
                     </span>
                     {{form.client_population_other}}
                     {{form.client_population_other.errors}}
@@ -234,6 +250,21 @@
 
 
     <style>
+        .errorlist {
+            list-style: none;
+            margin: 6px 0 0;
+            padding: 0;
+        }
+
+        .errorlist li {
+            font-family: "Poppins", sans-serif;
+            font-size: 14px;
+            color: #b00020;
+            background-color: #fdecea;
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+
         #user-email {
             height: 28px;
             padding: 10px;
