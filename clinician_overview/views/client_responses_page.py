@@ -41,6 +41,7 @@ class ViewQuestionnaireResponse:
   questionnaire_response_id: str
   submitted_at: datetime
   questionnaire_name: str
+  unviewed_response: bool
 
 def overview_page_context(client_id: str, responses: list[QuestionnaireResponse]) -> dict[str, Any]:
   view_responses: list[ViewQuestionnaireResponse] = []
@@ -49,7 +50,8 @@ def overview_page_context(client_id: str, responses: list[QuestionnaireResponse]
     view_responses.append(ViewQuestionnaireResponse(
       questionnaire_response_id=id,
       submitted_at=response.submitted_at,
-      questionnaire_name=response.questionnaire.name
+      questionnaire_name=response.questionnaire.name,
+      unviewed_response=response.view_count == 0
     ))
     
   return {
