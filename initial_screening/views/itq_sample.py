@@ -4,7 +4,7 @@ from django.shortcuts import render
 from typing import Any, Callable, Literal
 
 def itq_email(request: HttpRequest):
-    context: dict[str, Callable[[Any], Literal["Yes", "No"]] ] = itq_email_template_context("esme!!!", "this is my troubling experience", itq_sample_response())
+    context: dict[str, Callable[[bool], Literal["Yes", "No"]] ] = itq_email_template_context("esme!!!", "this is my troubling experience", itq_sample_response())
     return render(request, 'initial_screening/itq_email.html', context)
 
 def itq_sample_response() -> scoring.ItqForm:
@@ -39,7 +39,7 @@ def itq_sample_response() -> scoring.ItqForm:
 
 def itq_email_template_context(client_id: str, troubling_experience: str, form_response: scoring.ItqForm) -> dict[str, Callable[[Any], Literal["Yes", "No"]] ]:
     itq_score = scoring.itq_dichotomous_score(form_response)
-    yes_no: Callable[[Any], Literal["Yes", "No"]]  = lambda b: "Yes" if b else "No"
+    yes_no: Callable[[bool], Literal["Yes", "No"]]  = lambda b: "Yes" if b else "No"
     context: dict[str, Any] = {
         "client_id": client_id,
         "troubling_experience": troubling_experience,
