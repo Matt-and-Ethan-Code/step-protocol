@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from initial_screening.models import ResponseItem, Questionnaire, QuestionnaireResponse
+from initial_screening.models import QuestionnaireResponse
 from dataclasses import dataclass
 from typing import Any, cast
 

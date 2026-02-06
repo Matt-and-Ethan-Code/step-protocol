@@ -11,7 +11,7 @@
       <h1>My Clients</h1>
       <ul>
         {% for client_id in client_ids %}
-          <li><a href="/clinician/{{client_id}}">{{client_id}}</a></li>
+          <li style="list-style-type:none;"><a style="text-decoration:none;" href="/clinician/{{client_id}}">{{client_id}}</a></li>
         {% endfor %}
       </ul>
     </main>
