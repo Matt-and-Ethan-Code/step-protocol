@@ -152,8 +152,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "step.protocol.test@gmail.com"
 EMAIL_HOST_PASSWORD = config.get('section','EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = "STEP <step.protocol.test@gmail.com"
+EMAIL_SUBJECT_PREFIX = "[STEP] "
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
@@ -163,3 +165,5 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGOUT_ON_GET = True 
+
+MFA_ADAPTER = "allauth.mfa.adapter.DefaultMFAAdapter"
