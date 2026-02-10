@@ -7,7 +7,7 @@
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{% static 'initial_screening/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -78,7 +78,7 @@
                 <div>
                     <span>Phone <span class="required-label">(required)</span></span>
                     <div class="side-by-side-input">
-                        <div class="django-form-input" style="max-width: 200px;">
+                        <div class="django-form-input">
                             <span class="label-small">
                                 {% render_label form.phone_country %}
                             </span>
@@ -546,6 +546,32 @@
             margin: 0;
             text-align: center;
 
+        }
+
+        .side-by-side-input .django-form-input:has(select#id_phone_country) {
+                max-width: 200px;
+        }
+
+        @media (max-width: 500px) { 
+            #thank-you-container > h1 {
+                font-size: 4em;
+            }
+
+            #thank-you-container {
+                background-position: center 100%;
+            }
+
+            #bottom-text {
+                margin: 0 8vw;
+            }
+
+            .side-by-side-input {
+                flex-direction: column;
+            }
+
+            .side-by-side-input .django-form-input:has(select#id_phone_country) {
+                max-width: initial;
+            }
         }
 
 
