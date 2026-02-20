@@ -1,12 +1,29 @@
 {% load static %}
-<html lang="en">
+<html lang="en" style="font-family: Arial;">
   <head>
     <link rel="stylesheet" href="">
     <link rel="stylesheet" href="{% static 'clinician_overview/nav_styles.css' %}">
   </head>
-  <body>
+  <body style="margin:0; display:flex; flex-direction:column; align-items:center;">
     {% include 'clinician_overview/navbar.html'%}
     <main>
+      <h1>{{ questionnaire_name }}</h1>
+      <table>
+        <thead>
+          <th># &nbsp; &nbsp; &nbsp;</th>
+          <th>Question</th>
+          <th>Response</th>
+        </thead>
+        <tbody>
+          {% for response in responses %}
+          <tr>
+            <td> {{ forloop.counter }}</td>
+            <td>{{ response.question }}</td>
+            <td>{{ response.answer }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </main>
   </body>
 </html>

@@ -1,0 +1,36 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Karla:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'clinician_overview/clinician_base_styles.css'%}">
+  </head>
+  <body>
+    <h1>STEP</h1>
+    <div class="content-columns">
+      <nav>
+        <ul>
+          <li><a>Notifications</a></li>
+          <li><a>Clients</a></li>
+          <li><a>Measures</a></li>
+          <li><a>STEP Together</a></li>
+          <li><a>STEP Solo Access</a></li>
+          <li><a>STEP Resources</a></li>
+          <li><a>Help</a></li>
+        </ul>
+      </nav>
+      <div>
+        {% block content %}
+        <p>placeholder</p>
+        {% endblock %}
+      </div>
+    </div>  
+  </body>
+</html>
