@@ -60,7 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware'
+    'allauth.account.middleware.AccountMiddleware', 
+    'authentication.middleware.SessionTimeoutMiddleware'
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -170,3 +171,13 @@ ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGOUT_ON_GET = True 
 
 MFA_ADAPTER = "allauth.mfa.adapter.DefaultMFAAdapter"
+
+# session expiration
+SESSION_IDLE_TIMEOUT = 5*60 # 5 minutes
+SESSION_ABSOLUTE_TIMEOUT = 10 * 60 # 10 minutes -- logs out even if active
+SESSION_COOKIE_AGE = 5 * 60
+SESSION_SAVE_EVERY_REQUEST = True 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False 
+SESSION_COOKIE_HTTPONLY = True 
+SESSION_COOKIE_SECURE = True # HTTPS only
+CSRF_COOKIE_SECURE = True
