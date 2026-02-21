@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from typing import Any
+from configparser import RawConfigParser
+
+config = RawConfigParser()
+config.read('settings.ini')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u%-sa$&6)ikx*fw#p2w7w3w&l9@x8y(%p3g#l50rhn)rl11ldh'
+SECRET_KEY = config.get('section','DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,8 +46,9 @@ INSTALLED_APPS = [
     'authentication', 
     'allauth',
     'allauth.account', 
-    'allauth.socialaccount', 
-    'django.contrib.sites'
+    'django.contrib.sites', 
+    'provider_intake', 
+    'allauth.mfa'
 ]
 
 MIDDLEWARE = [
@@ -55,7 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware'
+    'allauth.account.middleware.AccountMiddleware', 
+    'authentication.middleware.SessionTimeoutMiddleware'
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -132,6 +138,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 if not DEBUG: 
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -140,15 +149,35 @@ if not DEBUG:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = "/tmp/app-messages"  # change this to a proper location
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "step.protocol.test@gmail.com"
+EMAIL_HOST_PASSWORD = config.get('section','EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = "STEP <step.protocol.test@gmail.com"
+EMAIL_SUBJECT_PREFIX = "[STEP] "
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 ACCOUNT_LOGIN_METHODS = {"email"}
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False 
+ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGOUT_ON_GET = True 
+
+MFA_ADAPTER = "allauth.mfa.adapter.DefaultMFAAdapter"
+
+# session expiration
+SESSION_IDLE_TIMEOUT = 5*60 # 5 minutes
+SESSION_ABSOLUTE_TIMEOUT = 10 * 60 # 10 minutes -- logs out even if active
+SESSION_COOKIE_AGE = 5 * 60
+SESSION_SAVE_EVERY_REQUEST = True 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False 
+SESSION_COOKIE_HTTPONLY = True 
+SESSION_COOKIE_SECURE = True # HTTPS only
+CSRF_COOKIE_SECURE = True

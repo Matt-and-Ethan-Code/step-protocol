@@ -1,8 +1,11 @@
 from django import forms
 from django.utils.safestring import mark_safe
+from typing import Any
+
+from initial_screening.models import Questionnaire
     
 class InfoWidget(forms.Widget):
-    def render(self, name, value, attrs=None, renderer=None):
+    def render(self, name: str, value: Any, attrs: dict[str, Any] | None=None, renderer: Any | None =None):
         html = f'<div class="form-info">{self.attrs.get("text", "")}</div>'
         return mark_safe(html)
 
@@ -10,16 +13,16 @@ class InfoWidget(forms.Widget):
 class InfoField(forms.Field):
     widget=InfoWidget
 
-    def __init__(self, text="", *args, **kwargs):
+    def __init__(self, text:str="", *args:Any, **kwargs:Any):
         kwargs['required'] = False
         super().__init__(*args, **kwargs)
         self.text = text
 
-    def clean(self, value):
+    def clean(self, value: Any):
         return None 
 
 class QuestionnaireForm(forms.Form):
-    def __init__(self, questionnaire, *args, **kwargs):
+    def __init__(self, questionnaire: Questionnaire, *args: Any, **kwargs: Any):
         super().__init__(*args, **kwargs)
         self.questionnaire = questionnaire
 

@@ -565,7 +565,7 @@
   "pk": 52,
   "fields": {
     "question_block": 9,
-    "text": "I found it hard to wind down",
+    "text": "I found it hard to wind down.",
     "question_type": "radio",
     "order": 1,
     "is_required": true
@@ -576,7 +576,7 @@
   "pk": 53,
   "fields": {
     "question_block": 9,
-    "text": "I was aware of dryness of my mouth",
+    "text": "I was aware of dryness of my mouth.",
     "question_type": "radio",
     "order": 2,
     "is_required": true
@@ -587,7 +587,7 @@
   "pk": 54,
   "fields": {
     "question_block": 9,
-    "text": "I couldn't seem to experience any positive feeling at all",
+    "text": "I couldn't seem to experience any positive feeling at all.",
     "question_type": "radio",
     "order": 3,
     "is_required": true
@@ -598,7 +598,7 @@
   "pk": 55,
   "fields": {
     "question_block": 9,
-    "text": "I experienced breathing difficulty (eg, excessively rapid breathing, breathlessness in the absence of physical exertion)",
+    "text": "I experienced breathing difficulty (e.g., excessively rapid breathing, breathlessness in the absence of physical exertion).",
     "question_type": "radio",
     "order": 4,
     "is_required": true
@@ -609,7 +609,7 @@
   "pk": 56,
   "fields": {
     "question_block": 9,
-    "text": "I found it difficult to work up the initiative to do things",
+    "text": "I found it difficult to work up the initiative to do things.",
     "question_type": "radio",
     "order": 5,
     "is_required": true
@@ -620,7 +620,7 @@
   "pk": 57,
   "fields": {
     "question_block": 9,
-    "text": "I tended to over-react to situations",
+    "text": "I tended to over-react to situations.",
     "question_type": "radio",
     "order": 6,
     "is_required": true
@@ -631,7 +631,7 @@
   "pk": 58,
   "fields": {
     "question_block": 9,
-    "text": "I experienced trembling (e.g., in the hands)",
+    "text": "I experienced trembling (e.g., in the hands).",
     "question_type": "radio",
     "order": 7,
     "is_required": true
@@ -642,7 +642,7 @@
   "pk": 59,
   "fields": {
     "question_block": 9,
-    "text": "I felt that I was using a lot of nervous energy",
+    "text": "I felt that I was using a lot of nervous energy.",
     "question_type": "radio",
     "order": 8,
     "is_required": true
@@ -653,7 +653,7 @@
   "pk": 60,
   "fields": {
     "question_block": 9,
-    "text": "I was worried about situations in which I might panic and make a fool of myself",
+    "text": "I was worried about situations in which I might panic and make a fool of myself.",
     "question_type": "radio",
     "order": 9,
     "is_required": true
@@ -664,7 +664,7 @@
   "pk": 61,
   "fields": {
     "question_block": 9,
-    "text": "I felt that I had nothing to look forward to",
+    "text": "I felt that I had nothing to look forward to.",
     "question_type": "radio",
     "order": 10,
     "is_required": true
@@ -675,7 +675,7 @@
   "pk": 62,
   "fields": {
     "question_block": 9,
-    "text": "I found myself getting agitated",
+    "text": "I found myself getting agitated.",
     "question_type": "radio",
     "order": 11,
     "is_required": true
@@ -686,7 +686,7 @@
   "pk": 63,
   "fields": {
     "question_block": 9,
-    "text": "I found it difficult to relax",
+    "text": "I found it difficult to relax.",
     "question_type": "radio",
     "order": 12,
     "is_required": true
@@ -697,7 +697,7 @@
   "pk": 64,
   "fields": {
     "question_block": 9,
-    "text": "I felt down-hearted and blue",
+    "text": "I felt down-hearted and blue.",
     "question_type": "radio",
     "order": 13,
     "is_required": true
@@ -708,7 +708,7 @@
   "pk": 65,
   "fields": {
     "question_block": 9,
-    "text": "I was intolerant of anything that kept me from getting on with what I was doing",
+    "text": "I was intolerant of anything that kept me from getting on with what I was doing.",
     "question_type": "radio",
     "order": 14,
     "is_required": true
@@ -719,7 +719,7 @@
   "pk": 66,
   "fields": {
     "question_block": 9,
-    "text": "I felt I was close to panic",
+    "text": "I felt I was close to panic.",
     "question_type": "radio",
     "order": 15,
     "is_required": true
@@ -730,7 +730,7 @@
   "pk": 67,
   "fields": {
     "question_block": 9,
-    "text": "I was unable to become enthusiastic about anything",
+    "text": "I was unable to become enthusiastic about anything.",
     "question_type": "radio",
     "order": 16,
     "is_required": true
@@ -741,7 +741,7 @@
   "pk": 68,
   "fields": {
     "question_block": 9,
-    "text": "I felt I wasn't worth much as a person",
+    "text": "I felt I wasn't worth much as a person.",
     "question_type": "radio",
     "order": 17,
     "is_required": true
@@ -752,7 +752,7 @@
   "pk": 69,
   "fields": {
     "question_block": 9,
-    "text": "I felt that I was rather touchy",
+    "text": "I felt that I was rather touchy.",
     "question_type": "radio",
     "order": 18,
     "is_required": true
@@ -763,7 +763,7 @@
   "pk": 70,
   "fields": {
     "question_block": 9,
-    "text": "I was aware of the action of my heart in the absence of physical exertion (eg, sense of heart rate increase, heart missing a beat)",
+    "text": "I was aware of the action of my heart in the absence of physical exertion (e.g., sense of heart rate increase, heart missing a beat).",
     "question_type": "radio",
     "order": 19,
     "is_required": true
@@ -774,7 +774,7 @@
   "pk": 71,
   "fields": {
     "question_block": 9,
-    "text": "I felt scared without any good reason",
+    "text": "I felt scared without any good reason.",
     "question_type": "radio",
     "order": 20,
     "is_required": true
@@ -785,7 +785,7 @@
   "pk": 72,
   "fields": {
     "question_block": 9,
-    "text": "I felt that life was meaningless",
+    "text": "I felt that life was meaningless.",
     "question_type": "radio",
     "order": 21,
     "is_required": true
@@ -796,7 +796,7 @@
   "pk": 73,
   "fields": {
     "question_block": 10,
-    "text": "I can always manage to solve difficult problems if I try hard enough",
+    "text": "I can always manage to solve difficult problems if I try hard enough.",
     "question_type": "radio",
     "order": 1,
     "is_required": true
@@ -807,7 +807,7 @@
   "pk": 74,
   "fields": {
     "question_block": 10,
-    "text": "If someone opposes me, I can find means and ways to get what I want",
+    "text": "If someone opposes me, I can find means and ways to get what I want.",
     "question_type": "radio",
     "order": 2,
     "is_required": true
@@ -818,7 +818,7 @@
   "pk": 75,
   "fields": {
     "question_block": 10,
-    "text": "It is easy for me to stick to my aims and accomplish my goals",
+    "text": "It is easy for me to stick to my aims and accomplish my goals.",
     "question_type": "radio",
     "order": 3,
     "is_required": true
@@ -829,7 +829,7 @@
   "pk": 76,
   "fields": {
     "question_block": 10,
-    "text": "I am confident that I could deal efficiently with unexpected events",
+    "text": "I am confident that I could deal efficiently with unexpected events.",
     "question_type": "radio",
     "order": 4,
     "is_required": true
@@ -840,7 +840,7 @@
   "pk": 77,
   "fields": {
     "question_block": 10,
-    "text": "Thanks to my resourcefulness, I know how to handle unforeseen situations",
+    "text": "Thanks to my resourcefulness, I know how to handle unforeseen situations.",
     "question_type": "radio",
     "order": 5,
     "is_required": true
@@ -851,7 +851,7 @@
   "pk": 78,
   "fields": {
     "question_block": 10,
-    "text": "I can solve most problems if I invest the necessary effort",
+    "text": "I can solve most problems if I invest the necessary effort.",
     "question_type": "radio",
     "order": 6,
     "is_required": true
@@ -862,7 +862,7 @@
   "pk": 79,
   "fields": {
     "question_block": 10,
-    "text": "I can remain calm when facing difficulties because I can rely on my coping abilities",
+    "text": "I can remain calm when facing difficulties because I can rely on my coping abilities.",
     "question_type": "radio",
     "order": 7,
     "is_required": true
@@ -873,7 +873,7 @@
   "pk": 80,
   "fields": {
     "question_block": 10,
-    "text": "When I am confronted with a problem. I can usually find several solutions",
+    "text": "When I am confronted with a problem, I can usually find several solutions.",
     "question_type": "radio",
     "order": 8,
     "is_required": true

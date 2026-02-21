@@ -14,7 +14,7 @@
   "pk": 2,
   "fields": {
     "name": "International Trauma Questionnaire (ITQ)",
-    "citation": "Cloitre, M., Shevlin M., Brewin, C.R., Bisson, J.I., Roberts, N.P., Maercker, A., Karatzias, T., Hyland, P. (2018). TheInternational Trauma Questionnaire: Development of a self-report measure of ICD-11 PTSD and Complex PTSD. Acta Psychiatrica Scandinavica. DOI: 10.1111/acps.12956",
+    "citation": "Cloitre, M., Shevlin M., Brewin, C.R., Bisson, J.I., Roberts, N.P., Maercker, A., Karatzias, T., Hyland, P. (2018). The International Trauma Questionnaire: Development of a self-report measure of ICD-11 PTSD and Complex PTSD. Acta Psychiatrica Scandinavica. DOI: 10.1111/acps.12956",
     "description": "",
     "order": 3
   }
@@ -34,7 +34,7 @@
   "pk": 4,
   "fields": {
     "name": "PTSD Checklist for DSM-5 (PCL-5)",
-    "citation": "B. P., & Schnurr, P. P. (2013). The PTSD Checklist for DSM-5 (PCL-5) - Standard [Measurement instrument]. Available from https: //www.ptsd.va.gov/",
+    "citation": "Weathers, F. W., Litz, B. T., Keane, T. M., Palmieri, P. A., Marx, B. P., & Schnurr, P. P. (2013). The PTSD Checklist for DSM-5 (PCL-5) – Standard [Measurement instrument]. Available from  https://www.ptsd.va.gov/",
     "description": "Instructions:\r\n\r\nConsidering the event you have identified with the group leader,\r\n\r\nBelow is a list of problems that people sometimes have in response to a very stressful experience. Please read each problem carefully and then select one of the options to indicate how much you have been bothered by that problem in the past week. The options include not at all, a little bit, moderately, quite a bit, and extremely.",
     "order": 5
   }
@@ -44,7 +44,7 @@
   "pk": 5,
   "fields": {
     "name": "Depression Anxiety Stress Scale (DASS-21)",
-    "citation": "Lovibond, S.H. & Lovibond, P.F. (1995). Manual for the Depression Anxiety & Stress Scales. (2nd Ed.)Sydney: Psychology Foundation.",
+    "citation": "Lovibond, S.H. & Lovibond, P.F. (1995). Manual for the Depression Anxiety & Stress Scales. (2nd Ed.) Sydney: Psychology Foundation.",
     "description": "Please read each statement and select the number 0, 1, 2, or 3 which indicates how much the statement applied to you over the past week. There are no right or wrong answers. Do not spend too much time on any statement.\r\n\r\nThe rating scale is as follows:\r\n\r\n0 Did not apply to me at all - NEVER\r\n\r\n1 Applied to me to some degree, or some of the time - SOMETIMES\r\n\r\n2 Applied to me to a considerable degree, or a good part of the time - OFTEN\r\n\r\n3 Applied to me very much, or most of the time - ALMOST ALWAYS",
     "order": 4
   }

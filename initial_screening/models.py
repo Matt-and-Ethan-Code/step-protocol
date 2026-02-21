@@ -1,11 +1,14 @@
 from django.db import models
 from django.db.models import ForeignKey
 
+
 class Questionnaire(models.Model):
+    id: int
     name = models.CharField(max_length=300, unique=True)
     citation = models.TextField(blank=True)
     description = models.TextField(blank=True)
     order = models.PositiveBigIntegerField(default=0,unique=True)
+    question_blocks: models.Manager["QuestionBlock"]
 
     class Meta:
         ordering = ['order']
@@ -28,6 +31,7 @@ class QuestionBlock(models.Model):
     title = models.CharField(max_length=200, blank=True)
     description = models.TextField(blank=True)
     order = models.PositiveIntegerField(default=0)
+    questions: models.Manager["Question"]
 
     class Meta:
         ordering = ['order']
@@ -39,6 +43,8 @@ class QuestionBlock(models.Model):
 
 
 class Question(models.Model):
+    id: int
+
     QUESTION_TYPES = [
         ('info', "Informational Block"),
         ('text', "Single Line Text"),
@@ -48,6 +54,7 @@ class Question(models.Model):
         ('dropdown', "Dropdown"),
         ('date', "Date")
     ]
+    options: models.Manager["AnswerOption"]
 
     question_block = models.ForeignKey(
         QuestionBlock,
@@ -80,6 +87,7 @@ class ResponseItem(models.Model):
 
     
 class AnswerOption(models.Model):
+    id: int
     question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)
     text = models.TextField()
     order = models.PositiveBigIntegerField(default=0)
