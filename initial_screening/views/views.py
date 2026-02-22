@@ -21,7 +21,7 @@ def home_view(_: HttpRequest):
     return redirect('start_testing')
     #return render(request, "initial_screening/home_page.html")
 
-def start_testing(_: HttpRequest):
+def start_testing(request: HttpRequest):
     first_questionnaire: Questionnaire | None = Questionnaire.objects.order_by('order').first()
 
     if not first_questionnaire:

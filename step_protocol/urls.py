@@ -22,5 +22,6 @@ urlpatterns: list[URLPattern | URLResolver] = [
     path('', include('initial_screening.urls')), 
     path("accounts/", include("allauth.urls")),
     path('', include('provider_intake.urls')), 
-    path("accounts/mfa/", include('allauth.mfa.urls'))
+    path("accounts/mfa/", include('allauth.mfa.urls')), 
+    path("", include("authentication.urls"))
 ]
