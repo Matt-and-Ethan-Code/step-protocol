@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Literal
 from .dest_types import DesTQuestion, DesTForm
 
-type DesTDescriptor = Literal['low', 'mild', 'moderate', 'high', 'very high']
+DesTDescriptor = Literal['low', 'mild', 'moderate', 'high', 'very high']
 
 @dataclass
 class DesTScore:

@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from .itq_types import ItqForm
 from typing import Literal, cast
 
-type QualitiativeDescriptor = Literal['minimal', 'mild', 'moderate', 'severe', 'very_severe']
-type DimensionalScaleValue = Literal[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
+QualitiativeDescriptor = Literal['minimal', 'mild', 'moderate', 'severe', 'very_severe']
+DimensionalScaleValue = Literal[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 
 def validate_dimensional_score(score: DimensionalScaleValue):
     if score < 0 or score > 24:
