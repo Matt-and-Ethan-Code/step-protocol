@@ -22,7 +22,7 @@ def add_provider_answer_option(form: ProviderIntakeForm) -> boolean:
             text="Who is your STEP Intervention Provider?"
         )
 
-        display_text = f"{form.cleaned_data["first_name"]} {form.cleaned_data["last_name"]}"
+        display_text = f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}"
         internal_value = form.cleaned_data["scoring_email"]
 
         max_order = question.options.aggregate(
