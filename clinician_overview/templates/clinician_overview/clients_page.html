@@ -1,0 +1,32 @@
+{% extends "clinician_overview/clinician_base_layout.html" %} {% load static %}
+{% block title %}Clients {% endblock %} {% block content %}
+<h2 class="tab-header">Clients</h2>
+<!--select, client id, tags, screening, pre-intervention measures, post-intervention measures, feedback form-->
+<table class="etable">
+  <thead>
+    <tr class="etable-header-row">
+      <th class="etable-header-cell"></th>
+      <th class="etable-header-cell">Client Id</th>
+      <th class="etable-header-cell">Tags</th>
+      <th class="etable-header-cell">Screening</th>
+      <th class="etable-header-cell">Pre-Intervention<br />Measures</th>
+      <th class="etable-header-cell">Post-Intervention<br />Measures</th>
+      <th class="etable-header-cell">Feedback Form</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for client_info in client_infos %}
+    <tr class="etable-row">
+      <td class="etable-cell"></td>
+      <td class="etable-cell">{{ client_info.client_id }}</td>
+      <td class="etable-cell">{{ client_info.tags }}</td>
+      <td class="etable-cell">{{ client_info.screening }}</td>
+      <td class="etable-cell">{{ client_info.pre_intervention_measures }}</td>
+      <td class="etable-cell">{{ client_info.post_intervention_measures }}</td>
+      <td class="etable-cell">{{ client_info.feedback_form }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

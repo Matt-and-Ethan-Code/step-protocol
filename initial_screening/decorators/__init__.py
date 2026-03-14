@@ -1,0 +1,1 @@
+from .clinician_decorator import clinician_required # type: ignore

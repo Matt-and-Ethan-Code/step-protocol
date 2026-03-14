@@ -1,0 +1,64 @@
+* {
+  font-family: "Poppins";
+}
+body {
+  background-color: rgb(128, 164, 169);
+}
+h1 {
+  color: white;
+}
+
+.content-columns {
+  display: flex;
+}
+
+nav {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+
+  ul {
+    padding: 0.5rem;
+  }
+  li {
+    list-style-type: none;
+    text-align: center;
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+.tab-header {
+  background-color: rgb(198, 135, 60);
+  color: white;
+  padding: 1rem;
+  font-weight: normal;
+  margin: 0 0 4px 0;
+}
+
+.etable {
+  width: 100%;
+  border-collapse: collapse;
+}
+.etable-header-row {
+}
+.etable-header-cell {
+  border: 2px solid black;
+  padding: 1rem 1rem;
+  color: white;
+  background-color: #a5532a;
+}
+.etable-row {
+  background-color: white;
+}
+.etable-row:nth-child(even) {
+  background-color: #f6f6f6;
+}
+.etable-cell {
+  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid black;
+  text-align: center;
+}

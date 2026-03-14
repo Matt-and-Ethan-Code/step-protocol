@@ -30,7 +30,7 @@ SECRET_KEY = config.get('section','DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1']
+ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "initial_screening", 
+    "initial_screening",
+    "clinician_overview",
     'authentication', 
     'allauth',
     'allauth.account', 

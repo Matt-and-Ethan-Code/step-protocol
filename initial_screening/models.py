@@ -15,12 +15,12 @@ class Questionnaire(models.Model):
 
     def __str__(self):
         return self.name
-
 class QuestionnaireResponse(models.Model):
     user_identifier = models.CharField(max_length=300, null=True, blank=True)
-    questionnaire: ForeignKey[Questionnaire] = models.ForeignKey('Questionnaire', on_delete=models.CASCADE)
+    questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     submitted_at = models.DateTimeField(auto_now_add=True)
-
+    view_count = models.IntegerField(default=0, null=False)
+    """The number of times a clinician has viewed the response."""
 class QuestionBlock(models.Model):
     questionnaire = models.ForeignKey(
         Questionnaire,
@@ -79,13 +79,6 @@ class Question(models.Model):
 
         return displayText
 
-class ResponseItem(models.Model):
-    response: ForeignKey[QuestionnaireResponse] = models.ForeignKey(QuestionnaireResponse, related_name='items', on_delete=models.CASCADE)
-    question: ForeignKey[Question] = models.ForeignKey('Question', on_delete=models.CASCADE)
-    answer = models.TextField()
-    answerID = models.ForeignKey('AnswerOption', null=True, blank=True, on_delete=models.SET_NULL)
-
-    
 class AnswerOption(models.Model):
     id: int
     question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)
@@ -98,3 +91,9 @@ class AnswerOption(models.Model):
 
     def __str__(self):
         return self.text
+
+class ResponseItem(models.Model):
+    response: ForeignKey[QuestionnaireResponse] = models.ForeignKey(QuestionnaireResponse, related_name='items', on_delete=models.CASCADE)
+    question: ForeignKey[Question] = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.TextField()
+    answerID = models.ForeignKey(AnswerOption, null=True, blank=True, on_delete=models.SET_NULL)

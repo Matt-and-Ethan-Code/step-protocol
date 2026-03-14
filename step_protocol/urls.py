@@ -19,6 +19,7 @@ from django.urls import URLPattern, URLResolver, path, include
 
 urlpatterns: list[URLPattern | URLResolver] = [
     path('admin/', admin.site.urls),
+    path('clinician/', include('clinician_overview.urls')),
     path('', include('initial_screening.urls')), 
     path("accounts/", include("allauth.urls")),
     path('', include('provider_intake.urls')), 
