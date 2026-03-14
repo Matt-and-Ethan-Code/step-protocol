@@ -8,8 +8,8 @@ def handle_index(_req: HttpRequest) -> HttpResponse:
 
 urlpatterns = [
   path('', handle_index),
-  path('notifications', notifications_page),
-  path('clients', clients_page),
+  path('notifications', notifications_page, name='notifications'),
+  path('clients', clients_page, name='clients'),
   path('response/<str:questionnaire_response_id>', questionnaire_response_page),
   path('clinician-required', not_clinician_page),
   path('esme', lambda r: render(r, 'clinician_overview/clinician_base_layout.html')),
