@@ -1,10 +1,12 @@
+from django.http import HttpRequest
 import initial_screening.scoring as scoring
 from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import render
 from django.template.loader import render_to_string
+from typing import Any
 
 
-def dass21_email(request):
+def dass21_email(request: HttpRequest):
 
     if False:
         # send itq email
@@ -58,7 +60,7 @@ def dass21_sample_response() -> scoring.Dass21Form:
 def dass21_email_context(client_id: str, responses: scoring.Dass21Form):
     score = scoring.dass21_score(responses)
 
-    context = {
+    context: dict[str, Any] = {
       "client_id": client_id,
       "depression_score": score.depression,
       "depression_severity": score.depression_severity,

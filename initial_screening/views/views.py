@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question
 from ..intake_forms import QuestionnaireForm
 from django.db.models.query import QuerySet
-from ..scoring import DesTForm, Dass21Form, GSEForm, ItqForm, Pcl5Form
+from ..scoring import DesTForm, Dass21Form, GSEForm, ItqForm, Pcl5Form, DesTResponse, DesTQuestion, Dass21Question, Dass21Response, Pcl5Question, Pcl5Response
 import initial_screening.scoring as scoring
-from typing import Any
+from typing import Any, cast
 import random
 from dataclasses import dataclass
 @dataclass
@@ -17,11 +17,11 @@ class AnswersDict:
     PCL: Pcl5Form
 
 
-def home_view(request: HttpRequest):
+def home_view(_: HttpRequest):
     return redirect('start_testing')
     #return render(request, "initial_screening/home_page.html")
 
-def start_testing(_):
+def start_testing(_: HttpRequest):
     first_questionnaire: Questionnaire | None = Questionnaire.objects.order_by('order').first()
 
     if not first_questionnaire:
@@ -32,14 +32,32 @@ def start_testing(_):
 def get_answer_text(question_id: int, form_value: str):
     try: 
         answer_option_id = int(form_value)
-        matching_option: AnswerOption = AnswerOption.objects.filter(question_id=question_id, id=answer_option_id).first()
-        if matching_option.internal_value:
+        matching_option: AnswerOption | None = AnswerOption.objects.filter(question_id=question_id, id=answer_option_id).first()
+        if matching_option and matching_option.internal_value:
             return matching_option.internal_value
-        else:
+        elif matching_option:
             return matching_option.text 
     except:
         return form_value
 
+def save_answer_response(option_id: str, question_id: int, new_response: QuestionnaireResponse):
+    answer_option_id = int(option_id)
+    matching_option = AnswerOption.objects.filter(question_id=question_id, id=answer_option_id).first()
+
+    if matching_option and matching_option.internal_value:
+        ResponseItem.objects.create(
+            response = new_response, 
+            question_id = question_id, 
+            answerID_id = answer_option_id, 
+            answer = matching_option.internal_value
+        )
+    elif matching_option: 
+        ResponseItem.objects.create(
+            response = new_response, 
+            question_id = question_id, 
+            answerID_id = answer_option_id,
+            answer = matching_option.text
+        )
 
 
 def questionnaire_view(request: HttpRequest, questionnaire_id: int | None):
@@ -56,48 +74,39 @@ def questionnaire_view(request: HttpRequest, questionnaire_id: int | None):
         answers.pop('csrfmiddlewaretoken', None)
 
         # get order of first questionnaire
-        min_order = Questionnaire.objects.order_by('order').first().order
+        min_questionnaire: Questionnaire | None = Questionnaire.objects.order_by('order').first()
+        if min_questionnaire:
+            min_order = min_questionnaire.order
 
-        # check if first questionnaire
-        if questionnaire.order == min_order:
-            unique_identifier = answers['29']
-            request.session['unique_identifier'] = unique_identifier
-        user_identifier = request.session.get('unique_identifier')
+            # check if first questionnaire
+            if questionnaire.order == min_order:
+                unique_identifier = answers['29']
+                request.session['unique_identifier'] = unique_identifier
+            user_identifier = request.session.get('unique_identifier')
 
-        new_response = QuestionnaireResponse.objects.create(
-            questionnaire=questionnaire,
-            user_identifier=user_identifier
-        )
+            new_response = QuestionnaireResponse.objects.create(
+                questionnaire=questionnaire,
+                user_identifier=user_identifier
+            )
 
-        for answer in answers.keys():
-            question_id = int(answer)
-            matching_question = Question.objects.filter(id=question_id).first()
-            question_type = matching_question.question_type
+            for answer in answers.keys():
+                question_id = int(answer)
+                matching_question = Question.objects.get(id=question_id)
+                question_type = matching_question.question_type
 
-            if question_type == "checkbox" or question_type == "radio" or question_type == "dropdown":
-                answer_option_id = int(answers[answer])
-                matching_option = AnswerOption.objects.filter(question_id=question_id, id=answer_option_id).first()
-
-                if matching_option and matching_option.internal_value:
+                if question_type == "checkbox" or question_type == "radio" or question_type == "dropdown":
+                    answer_responses: str | list[str] = answers[answer]
+                    if isinstance(answer_responses, str): 
+                        save_answer_response(answer_responses, question_id, new_response)
+                    else: 
+                        for answer_response in answer_responses:
+                            save_answer_response(answer_response, question_id, new_response)
+                else:
                     ResponseItem.objects.create(
-                        response = new_response, 
-                        question_id = question_id, 
-                        answerID_id = answer_option_id, 
-                        answer = matching_option.internal_value
-                    )
-                elif matching_option: 
-                    ResponseItem.objects.create(
-                        response = new_response, 
-                        question_id = question_id, 
-                        answerID_id = answer_option_id,
-                        answer = matching_option.text
-                    )
-            else:
-                ResponseItem.objects.create(
-                    response = new_response,
-                    question_id = question_id,
-                    answer = answers[answer]
-                )             
+                        response = new_response,
+                        question_id = question_id,
+                        answer = answers[answer]
+                    )             
 
 
         next_questionnaire = (
@@ -118,7 +127,7 @@ def questionnaire_view(request: HttpRequest, questionnaire_id: int | None):
     return render(request, 'initial_screening/questionnaire.html', {'form': form, 'questionnaire': questionnaire, 'questionnaire_count': questionnaire_count})
 
 def calculate_map(latest_responses: QuerySet[QuestionnaireResponse]) -> AnswersDict: 
-    answer_maps = {}
+    answer_maps: dict[str, Any] = {}
 
     for q_response in latest_responses:
         answers = (ResponseItem.objects
@@ -142,7 +151,7 @@ def calculate_map(latest_responses: QuerySet[QuestionnaireResponse]) -> AnswersD
 
             for i in range(len(answers)):
                 question_index = i + 1
-                answer = answers[i]
+                answer: ResponseItem = answers[i]
 
                 options = list(
                     AnswerOption.objects
@@ -150,7 +159,12 @@ def calculate_map(latest_responses: QuerySet[QuestionnaireResponse]) -> AnswersD
                     .order_by('order')
                 )
 
-                matching_option = [x for x in options if x == answer.answerID]
+                relevant_question_option: AnswerOption | None = answer.answerID
+                if relevant_question_option:
+                    matching_option = [x for x in options if x == answer.answerID]
+                else: 
+
+                    matching_option = []
 
                 if len(matching_option) == 0:
                     # text-only answer, no answer options
@@ -168,7 +182,23 @@ def calculate_map(latest_responses: QuerySet[QuestionnaireResponse]) -> AnswersD
 
             answer_maps[q_response.questionnaire.name] = dest_map
 
-    return answer_maps
+    dest_key = next((k for k in answer_maps if "DES-T" in k), None)
+    dass_key = next((k for k in answer_maps if "DASS" in k), None)
+    pcl_key = next((k for k in answer_maps if "PCL" in k), None)
+    itq_key = next((k for k in answer_maps if "ITQ" in k), None)
+    gse_key = next((k for k in answer_maps if "GSE" in k), None)
+
+    if dest_key and dass_key and pcl_key and itq_key and gse_key:
+        answersDict = AnswersDict(
+            DEST=answer_maps[dest_key], 
+            DASS=answer_maps[dass_key],
+            GSE=answer_maps[gse_key],
+            ITQ=answer_maps[itq_key],
+            PCL=answer_maps[pcl_key]
+        )
+        return answersDict
+    else:
+        raise Exception("Could not find responses for one of: DES-T, DASS, PCL, ITQ, GSE.")
 
 
 def testing_complete(request: HttpRequest):
@@ -259,9 +289,18 @@ def summary_email_preview(request: HttpRequest):
     }
 
     
-    dest_form: scoring.DesTForm = {key: random.randint(0,10)*10 for key in range(1,28+1)}
-    dass_form: scoring.Dass21Form = {key: random.randint(0,3) for key in range(1, 21+1) }
-    pcl_form: scoring.Pcl5Form = { key: random.randint(0,4) for key in range(1, 20+1)}
+    dest_form: scoring.DesTForm = {
+        cast(DesTQuestion, key): cast(DesTResponse, random.randint(0,10)*10) 
+        for key in range(1,28+1)
+        }
+    dass_form: scoring.Dass21Form = {
+        cast(Dass21Question, key): cast(Dass21Response, random.randint(0,3) )
+        for key in range(1, 21+1) 
+        }
+    pcl_form: scoring.Pcl5Form = { 
+                                    cast(Pcl5Question, key): cast(Pcl5Response, random.randint(0,4)) 
+                                    for key in range(1, 20+1)
+                                }
 
     answers_dict = AnswersDict(ITQ=itq_form, GSE=gse_form, DEST=dest_form, DASS=dass_form, PCL=pcl_form)
     ctx = summary_email_context("this is a client id", "this is a significant event", answers_dict)
