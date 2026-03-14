@@ -1,19 +1,2 @@
-{% load static %}
-<html lang="en">
-  <head>
-    <title>Clinician Overview</title>
-    <link rel="stylesheet" href="{% static 'clinician_overview/client_responses_page_styles.css' %}">
-    <link rel="stylesheet" href="{% static 'clinician_overview/nav_styles.css' %}">
-  </head>
-  <body>
-    {% include 'clinician_overview/navbar.html' %}
-    <main>
-      <h1>My Clients</h1>
-      <ul>
-        {% for client_id in client_ids %}
-          <li style="list-style-type:none;"><a style="text-decoration:none;" href="/clinician/{{client_id}}">{{client_id}}</a></li>
-        {% endfor %}
-      </ul>
-    </main>
-  </body>         
-</html>
+{% extends "clinician_overview/clinician_base_layout.html" %} {% load static %}
+{% block title %}Overview{% endblock %} {% block content %} helloo {% endblock %}

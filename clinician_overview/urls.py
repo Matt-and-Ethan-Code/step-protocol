@@ -1,8 +1,15 @@
 from django.urls import path
-from clinician_overview.views import clinician_overview_page, client_responses_page, questionnaire_response_page, not_clinician_page
-from django.shortcuts import render
+from django.http import HttpRequest, HttpResponse
+from clinician_overview.views import client_responses_page, questionnaire_response_page, not_clinician_page, notifications_page, clients_page
+from django.shortcuts import render, redirect
+
+def handle_index(_req: HttpRequest) -> HttpResponse:
+  return redirect('/notifications')
+
 urlpatterns = [
-  path('', clinician_overview_page),
+  path('', handle_index),
+  path('notifications', notifications_page),
+  path('clients', clients_page),
   path('response/<str:questionnaire_response_id>', questionnaire_response_page),
   path('clinician-required', not_clinician_page),
   path('esme', lambda r: render(r, 'clinician_overview/clinician_base_layout.html')),
