@@ -1,6 +1,6 @@
 from django.urls import path
 from django.http import HttpRequest, HttpResponse
-from clinician_overview.views import client_responses_page, questionnaire_response_page, not_clinician_page, notifications_page, clients_page, client_summary_page
+from clinician_overview.views import client_responses_page, questionnaire_response_page, not_clinician_page, notifications_page, clients_page, client_summary_page, client_id_route
 from django.shortcuts import render, redirect
 
 def handle_index(_req: HttpRequest) -> HttpResponse:
@@ -15,4 +15,5 @@ urlpatterns = [
   path('clinician-required', not_clinician_page),
   path('esme', lambda r: render(r, 'clinician_overview/clinician_base_layout.html')),
   path('<str:client_id>', client_responses_page),
+  path('random-client-id', client_id_route.random_client_id)
 ]
