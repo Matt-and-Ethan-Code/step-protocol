@@ -156,7 +156,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "step.protocol.test@gmail.com"
 EMAIL_HOST_PASSWORD = config.get('section','EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = "STEP <step.protocol.test@gmail.com"
+DEFAULT_FROM_EMAIL = "STEP <step.protocol.test@gmail.com>"
 EMAIL_SUBJECT_PREFIX = "[STEP] "
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
 
@@ -174,9 +174,9 @@ ACCOUNT_LOGOUT_ON_GET = True
 MFA_ADAPTER = "allauth.mfa.adapter.DefaultMFAAdapter"
 
 # session expiration
-SESSION_IDLE_TIMEOUT = 5*60 # 5 minutes
-SESSION_ABSOLUTE_TIMEOUT = 10 * 60 # 10 minutes -- logs out even if active
-SESSION_COOKIE_AGE = 5 * 60
+SESSION_IDLE_TIMEOUT = 5*60 * 60 # 5 hours
+SESSION_ABSOLUTE_TIMEOUT = 10 * 60 * 60 # 10 minutes -- logs out even if active
+SESSION_COOKIE_AGE = 5 * 60 * 60
 SESSION_SAVE_EVERY_REQUEST = True 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False 
 SESSION_COOKIE_HTTPONLY = True 

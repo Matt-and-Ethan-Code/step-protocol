@@ -3,6 +3,12 @@
 
 {% block content %}
 <h2 class="tab-header">Clients</h2>
-<div>
+<div class="tab-subheader">
+  <h3 style="color: white;">{{ client_id }}</h3>
+  <ul class="tag-list">
+    {% for tag in tags %}
+    <li class="tag">{{ tag }}</li>
+    {% endfor %}
+  </ul>
 </div>
 {% endblock %}

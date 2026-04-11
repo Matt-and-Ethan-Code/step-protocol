@@ -1,9 +1,25 @@
 {% extends "clinician_overview/clinician_base_layout.html" %} {% load static %}
 {% block title %} Clients {% endblock %} 
-{% block head %}<link rel="stylesheet" href="{% static 'clinician_overview/clients_page.css' %}">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'clinician_overview/clients_page.css' %}">
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", (event) => {
+    const regenerate_id_button = document.getElementById("regenerate-id-button");
+    const generated_client_id_input = document.getElementById("generated-client-id-input");
+    // 
+    regenerate_id_button.addEventListener("click", ev => {
+      fetch('/clinician/random-client-id').then(r => r.json()).then(response => {
+        const { client_id } = response;
+        generated_client_id_input.value = client_id;
+      });
+    });
+  });
+</script>
+{% endblock %}
 
 {% block content %}
 <h2 class="tab-header">Clients</h2>
+<div style="display: grid; grid-template-columns: 3fr 1fr">
 <!--select, client id, tags, screening, pre-intervention measures, post-intervention measures, feedback form-->
 <table class="etable">
   <thead>
@@ -32,4 +48,27 @@
   </tbody>
 </table>
 
+<table class="etable" style="max-height: 10rem;">
+    <thead>
+      <tr class="etable-header-row">
+        <th class="etable-header-cell">Create Client</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="etable-row">
+        <td class="etable-cell">
+          <form id="register-client-id-form" method="post" action="/clinician/create-client-id">
+            <div style="display:flex;">
+              {% csrf_token %}
+              <input id="generated-client-id-input" name="new_client_id" readonly style="margin-right: 6px; text-align:center;" value="{{ initial_client_id }}"/>
+              <button id="regenerate-id-button" type="button">Regenerate</button>
+            </div>
+            <input style="padding: .3rem 1rem;" type="submit" value="Create Client"/>
+          </form>
+        </td>
+        
+      </tr>
+    </tbody>
+  </table>
+</div>
 {% endblock %}

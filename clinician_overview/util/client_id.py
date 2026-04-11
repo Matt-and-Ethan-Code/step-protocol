@@ -1,11 +1,27 @@
 import random
-
+from clinician_overview.models import ClientId
 ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
 DIGITS = '0123456789'
-def generate() -> str:
+LENGTH =7
+
+def random_id() -> str:
   letters = random.choices(ALPHABET, k=4)
   digits = random.choices(DIGITS, k=3)
-  return letters + digits
+  return ''.join(letters + digits)
+
+def new_id() -> str:
+  "Return a new id that isn't in the database yet."
+  id = random_id()
+  while client_id_exists(id):
+    id = random_id()
+  return id
+
+def client_id_exists(id: str) -> bool:
+  try:
+    _existing_id = ClientId.objects.get(client_id=id)
+    return True
+  except ClientId.DoesNotExist:
+    return False
 
 def is_valid(maybe_client_id: str) -> bool:
   if len(maybe_client_id) != 7:
