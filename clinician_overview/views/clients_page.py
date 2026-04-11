@@ -34,10 +34,11 @@ class ViewClientInfo:
   post_intervention_measures_date: date | None
   feedback_form_date: date | None
 
-def make_context(client_infos: list[ViewClientInfo]) -> dict[str, Any]:
+def make_context(client_infos: list[ViewClientInfo]) -> dict[str, str | list[ViewClientInfo]]:
   return {
-    "client_infos": client_infos,
-    "initial_client_id": client_id.new_id()
+    "initial_client_id": client_id.new_id(),
+    "nav_section": "clients",
+    "client_infos": client_infos
   }
 
 def mock_client_infos() -> list[ViewClientInfo]:
