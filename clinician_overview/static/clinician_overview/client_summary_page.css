@@ -1,4 +1,91 @@
-header {
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+#back-to-all-clients {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+}
+
+header {
+    margin-bottom: 0;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+header a:hover .link-text {
+    text-decoration: underline;
+}
+
+#client-summary-body {
+    background-color: white;
+    padding: 0 20px 40px;
+}
+
+#client-header-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 1rem;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+#client-data-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8vh;
+}
+
+#edit-tags-container {
+    display: inline-flex;
+    align-items: center;
+}
+
+.client-tag {
+    margin: auto 10px;
+    padding: 0.5em 2em;
+    color: black;
+    background-color: white;
+    border-radius: 20px;
+}
+
+#edit-tags-text-container {
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+
+#edit-tags-icon-container {
+    display: inline;
+    background-color: white;
+    border-radius: 100px;
+    height: 30px;
+    width: 30px;
+    color: var(--bluish);
+    display: flex;
+}
+.material-edit-symbol {
+    margin: auto;
+}
+
+#client-id {
+    font-size: 20px;
+    margin: 0 5px 0 0;
+    font-weight: 500;
+}
+
+#overview-tables-container {
+    display: flex;
+    gap: 40px;
+}
+
+#overview-tables-container .etable, #submissions-table .etable {
+    margin: 0;
 }

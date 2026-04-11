@@ -64,10 +64,16 @@ nav {
   }
 }
 
+header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 header, .tab-header {
   background-color: var(--orangey);
   color: white;
-  padding: 1rem;
   font-weight: normal;
   margin: 0 0 4px 0;
 }
@@ -96,6 +102,7 @@ header, .tab-header {
   padding: 1rem;
   border: 2px solid var(--bluish);
   text-align: center;
+  white-space: nowrap;
 }
 
 footer {
