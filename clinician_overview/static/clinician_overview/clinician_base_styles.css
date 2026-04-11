@@ -64,7 +64,7 @@ nav {
   }
 }
 
-.tab-header {
+header, .tab-header {
   background-color: var(--orangey);
   color: white;
   padding: 1rem;

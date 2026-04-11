@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
-from typing import Any
 from dataclasses import dataclass
 from datetime import date
 def clients_page(req: HttpRequest) -> HttpResponse:
@@ -18,8 +17,9 @@ class ViewClientInfo:
   post_intervention_measures_date: date | None
   feedback_form_date: date | None
 
-def make_context(client_infos: list[ViewClientInfo]) -> dict[str, Any]:
+def make_context(client_infos: list[ViewClientInfo]) -> dict[str, str | list[ViewClientInfo]]:
   return {
+    "nav_section": "clients",
     "client_infos": client_infos
   }
 

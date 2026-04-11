@@ -26,13 +26,13 @@
         <nav>
           <ul>
             <li class="{% if nav_section == 'notifications' %}active{% endif %}"><a href="{% url 'notifications' %}">Notifications</a></li>
-            <li><a href="{% url 'clients' %}">Clients</a></li>
-            <li><a>Measures</a></li>
-            <li><a>STEP Together</a></li>
-            <li><a>STEP Solo Access</a></li>
-            <li><a>STEP Resources</a></li>
-            <li><a>Flash-TEP</a></li>
-            <li><a>Help</a></li>
+            <li class="{% if nav_section == 'clients' %}active{% endif %}"><a href="{% url 'clients' %}">Clients</a></li>
+            <li class="{% if nav_section == 'measures' %}active{% endif %}"><a>Measures</a></li>
+            <li class="{% if nav_section == 'step-together' %}active{% endif %}"><a>STEP Together</a></li>
+            <li class="{% if nav_section == 'step-solo' %}active{% endif %}"><a>STEP Solo Access</a></li>
+            <li class="{% if nav_section == 'step-resources' %}active{% endif %}"><a>STEP Resources</a></li>
+            <li class="{% if nav_section == 'flash-tep' %}active{% endif %}"><a>Flash-TEP</a></li>
+            <li class="{% if nav_section == 'help' %}active{% endif %}"><a>Help</a></li>
           </ul>
         </nav>
         <div style="margin-left: 1rem; width: 100%">

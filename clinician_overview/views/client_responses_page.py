@@ -8,7 +8,6 @@ from dataclasses import dataclass
 from typing import Any, cast
 
 
-# Create your views here.
 @login_required
 def client_responses_page(request: HttpRequest, client_id: str) -> HttpResponse:
   user = cast(User, request.user)
