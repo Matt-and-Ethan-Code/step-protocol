@@ -10,3 +10,4 @@ sqlparse==0.5.5
 uvicorn==0.38.0
 whitenoise==6.11.0
 django-allauth==65.14.0
+fido2==2.1.1
