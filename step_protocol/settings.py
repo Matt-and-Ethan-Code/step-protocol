@@ -13,6 +13,44 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from typing import Any
 from configparser import RawConfigParser
+import json 
+import logging
+import sys
+
+class JsonFormatter(logging.Formatter):
+    def format(self, record: logging.LogRecord): 
+        entry = {
+            "severity": record.levelname, 
+            "message": record.getMessage(), 
+            "logger": record.name
+        }
+
+        for key, val in record.__dict__.items():
+            if key not in logging.LogRecord.__init__.__code__.co_varnames: 
+                entry[key] = val
+        return json.dumps(entry)
+
+handler = logging.StreamHandler(sys.stdout)
+handler.setFormatter(JsonFormatter())
+
+LOGGING: dict[str, Any] = {
+    'version': 1, 
+    'handlers': {
+        'stdout': {
+            '()': lambda: handler,
+        }
+    }, 
+    'loggers': {
+        'core': {
+            'handlers': ['stdout'], 
+            'level': 'INFO'
+        }
+    }
+}
+
+logger = logging.getLogger('myapp')
+logger.info("DB read", extra={"model": "MyModel", "pk": 42})
+
 
 config = RawConfigParser()
 config.read('settings.ini')
@@ -48,7 +86,8 @@ INSTALLED_APPS = [
     'allauth.account', 
     'django.contrib.sites', 
     'provider_intake', 
-    'allauth.mfa'
+    'allauth.mfa', 
+    'core'
 ]
 
 MIDDLEWARE = [
@@ -61,7 +100,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware', 
-    'authentication.middleware.SessionTimeoutMiddleware'
+    'authentication.middleware.SessionTimeoutMiddleware', 
+    'core.middleware.DBReadLoggingMiddleware'
 ]
 
 AUTHENTICATION_BACKENDS = [

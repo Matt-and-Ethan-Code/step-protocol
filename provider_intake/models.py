@@ -1,8 +1,9 @@
 from django.db import models
 from django.db.models import JSONField
 from django.conf import settings
+from core.models import AuditedModel
 
-class Provider(models.Model):
+class Provider(AuditedModel):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE, 

@@ -1,8 +1,9 @@
 from django.db import models
 from django.db.models import ForeignKey
+from core.models import AuditedModel
 
 
-class Questionnaire(models.Model):
+class Questionnaire(AuditedModel):
     id: int
     name = models.CharField(max_length=300, unique=True)
     citation = models.TextField(blank=True)
@@ -10,18 +11,18 @@ class Questionnaire(models.Model):
     order = models.PositiveBigIntegerField(default=0,unique=True)
     question_blocks: models.Manager["QuestionBlock"]
 
-    class Meta:
+    class Meta(AuditedModel.Meta):
         ordering = ['order']
 
     def __str__(self):
         return self.name
 
-class QuestionnaireResponse(models.Model):
+class QuestionnaireResponse(AuditedModel):
     user_identifier = models.CharField(max_length=300, null=True, blank=True)
     questionnaire: ForeignKey[Questionnaire] = models.ForeignKey('Questionnaire', on_delete=models.CASCADE)
     submitted_at = models.DateTimeField(auto_now_add=True)
 
-class QuestionBlock(models.Model):
+class QuestionBlock(AuditedModel):
     questionnaire = models.ForeignKey(
         Questionnaire,
         related_name='question_blocks',
@@ -33,7 +34,7 @@ class QuestionBlock(models.Model):
     order = models.PositiveIntegerField(default=0)
     questions: models.Manager["Question"]
 
-    class Meta:
+    class Meta(AuditedModel.Meta):
         ordering = ['order']
 
     def __str__(self):
@@ -42,7 +43,7 @@ class QuestionBlock(models.Model):
         return f"{self.questionnaire.name} (Untitled Block)"
 
 
-class Question(models.Model):
+class Question(AuditedModel):
     id: int
 
     QUESTION_TYPES = [
@@ -71,7 +72,7 @@ class Question(models.Model):
     order = models.PositiveBigIntegerField(default=0)
     is_required = models.BooleanField(default=False)
 
-    class Meta:
+    class Meta(AuditedModel.Meta):
         ordering = ['order']
 
     def __str__(self):
@@ -79,21 +80,21 @@ class Question(models.Model):
 
         return displayText
 
-class ResponseItem(models.Model):
+class ResponseItem(AuditedModel):
     response: ForeignKey[QuestionnaireResponse] = models.ForeignKey(QuestionnaireResponse, related_name='items', on_delete=models.CASCADE)
     question: ForeignKey[Question] = models.ForeignKey('Question', on_delete=models.CASCADE)
     answer = models.TextField()
     answerID = models.ForeignKey('AnswerOption', null=True, blank=True, on_delete=models.SET_NULL)
 
     
-class AnswerOption(models.Model):
+class AnswerOption(AuditedModel):
     id: int
     question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)
     text = models.TextField()
     order = models.PositiveBigIntegerField(default=0)
     internal_value = models.CharField(max_length=255,  null=True)
 
-    class Meta:
+    class Meta(AuditedModel.Meta):
         ordering = ['order']
 
     def __str__(self):
