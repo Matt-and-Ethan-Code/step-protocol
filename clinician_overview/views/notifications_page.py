@@ -14,14 +14,15 @@ def notifications_page(req: HttpRequest) -> HttpResponse:
   return render(req, 'clinician_overview/notifications_page.html', context=ctx)
 
 
-def make_context(notifications: list[ViewNotification]):
+def make_context(notifications: list[ViewNotification]) -> dict[str, list[ViewNotification] | str]:
   return {
+    "nav_section": "notifications", 
     "notifications": notifications
   }
 
 def mock_messages() -> list[ViewNotification]:
   return [
-    ViewNotification("rollerblading octopus", "This thing was submitted", datetime.now()),
-    ViewNotification("squiggly cactus", "This thing was submitted", datetime.now()),
-    ViewNotification("maroon keyboard", "This thing was submitted", datetime.now()),
+    ViewNotification("sakf2049", "This thing was submitted", datetime.now()),
+    ViewNotification("fkal3058", "This thing was submitted", datetime.now()),
+    ViewNotification("slfo2950", "This thing was submitted", datetime.now()),
   ]

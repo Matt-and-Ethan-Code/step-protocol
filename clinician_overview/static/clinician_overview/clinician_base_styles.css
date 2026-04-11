@@ -1,14 +1,30 @@
 :root {
   --brown: rgba(78, 57, 34);
-  --bluish: rgb(128, 164, 169);
+  --bluish: rgba(80, 130, 138);
   --orangey: rgb(198, 135, 60);
 }
 
 * {
   font-family: "Poppins";
 }
-body {
+
+#step-logo {
+  height: 48px;
+  margin-top: 1rem;
+}
+
+main {
+  flex: 1;
   background-color: var(--bluish);
+  padding: 1rem 1rem 0 1rem;
+  overflow: scroll;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
 }
 h1 {
   color: white;
@@ -18,14 +34,26 @@ h1 {
   display: flex;
 }
 
+a {
+  color: var(--orangey);
+  text-decoration: underline;
+}
+
 nav {
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
 
+  
+  li.active {
+    background-color: var(--orangey);
+  }
+
   ul {
-    padding: 0.5rem;
+    margin: auto;
+    padding-left: 0;
   }
   li {
+    padding: 0.5rem;
     list-style-type: none;
     text-align: center;
 
@@ -36,7 +64,7 @@ nav {
   }
 }
 
-.tab-header {
+header, .tab-header {
   background-color: var(--orangey);
   color: white;
   padding: 1rem;
@@ -45,13 +73,14 @@ nav {
 }
 
 .etable {
-  width: 100%;
+  width: 90%;
+  margin: 20px auto;
   border-collapse: collapse;
 }
 .etable-header-row {
 }
 .etable-header-cell {
-  border: 2px solid black;
+  border: 2px solid var(--bluish);
   padding: 1rem 1rem;
   color: white;
   background-color: var(--brown);
@@ -64,8 +93,8 @@ nav {
 }
 .etable-cell {
   font-size: 0.8rem;
-  padding: 0.5rem 1rem;
-  border: 2px solid black;
+  padding: 1rem;
+  border: 2px solid var(--bluish);
   text-align: center;
 }
 
@@ -73,8 +102,6 @@ footer {
   background-color: var(--brown);
   width: 100vw;
   color: white;
-  position: absolute;
-  bottom: 0;
   left: 0;
   margin: 0;
   text-align: center;

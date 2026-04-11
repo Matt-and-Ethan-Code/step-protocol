@@ -5,23 +5,25 @@
   href="{% static 'clinician_overview/notifications_page.css' %}"
 />
 {% endblock %} {% block content %}
-<h2 class="tab-header">Notifications</h2>
-<table class="etable">
-  <thead>
-    <tr class="etable-header-row">
-      <th class="etable-header-cell">Client Id</th>
-      <th class="etable-header-cell">Message</th>
-      <th class="etable-header-cell">Submission Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for notification in notifications %}
-    <tr class="etable-row">
-      <td class="etable-cell">{{ notification.client_id }}</td>
-      <td class="etable-cell">{{ notification.message }}</td>
-      <td class="etable-cell">{{ notification.submitted_at }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="page-white-background">
+  <h2 class="tab-header">Notifications</h2>
+  <table class="etable">
+    <thead>
+      <tr class="etable-header-row">
+        <th class="etable-header-cell">Client Id</th>
+        <th class="etable-header-cell">Message</th>
+        <th class="etable-header-cell">Submission Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for notification in notifications %}
+      <tr class="etable-row">
+        <td class="etable-cell"><a href="/clinician/clients/{{ notification.client_id }}">{{ notification.client_id }}</a></td>
+        <td class="etable-cell">{{ notification.message }}</td>
+        <td class="etable-cell">{{ notification.submitted_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

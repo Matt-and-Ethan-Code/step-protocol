@@ -8,5 +8,6 @@ def client_summary_page(request: HttpRequest, client_id: str) -> HttpResponse:
 
 def make_context(client_id: str) -> dict[str, Any]:
   return {
+    'nav_section': 'clients',
     'client_id': client_id
   }
