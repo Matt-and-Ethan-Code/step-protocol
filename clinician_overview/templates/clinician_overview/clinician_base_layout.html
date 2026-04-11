@@ -20,26 +20,28 @@
     {% block head %}{%endblock%}
   </head>
   <body>
-    <h1>STEP</h1>
-    <div class="content-columns">
-      <nav>
-        <ul>
-          <li><a href="{% url 'notifications' %}">Notifications</a></li>
-          <li><a href="{% url 'clients' %}">Clients</a></li>
-          <li><a>Measures</a></li>
-          <li><a>STEP Together</a></li>
-          <li><a>STEP Solo Access</a></li>
-          <li><a>STEP Resources</a></li>
-          <li><a>Flash-TEP</a></li>
-          <li><a>Help</a></li>
-        </ul>
-      </nav>
-      <div style="margin-left: 1rem; width: 100%">
-        {% block content %}
-        <p>placeholder</p>
-        {% endblock %}
+    <main>
+      <img id="step-logo" src="{% static 'clinician_overview/STEP Logo_White.png' %}">
+      <div class="content-columns">
+        <nav>
+          <ul>
+            <li class="{% if nav_section == 'notifications' %}active{% endif %}"><a href="{% url 'notifications' %}">Notifications</a></li>
+            <li><a href="{% url 'clients' %}">Clients</a></li>
+            <li><a>Measures</a></li>
+            <li><a>STEP Together</a></li>
+            <li><a>STEP Solo Access</a></li>
+            <li><a>STEP Resources</a></li>
+            <li><a>Flash-TEP</a></li>
+            <li><a>Help</a></li>
+          </ul>
+        </nav>
+        <div style="margin-left: 1rem; width: 100%">
+          {% block content %}
+          <p>placeholder</p>
+          {% endblock %}
+        </div>
       </div>
-    </div>
+    </main>
     <footer>
       <h4>
         <a href="https://www.prepped4learning.com">Prepped 4 Learning</a>
