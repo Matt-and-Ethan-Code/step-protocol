@@ -116,3 +116,38 @@ header a:hover .link-text {
 .white-tag-pill:has(#add-tag-input) {
     padding: 8px 10px;
 }
+
+.etable-cell-pill {
+    border-radius: 50px;
+    padding: 4px 8px;
+}
+
+.grey-pill {
+    background-color: rgba(224, 224, 224, 1);
+}
+
+.bluish-pill {
+    border-radius: 50px;
+    background-color: color-mix(in srgb, var(--bluish) 60%, transparent);
+}
+
+.button-pill {
+    border: none;
+}
+
+#access-buttons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 1em;
+}
+
+#extend-access-button {
+    background-color: #37733c;
+    color: white;
+}
+
+#remove-access-button {
+    background-color: black;
+    color: white;
+}

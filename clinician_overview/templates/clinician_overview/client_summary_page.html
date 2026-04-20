@@ -35,6 +35,20 @@
             </span>
             <i>Edit Tags</i>
         </div>
+        <div id="add-tag-controls-container" style="display: none;">
+            <div class="white-tag-pill" id="add-tag-input-container">
+                <input type="text" id="add-tag-input" placeholder="New Tag">
+                <span class="material-symbols-outlined" id="add-button" onclick="addTagListener()">
+                    add
+                </span>
+            </div>
+            <div class="tags-control-button" id="save-tags-button" onclick="saveTagsListener()">
+                <span class="material-symbols-outlined material-tags-control-badge">
+                    check
+                </span> 
+                <i>Save Tags</i>
+            </div>
+        </div>
     </div>
     <div id="client-summary-body">
         <div id="overview-tables-container">
@@ -53,10 +67,43 @@
                     </thead>
                     <tbody>
                         <tr class="etable-row">
-                            <th class="etable-cell">02/10/2026</th>
-                            <th class="etable-cell">02/11/2026</th>
-                            <th class="etable-cell">Not Submitted</th>
-                            <th class="etable-cell">Not Submitted</th>
+                            <th class="etable-cell">
+                                {% if screening %}
+                                    <span class="etable-cell-pill bluish-pill"> {{screening}} </span>
+                                {% else %} 
+                                    <span class="etable-cell-pill grey-pill">Not Submitted</span>
+                                {% endif %}
+                            </th>
+                            <th class="etable-cell">
+                                {% if pre_intervention_measures %}
+                                    <span class="etable-cell-pill bluish-pill">
+                                        {{pre_intervention_measures}} 
+                                    </span>
+                                {% else %} 
+                                    <span class="etable-cell-pill grey-pill">
+                                        Not Submitted
+                                    </span>
+                                {% endif %}
+                            </th>
+                            <th class="etable-cell">
+                                {% if post_intervention_measures %}
+                                    {{post_intervention_measures}} 
+                                {% else %} 
+                                    <span class="etable-cell-pill grey-pill">
+                                        Not Submitted
+                                    </span>
+                                {% endif %}
+                            </th>
+                            <th class="etable-cell">
+                                {% if feedback_form %}
+                                    {{feedback_form}} 
+                                {% else %} 
+                                    <span class="etable-cell-pill grey-pill">
+                                        Not Submitted
+                                    </span>
+                                    
+                                {% endif %}
+                            </th>
                         </tr>
                     </tbody>
                 </table>
@@ -75,19 +122,46 @@
                     </thead>
                     <tbody>
                         <tr class="etable-row">
-                            <th class="etable-cell">Expiring Soon</th>
-                            <th class="etable-cell">02/10/2026</th>
-                            <th class="etable-cell">02/25/2026</th>
+                            <th class="etable-cell">{{access_status}}</th>
+                            <th class="etable-cell">{{access_renewed_date}}</th>
+                            <th class="etable-cell">{{access_expiry_date}}</th>
                         </tr>
                     </tbody>
                 </table>
+                <div id="access-buttons-container">
+                    <button id="extend-access-button" class="etable-cell-pill button-pill">Extend Access</button>
+                    <button id="remove-access-button" class="etable-cell-pill button-pill">Remove Access</button>
+                </div>
             </div>
         </div>
         <div id="submissions-table">
             <h2 class="table-header">
                 Submissions
             </h2>
-            <table class="etable">
+            <div id="submissions-command-bar">
+                <label for="form-filter">Filter</label>
+                <select id="form-filter-select" name="form-filter" onclick="filterTable()"> 
+                        <option value=""> </option>
+                    {% for form_type in form_submissions_filter_options %}
+                        <option value="{{ form_type }}">{{ form_type }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="sort-order">Sort by</label>
+                <select id="sort-order-select" name="sort-order">
+                    <option value=""></option>
+                    <option value="submission-date-desc" onclick="sortTable(sortRowsDateDesc)">Submission Date (Newest first)</option>
+                    <option value="submission-date-asc" onclick="sortTable(sortRowsDateAsc)">Submission Date (Oldest first)</option>
+                    <option value="range-desc" onclick="sortTable(sortRowsSeverity)">Range (Elevated first)</option>
+                </select>
+
+            </div>
+            <div id="submissions-selected-command-bar">
+                0 selected
+                Export
+                Delete
+            </div>
+            <table class="etable" id="submissions-table">
                 <thead>
                     <tr class="etable-header-row">
                         <th class="etable-header-cell"></th>
@@ -98,49 +172,123 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="etable-row">
-                        <th class="etable-cell"></th>
-                        <th class="etable-cell">Post-Intervention GSE</th>
-                        <th class="etable-cell">02/10/2026 10:15 AM</th>
-                        <th class="etable-cell">Elevated - Priority Review</th>
-                        <th class="etable-cell"><= 14 days</th>
-                    </tr>
+                    {% for submission in submissions %}
+                        <tr class="etable-row" data-form="{{ submission.form }}">
+                            <th class="etable-cell"><input type="checkbox"></th>
+                            <th class="etable-cell">{{submission.form}}</th>
+                            <th class="etable-cell">{{submission.submission_date}}</th>
+                            <th class="etable-cell">{{submission.results}}</th>
+                            <th class="etable-cell">{{submission.scheduled_deletion}}</th>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 <script>
+    const sortRowsSeverity = (a, b) => {
+        const aVal = a.cells[3].textContent;
+        const bVal = b.cells[3].textContent;
+
+        if (aVal.includes("Elevated")) {
+            return false;
+        }
+        return true;
+    }
+
+    const sortRowsDateAsc = (a, b) => {
+        const aVal = a.cells[2].textContent;
+        const bVal = b.cells[2].textContent;
+
+        return new Date(aVal) - new Date(bVal);
+    }
+
+    const sortRowsDateDesc = (a, b) => {
+        const aVal = a.cells[2].textContent;
+        const bVal = b.cells[2].textContent;
+
+        return new Date(bVal) - new Date(aVal)
+    }
+
+    // sort the submissions table
+    const sortTable = (sortFunc) => {
+        const rows = Array.from(document.querySelectorAll("#submissions-table .etable-row"));
+        const table = document.querySelector("#submissions-table tbody");
+        rows.sort(sortFunc);
+
+        rows.forEach(row => table.appendChild(row));
+    }
+
+    // filter the table when a form is selected
+    const filterTable = () => {
+        const selected = document.getElementById("form-filter-select").value;
+        const rows = document.querySelectorAll("#submissions-table .etable-row");
+        for (const row of rows) {
+            if (selected && !(row.dataset.form == selected) ) {
+                row.style.display = "none";
+            } else {
+                row.style.display = "table-row";
+            }
+        }
+    }
+
     // add ability to edit tags
+    const addDiv = document.getElementById("add-tag-controls-container");
     const editDiv = document.getElementById("edit-tags-container");
     const clientHeader = document.getElementById("client-header-container");
-    const tagsContainer = document.getElementById("tags-list-container");
 
     const deleteEventListener = (button) => {
         // delete the parent
         button.parentElement.remove();
     }
 
-    if (editDiv && clientHeader && tagsContainer) {
+    const addTagListener = () => {
+        const tagsContainer = document.getElementById("tags-list-container");
+        // get enetered value
+        const addTag = document.getElementById("add-tag-input");
+        const eneteredValue = addTag?.value;
+
+        // clear out the input
+        addTag.value = "";
+
+        // create the new tag pill
+        const newTag = document.createElement('span');
+
+        // create the delete button and hook up the event listener
+        const deleteButtonSpan = document.createElement("span");
+        deleteButtonSpan.classList.add("material-symbols-outlined", "delete-icon");
+        deleteButtonSpan.textContent = "close";
+        deleteButtonSpan.addEventListener("click", (_) => deleteEventListener(deleteButtonSpan));
+
+        newTag.classList.add("client-tag", "white-tag-pill");
+        newTag.textContent = eneteredValue;
+        newTag.appendChild(deleteButtonSpan);
+        tagsContainer.appendChild(newTag);
+    }
+
+    const saveTagsListener = () => {
+        const saveButton = document.getElementById("save-tags-button");
+
+        // hide the delete buttons
+        const deleteIcons = Array.from(document.getElementsByClassName("delete-icon"));
+        deleteIcons.forEach((el) => el.remove());
+
+        // hide the new tag input
+        const newTagInput = document.getElementById("add-tag-input-container");
+        newTagInput.remove();
+
+        editDiv.style.display = "flex";
+        addDiv.style.display = "none";
+    }
+
+    if (editDiv && clientHeader) {
         editDiv.addEventListener("click", (_) => {
             const editDivOriginal = document.getElementById("edit-tags-container");
-            if (editDivOriginal && clientHeader && tagsContainer) {
+            if (editDivOriginal && clientHeader) {
                 // 1. display the add button
-                editDiv.outerHTML = `
-                    <div class="white-tag-pill" id="add-tag-input-container">
-                        <input type="text" id="add-tag-input" placeholder="New Tag">
-                        <span class="material-symbols-outlined" id="add-button">
-                            add
-                        </span>
-                    </div>
-                    <div class="tags-control-button" id="save-tags-button">
-                        <span class="material-symbols-outlined material-tags-control-badge">
-                            check
-                        </span> 
-                        <i>Save Tags</i>
-                    </div>
-                `;
-                editDiv.id = "add-tags-container"; // change the ID
+                editDiv.style.display = "none";
+                addDiv.style.display = "flex";
 
                 // 2. add delete buttons to all the tags
                 const tags = Array.from(tagsContainer.getElementsByClassName("client-tag"));
@@ -153,47 +301,6 @@
                     el.appendChild(deleteButton)
                 })
 
-                
-                // 3. add event listener to add button
-                const addButton = document.getElementById("add-button");
-                addButton.addEventListener("click", (_) => {
-                    // get enetered value
-                    const addTag = document.getElementById("add-tag-input");
-                    const eneteredValue = addTag?.value;
-
-                    // clear out the input
-                    addTag.value = "";
-
-                    // create the new tag pill
-                    const newTag = document.createElement('span');
-
-                    // create the delete button and hook up the event listener
-                    const deleteButtonSpan = document.createElement("span");
-                    deleteButtonSpan.classList.add("material-symbols-outlined", "delete-icon");
-                    deleteButtonSpan.textContent = "close";
-                    deleteButtonSpan.addEventListener("click", (_) => deleteEventListener(deleteButtonSpan));
-
-                    newTag.classList.add("client-tag", "white-tag-pill");
-                    newTag.textContent = eneteredValue;
-                    newTag.appendChild(deleteButtonSpan);
-                    tagsContainer.appendChild(newTag);
-
-                })
-
-                // 4. add event listener to save button
-                const saveButton = document.getElementById("save-tags-button");
-                saveButton.addEventListener("click", (_) => {
-                    // hide the save button
-                    saveButton.remove();
-
-                    // hide the delete buttons
-                    const deleteIcons = Array.from(document.getElementsByClassName("delete-icon"));
-                    deleteIcons.forEach((el) => el.remove());
-
-                    // hide the new tag input
-                    const newTagInput = document.getElementById("add-tag-input-container");
-                    newTagInput.remove();
-                })
             }
         })
     }

@@ -79,12 +79,11 @@ header, .tab-header {
 }
 
 .etable {
-  width: 90%;
+  width: 100%;
   margin: 20px auto;
   border-collapse: collapse;
 }
-.etable-header-row {
-}
+
 .etable-header-cell {
   border: 2px solid var(--bluish);
   padding: 1rem 1rem;
