@@ -104,6 +104,11 @@ header, .tab-header {
   white-space: nowrap;
 }
 
+.etable-container {
+  max-width: 90%;
+  margin: auto;
+}
+
 footer {
   background-color: var(--brown);
   width: 100vw;
