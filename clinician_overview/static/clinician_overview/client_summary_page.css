@@ -6,7 +6,7 @@
   'opsz' 24
 }
 
-#back-to-all-clients {
+.centered-flex-container {
     display: flex;
     align-items: center;
 }
@@ -33,8 +33,6 @@ header a:hover .link-text {
     background-color: rgba(255, 255, 255, 0.2);
     padding: 1rem;
     color: white;
-    display: flex;
-    align-items: center;
 }
 
 #client-data-container {
@@ -150,4 +148,16 @@ header a:hover .link-text {
 #remove-access-button {
     background-color: black;
     color: white;
+}
+
+#selected-counter {
+    margin-right: 5px;
+}
+
+#submissions-controls {
+    gap: 2em;
+}
+
+.bottom-margin {
+    margin-bottom: 1em;
 }

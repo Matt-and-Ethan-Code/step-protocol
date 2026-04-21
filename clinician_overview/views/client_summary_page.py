@@ -21,12 +21,14 @@ def make_context(client_id: str) -> dict[str, Any]:
     'access_status': "Expiring Soon",
     'submissions': [
       {
+        'id': 0,
         'form': 'Post-Intervention GSE', 
         'submission_date': date(2026, 1, 9), 
         'results': "Elevated - Priority Review", 
         'scheduled_deletion': date(2026, 1, 19)
       }, 
       {
+        'id': 1,
         'form': 'Post-Intervention DASS-21', 
         'submission_date': date(2026, 1, 10), 
         'results': "Within Range - Routine Review", 

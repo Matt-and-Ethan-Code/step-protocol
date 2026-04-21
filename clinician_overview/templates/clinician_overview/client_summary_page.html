@@ -10,7 +10,7 @@
 {% block content %}
 <header>
     <h2 class="tab-header">Clients</h2>
-    <a id="back-to-all-clients" href="/clinician/clients">
+    <a class=".centered-flex-container" href="/clinician/clients">
         <span class="material-symbols-outlined">
             arrow_back_ios
         </span>
@@ -20,7 +20,7 @@
     </a>
 </header>
 <div id="client-data-container">
-    <div id="client-header-container">
+    <div id="client-header-container" class="centered-flex-container">
         <h1 id="client-id">
             {{client_id}}
         </h1>
@@ -138,7 +138,7 @@
             <h2 class="table-header">
                 Submissions
             </h2>
-            <div id="submissions-command-bar">
+            <div class="bottom-margin">
                 <label for="form-filter">Filter</label>
                 <select id="form-filter-select" name="form-filter" onclick="filterTable()"> 
                         <option value=""> </option>
@@ -156,10 +156,25 @@
                 </select>
 
             </div>
-            <div id="submissions-selected-command-bar">
-                0 selected
-                Export
-                Delete
+            <div class="centered-flex-container" id="submissions-controls" style="display:none;">
+                <div class="centered-flex-container">
+                    <span id="selected-counter">
+                        0
+                    </span>
+                    selected
+                </div>
+                <div class="centered-flex-container">
+                    <span class="material-symbols-outlined material-tags-control-badge">
+                        file_export
+                    </span>
+                    Export
+                </div>
+                <div class="centered-flex-container">
+                    <span class="material-symbols-outlined material-tags-control-badge">
+                        delete
+                    </span>
+                    Delete
+                </div>
             </div>
             <table class="etable" id="submissions-table">
                 <thead>
@@ -173,8 +188,8 @@
                 </thead>
                 <tbody>
                     {% for submission in submissions %}
-                        <tr class="etable-row" data-form="{{ submission.form }}">
-                            <th class="etable-cell"><input type="checkbox"></th>
+                        <tr class="etable-row" data-form="{{ submission.form }}" data-id="{{submission.id}}">
+                            <th class="etable-cell"><input type="checkbox" onclick="handleSubmissionSelect()"></th>
                             <th class="etable-cell">{{submission.form}}</th>
                             <th class="etable-cell">{{submission.submission_date}}</th>
                             <th class="etable-cell">{{submission.results}}</th>
@@ -187,6 +202,18 @@
     </div>
 </div>
 <script>
+    const handleSubmissionSelect = () => {
+        const selectedCounter = document.getElementById("selected-counter");
+        const rowSelectNavBar = document.getElementById("submissions-controls");
+        const checkboxes = document.querySelectorAll("#submissions-table input[type='checkbox']:checked")
+        if (checkboxes.length == 0) {
+            rowSelectNavBar.style.display = "none";
+        } else {
+            rowSelectNavBar.style.display = "flex";
+            selectedCounter.textContent = checkboxes.length;
+        }
+    }
+
     const sortRowsSeverity = (a, b) => {
         const aVal = a.cells[3].textContent;
         const bVal = b.cells[3].textContent;
