@@ -92,7 +92,6 @@ def questionnaire_view(request: HttpRequest, questionnaire_id: int | None):
                 client = ClientId.objects.get(client_id=user_identifier)
             except ClientId.DoesNotExist:
                 # get the selected provider
-
                 selected_provider_string = answers['30']
                 if isinstance(selected_provider_string, str):
                     selected_provider_option = AnswerOption.objects.filter(question_id=30, id=int(selected_provider_string)).first()
