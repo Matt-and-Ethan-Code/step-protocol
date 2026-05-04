@@ -64,21 +64,26 @@ nav {
   }
 }
 
+header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 header, .tab-header {
   background-color: var(--orangey);
   color: white;
-  padding: 1rem;
   font-weight: normal;
   margin: 0 0 4px 0;
 }
 
 .etable {
-  width: 90%;
+  width: 100%;
   margin: 20px auto;
   border-collapse: collapse;
 }
-.etable-header-row {
-}
+
 .etable-header-cell {
   border: 2px solid var(--bluish);
   padding: 1rem 1rem;
@@ -96,6 +101,12 @@ header, .tab-header {
   padding: 1rem;
   border: 2px solid var(--bluish);
   text-align: center;
+  white-space: nowrap;
+}
+
+.etable-container {
+  max-width: 90%;
+  margin: auto;
 }
 
 footer {

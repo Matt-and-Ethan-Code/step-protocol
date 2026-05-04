@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from dataclasses import dataclass
 from datetime import date
 def clients_page(req: HttpRequest) -> HttpResponse:
-  ctx = make_context(mock_client_infos())
+  ctx = make_context(get_client_infos())#mock_client_infos())
   return render(req, 'clinician_overview/clients_page.html', context=ctx)
 
 
@@ -16,6 +16,9 @@ class ViewClientInfo:
   pre_intervention_measures_date: date | None
   post_intervention_measures_date: date | None
   feedback_form_date: date | None
+
+def get_client_infos() -> list[ViewClientInfo]:
+  return []
 
 def make_context(client_infos: list[ViewClientInfo]) -> dict[str, str | list[ViewClientInfo]]:
   return {
