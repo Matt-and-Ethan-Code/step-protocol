@@ -2,7 +2,7 @@ import random
 
 ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
 DIGITS = '0123456789'
-def generate() -> str:
+def generate() -> list[str]:
   letters = random.choices(ALPHABET, k=4)
   digits = random.choices(DIGITS, k=3)
   return letters + digits

@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import ForeignKey
+from clinician_overview.models import ClientId
 
 
 class Questionnaire(models.Model):
@@ -16,7 +17,7 @@ class Questionnaire(models.Model):
     def __str__(self):
         return self.name
 class QuestionnaireResponse(models.Model):
-    user_identifier = models.CharField(max_length=300, null=True, blank=True)
+    user_identifier = ForeignKey(ClientId, on_delete=models.CASCADE) #models.CharField(max_length=300, null=True, blank=True)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     submitted_at = models.DateTimeField(auto_now_add=True)
     view_count = models.IntegerField(default=0, null=False)
