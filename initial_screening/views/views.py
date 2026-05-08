@@ -3,9 +3,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question
 from ..intake_forms import QuestionnaireForm
 from django.db.models.query import QuerySet
+from django.contrib.auth.models import User
 from ..scoring import DesTForm, Dass21Form, GSEForm, ItqForm, Pcl5Form, DesTResponse, DesTQuestion, Dass21Question, Dass21Response, Pcl5Question, Pcl5Response
 import initial_screening.scoring as scoring
 from typing import Any, cast
+from clinician_overview.models import ClientId
 import random
 from dataclasses import dataclass
 @dataclass
@@ -84,9 +86,32 @@ def questionnaire_view(request: HttpRequest, questionnaire_id: int | None):
                 request.session['unique_identifier'] = unique_identifier
             user_identifier = request.session.get('unique_identifier')
 
+            client = None
+            # check if a client id exists yet
+            try:
+                client = ClientId.objects.get(client_id=user_identifier)
+            except ClientId.DoesNotExist:
+                # get the selected provider
+
+                selected_provider_string = answers['30']
+                if isinstance(selected_provider_string, str):
+                    selected_provider_option = AnswerOption.objects.filter(question_id=30, id=int(selected_provider_string)).first()
+                    if (selected_provider_option):
+                        # query the users table for a matching provider
+                        clinician = User.objects.get(email=selected_provider_option.internal_value)
+
+                        # create a new client id if not exists
+                        client = ClientId.objects.create(
+                            client_id=user_identifier, 
+                            clinician=clinician,
+                            is_active=True, 
+                            tags=[]
+                        )
+
+
             new_response = QuestionnaireResponse.objects.create(
                 questionnaire=questionnaire,
-                user_identifier=user_identifier
+                user_identifier=client
             )
 
             for answer in answers.keys():

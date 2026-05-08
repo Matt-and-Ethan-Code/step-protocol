@@ -1,4 +1,163 @@
-header {
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+.centered-flex-container {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+}
+
+header {
+    margin-bottom: 0;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+header a:hover .link-text {
+    text-decoration: underline;
+}
+
+#client-summary-body {
+    background-color: white;
+    padding: 0 20px 40px;
+}
+
+#client-header-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 1rem;
+    color: white;
+}
+
+#client-data-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8vh;
+}
+
+.client-tag, .white-tag-pill {
+    margin: auto 10px;
+    padding: 0.5em 2em;
+    color: black;
+    background-color: white;
+    border-radius: 20px;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.tags-control-button {
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: 5px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#add-button {
+    color: var(--bluish);
+    cursor: pointer;
+}
+
+.material-symbols-outlined.material-tags-control-badge {
+    display: inline;
+    background-color: white;
+    border-radius: 100px;
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    font-size: 20px;
+    padding: 5px;
+    color: var(--bluish);
+    display: inline-flex;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.delete-icon {
+    cursor: pointer;
+}
+
+#client-id {
+    font-size: 20px;
+    margin: 0 5px 0 0;
+    font-weight: 500;
+}
+
+#overview-tables-container {
+    display: flex;
+    gap: 40px;
+}
+
+#overview-tables-container .etable, #submissions-table .etable {
+    margin: 0;
+}
+
+#tags-list-container {
+    display: inline;
+}
+
+#add-tag-input, #add-tag-input:focus-visible, #add-tag-input:focus {
+    appearance: none;
+    border: none;
+    border-radius: 50px;
+    padding: 0 8px;
+    width: 120px;
+}
+
+.white-tag-pill:has(#add-tag-input) {
+    padding: 8px 10px;
+}
+
+.etable-cell-pill {
+    border-radius: 50px;
+    padding: 4px 8px;
+}
+
+.grey-pill {
+    background-color: rgba(224, 224, 224, 1);
+}
+
+.bluish-pill {
+    border-radius: 50px;
+    background-color: color-mix(in srgb, var(--bluish) 60%, transparent);
+}
+
+.button-pill {
+    border: none;
+}
+
+#access-buttons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 1em;
+}
+
+#extend-access-button {
+    background-color: #37733c;
+    color: white;
+}
+
+#remove-access-button {
+    background-color: black;
+    color: white;
+}
+
+#selected-counter {
+    margin-right: 5px;
+}
+
+#submissions-controls {
+    gap: 2em;
+}
+
+.bottom-margin {
+    margin-bottom: 1em;
 }

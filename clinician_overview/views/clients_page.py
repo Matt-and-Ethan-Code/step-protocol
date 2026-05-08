@@ -34,6 +34,9 @@ class ViewClientInfo:
   post_intervention_measures_date: date | None
   feedback_form_date: date | None
 
+def get_client_infos() -> list[ViewClientInfo]:
+  return []
+
 def make_context(client_infos: list[ViewClientInfo]) -> dict[str, str | list[ViewClientInfo]]:
   return {
     "initial_client_id": client_id.new_id(),
