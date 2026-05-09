@@ -2,20 +2,29 @@ from django.db import models
 from django.db.models import ForeignKey
 from clinician_overview.models import ClientId
 
+class Form(models.Model): 
+    id: int
+    name = models.CharField(max_length=300, unique=True)
 
 class Questionnaire(models.Model):
     id: int
     name = models.CharField(max_length=300, unique=True)
     citation = models.TextField(blank=True)
     description = models.TextField(blank=True)
-    order = models.PositiveBigIntegerField(default=0,unique=True)
     question_blocks: models.Manager["QuestionBlock"]
-
-    class Meta:
-        ordering = ['order']
 
     def __str__(self):
         return self.name
+    
+class FormMembership(models.Model):
+    form = models.ForeignKey(Form, on_delete=models.CASCADE)
+    questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
+    order = models.PositiveBigIntegerField(default=0)
+
+    class Meta: 
+        unique_together = [['questionnaire', 'form', 'order']]
+
+
 class QuestionnaireResponse(models.Model):
     user_identifier = ForeignKey(ClientId, on_delete=models.CASCADE) #models.CharField(max_length=300, null=True, blank=True)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)

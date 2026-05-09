@@ -20,16 +20,18 @@ class AnswersDict:
 
 
 def home_view(_: HttpRequest):
-    return redirect('start_testing')
+    initial_screening_form_id = 1
+
+    return redirect('start_testing', form_id=initial_screening_form_id)
     #return render(request, "initial_screening/home_page.html")
 
-def start_testing(_: HttpRequest):
-    first_questionnaire: Questionnaire | None = Questionnaire.objects.order_by('order').first()
+def start_testing(_:HttpRequest, form_id:int):
+    first_questionnaire: Questionnaire | None = Questionnaire.objects.filter(form=form_id).order_by('order').first()
 
     if not first_questionnaire:
         return redirect('testing_complete')
 
-    return redirect('questionnaire_view', questionnaire_id=first_questionnaire.id)
+    return redirect('questionnaire_view', form_id=form_id, questionnaire_id=first_questionnaire.id)
 
 def get_answer_text(question_id: int, form_value: str):
     try: 
@@ -62,7 +64,7 @@ def save_answer_response(option_id: str, question_id: int, new_response: Questio
         )
 
 
-def questionnaire_view(request: HttpRequest, questionnaire_id: int | None):
+def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int | None):
     
     questionnaire = get_object_or_404(
         Questionnaire.objects.prefetch_related('question_blocks__questions__options'),
@@ -132,14 +134,13 @@ def questionnaire_view(request: HttpRequest, questionnaire_id: int | None):
                         answer = answers[answer]
                     )             
 
-
         next_questionnaire = (
             Questionnaire.objects 
+            .filter(form=form_id)
             .filter(order__gt=questionnaire.order)
             .order_by('order')
             .first()
         )
-
         
         if next_questionnaire:
             return redirect('questionnaire_view', questionnaire_id=next_questionnaire.id)
