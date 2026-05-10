@@ -29,15 +29,39 @@ class Questionnaire(models.Model):
         return self.name
     
 class FormMembership(models.Model):
+    """
+    Tracks when a questionnaire belongs to a form.
+    Also, tracks which order the questionnaire is in the form.
+    Examples: 
+        - STEP Into Page belongs to Initial Screening and Pre and Post Screening, and comes 
+        first (Order = 1) in both
+        - DES-T belongs to Initial Screening and comes second (Order = 2)
+
+    Note: 
+        - A questionnaire can belong to multiple forms
+        - A questionnaire may also not belong to a form (although that wouldn't make sense, because then it 
+        won't show up for the users).
+    """
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     order = models.PositiveBigIntegerField(default=0)
 
+    # Enforces that a questionnaire may belong to a form at most once 
+    # Example:
+    #   if a row has questionnaire = X and form = Y
+    #   then no other row may have questionnaire = X and form = Y
+    #   - On the other hand: 
+    #       - A row where questionnaire = X and form = Z would be fine
     class Meta: 
-        unique_together = [['questionnaire', 'form', 'order']]
+        unique_together = [['questionnaire', 'form']]
 
 
 class QuestionnaireResponse(models.Model):
+    """
+    Records that the user has entered a response for a form.
+    -   Does not contain what the user entered
+    -   To see what the user entered: see ResponseItem
+    """
     user_identifier = ForeignKey(ClientId, on_delete=models.CASCADE) #models.CharField(max_length=300, null=True, blank=True)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     submitted_at = models.DateTimeField(auto_now_add=True)
