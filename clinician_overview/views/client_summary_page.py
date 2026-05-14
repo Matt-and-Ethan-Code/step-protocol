@@ -1,9 +1,9 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from typing import Any
-from datetime import date
+from datetime import date, datetime
 from clinician_overview.models import ClientId
-from initial_screening.models import QuestionnaireResponse
+from initial_screening.models import QuestionnaireResponse, FormMembership
 from datetime import date
 import calendar
 
@@ -11,18 +11,29 @@ def client_summary_page(request: HttpRequest, client_id: str) -> HttpResponse:
   ctx = make_context(client_id)
   return render(request, 'clinician_overview/client_summary_page.html', context=ctx)
 
+def get_form_completion_date_for_client(client_id: ClientId, form_id: int)  -> datetime | None:
+  last_questionnaire = FormMembership.objects.filter(form_id = form_id).order_by("order").last()
+  if last_questionnaire:
+    last_response = QuestionnaireResponse.objects.filter(user_identifier=client_id, form_id=form_id, questionnaire_id=last_questionnaire.questionnaire.id).order_by("submitted_at").last()
+
+
+    if last_response:
+      return last_response.submitted_at
+
 def make_context(client_id: str) -> dict[str, Any]:
   try:
     client: ClientId = ClientId.objects.get(client_id=client_id)
     client_tags: list[str] = client.tags
 
-    # dates -- if done, give date, else, give in progress, else give "not started"
+    screening_form_id = 1
+    feedback_form_id = 2 
+    pre_test_form_id = 3
+    post_test_form_id = 4 
 
-    # screening date -- date the 
-    screening_date = None
-    pre_intervention_date = None
-    post_intervention_date = None 
-    feedback_form_date = None 
+    screening_date = get_form_completion_date_for_client(client, screening_form_id)
+    pre_intervention_date = get_form_completion_date_for_client(client, pre_test_form_id)
+    post_intervention_date = get_form_completion_date_for_client(client, post_test_form_id)
+    feedback_form_date = get_form_completion_date_for_client(client, feedback_form_id)
     
     access_renewed_date = None 
     access_expiry_date = None 
@@ -30,10 +41,9 @@ def make_context(client_id: str) -> dict[str, Any]:
 
     submissions = QuestionnaireResponse.objects.filter(user_identifier = client)
 
-
     formatted_submissions: list[Any] = []
     for sub in submissions:
-      form_name = sub.questionnaire
+      form_name = f"{sub.form.name}: {sub.questionnaire.name}"
 
       # calculate deletion date -- 6 months after the submitted date
       deletion_month = sub.submitted_at.month - 1 + 6 

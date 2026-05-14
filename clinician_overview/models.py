@@ -7,3 +7,11 @@ class ClientId(models.Model):
   clinician = models.ForeignKey(User, on_delete=models.CASCADE)
   is_active: models.BooleanField = models.BooleanField(verbose_name="Is Active", default=True) # type: ignore
   tags: List[str] =models.JSONField(default=list, blank=True) # type: ignore
+
+  class Meta:
+    constraints = [
+      models.UniqueConstraint(
+        fields=['client_id', 'clinician'],
+        name='unique_client_per_clinician'
+      )
+    ]

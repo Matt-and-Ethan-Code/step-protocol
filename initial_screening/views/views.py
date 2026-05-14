@@ -27,7 +27,6 @@ def home_view(_: HttpRequest):
 
 def start_testing(_:HttpRequest, form_id:int):
     # the path to send the user to the first questionnaire in the form
-
     # questionnaire membership is stored in FormMembership, so we must query it to find the questionnaire in the form
     # with the smallest 'order' value
     first_form_member: FormMembership | None = FormMembership.objects.filter(form_id=form_id).order_by('order').first()
@@ -113,13 +112,12 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
 
         # get the smallest questionnaire in the form
         # relationships between forms and questionnaires are recorded in FormMembership
-        min_relationship = FormMembership.objects.filter(id = form_id).order_by('order').first()
+        min_relationship = FormMembership.objects.filter(form_id = form_id).order_by('order').first()
         if min_relationship:
             min_questionnaire = min_relationship.questionnaire
-
             # compare the ID of the smallest questionnaire with the questionnaire ID received in the request path
             # this should be questionnaire 3, "STEP Screening Forms"
-            if questionnaire_id == min_questionnaire.id and "unique identifier" in min_questionnaire.description.lower():
+            if questionnaire_id == min_questionnaire.id:
 
                 # the question asking the ID will be question 29
                 unique_identifier = answers['29']
@@ -130,11 +128,13 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             user_identifier = request.session.get('unique_identifier')
 
             client = None
+
             # check if a client id exists yet
             try:
                 # look up the ClientId table on user identifier
                 client = ClientId.objects.get(client_id=user_identifier)
             except ClientId.DoesNotExist:
+
                 # if objects.get fails, ClientId.DoesNotExist gets thrown
                 # must create ClientId
 
@@ -162,7 +162,10 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             # this will not contain any answers, but just the record that the user responded to the questionnaire.
             new_response = QuestionnaireResponse.objects.create(
                 questionnaire=questionnaire,
-                user_identifier=client
+                user_identifier=client, 
+                form=min_relationship.form 
+                # we previously already received an instance of formmembership, where the form is one of the fields
+                # so we can just use that field instead of having to re-query the database
             )
 
             for answer in answers.keys():

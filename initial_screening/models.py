@@ -63,6 +63,7 @@ class QuestionnaireResponse(models.Model):
     -   To see what the user entered: see ResponseItem
     """
     user_identifier = ForeignKey(ClientId, on_delete=models.CASCADE) #models.CharField(max_length=300, null=True, blank=True)
+    form = ForeignKey(Form, on_delete=models.CASCADE)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     submitted_at = models.DateTimeField(auto_now_add=True)
     view_count = models.IntegerField(default=0, null=False)
