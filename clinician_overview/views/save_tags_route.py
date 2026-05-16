@@ -14,8 +14,6 @@ def save_tags_route(request: HttpRequest, client_id: str):
     if tags is None:
         return JsonResponse({'error': 'tags must be an array of strings'}, status=400)
     
-    print("client_id: ", client_id, "user: ", request.user)
-    
     client = ClientId.objects.get(client_id=client_id, clinician=request.user)
     print(client)
     client.tags = tags
