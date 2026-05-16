@@ -265,11 +265,13 @@
     const editDiv = document.getElementById("edit-tags-container");
     const clientHeader = document.getElementById("client-header-container");
 
+    // function that should fire when the tags are being edited and a tag gets deleted
     const deleteEventListener = (button) => {
         // delete the parent
         button.parentElement.remove();
     }
 
+    // function to add a tag when the tags are being edited
     const addTagListener = () => {
         const tagsContainer = document.getElementById("tags-list-container");
         // get enetered value
@@ -294,7 +296,7 @@
         tagsContainer.appendChild(newTag);
     }
 
-    const saveTagsListener = () => {
+    const saveTagsListener = async () => {
         const saveButton = document.getElementById("save-tags-button");
 
         // hide the delete buttons
@@ -302,13 +304,41 @@
         deleteIcons.forEach((el) => el.remove());
 
         // hide the new tag input
-        const newTagInput = document.getElementById("add-tag-input-container");
-        newTagInput.remove();
+        const newTagInputDiv = document.getElementById("add-tag-input-container");
+        const newTagInput = document.getElementById("add-tag-input");
+        newTagInput.value = "";
+        newTagInputDiv.display = "none";
 
         editDiv.style.display = "flex";
         addDiv.style.display = "none";
+
+        // call the endpoint to save tags
+        const allTagElements = document.querySelectorAll(".client-tag");
+        let allTags = Array.from(allTagElements).map((el) => el.textContent);
+
+        allTags = allTags.filter((el) => el);
+
+        // parse the client identifier from the URL
+        const urlSections = window.location.pathname.split('/');
+        // the client identifier will be the last section of the url path -- extract it
+        const clientIdentifier = urlSections[urlSections.length - 1];
+
+        console.log("alltags: ", allTags);
+        const response = await fetch(`/clinician/clients/${clientIdentifier}/save-tags`, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",  // Django requires this for POST
+            },
+            body: JSON.stringify({ tags: allTags })
+        });
+
+        const result = await response.json();
+
     }
 
+    const tagsContainer = document.getElementById("tags-list-container");
     if (editDiv && clientHeader) {
         editDiv.addEventListener("click", (_) => {
             const editDivOriginal = document.getElementById("edit-tags-container");
