@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from typing import List
 
 class Client(models.Model):
   """
@@ -9,10 +10,20 @@ class Client(models.Model):
   client_id = models.CharField(max_length=50)
   clinician = models.ForeignKey(User, on_delete=models.CASCADE)
   is_active: models.BooleanField = models.BooleanField(verbose_name="Is Active", default=True) # type: ignore
-  tags: models.JSONField =models.JSONField(default=list, blank=True) # type: ignore
+  tags: List[str] =models.JSONField(default=list, blank=True) # type: ignore
   
   def __str__(self):
     return self.client_id
+
+  
+
+  class Meta:
+    constraints = [
+      models.UniqueConstraint(
+        fields=['client_id', 'clinician'],
+        name='unique_client_per_clinician'
+      )
+    ]
 
 class AccessGrant(models.Model):
   """
@@ -34,7 +45,3 @@ class AccessGrant(models.Model):
       models.Index(fields=["clinician", "client", "revoked_at"]),
       models.Index(fields=["clinician", "client", "expires_at"]),
     ]
-  
-
-  
-  

@@ -13,6 +13,9 @@ class Command(BaseCommand):
         Questionnaire.objects.all().delete()
 
         self.stdout.write("Deleted all old data.")
+        
+        call_command('loaddata', 'fixtures/form.json')
+        self.stdout.write("Loaded form data.")
 
         call_command('loaddata', 'fixtures/questionnaire.json')
         self.stdout.write("Loaded questionnaire data.")
@@ -25,3 +28,6 @@ class Command(BaseCommand):
 
         call_command('loaddata', 'fixtures/answeroption.json')
         self.stdout.write("Loaded answer option data.")
+
+        call_command('loaddata', 'fixtures/formmembership.json')
+        self.stdout.write("Loaded form membership.")

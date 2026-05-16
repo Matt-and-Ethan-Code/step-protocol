@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Questionnaire, QuestionBlock, Question, AnswerOption, QuestionnaireResponse, ResponseItem
+from .models import Questionnaire, QuestionBlock, Question, AnswerOption, QuestionnaireResponse, ResponseItem, Form, FormMembership
 
 class AnswerOptionInline(admin.TabularInline): # type: ignore[type-arg]
     model = AnswerOption
@@ -17,6 +17,19 @@ class ResponseItemInline(admin.TabularInline): # type: ignore[type-arg]
     model = ResponseItem
     extra = 0
 
+class QuestionnaireInline(admin.TabularInline): # type: ignore[type-arg]
+    model = Questionnaire
+    extra = 1
+
+class FormMembershipInline(admin.TabularInline): # type: ignore[type-arg]
+    model = FormMembership
+    extra = 1
+
+@admin.register(Form)
+class FormAdmin(admin.ModelAdmin): # type: ignore[type-arg]
+    list_display = ('name',)
+    inlines = [FormMembershipInline]
+
 @admin.register(QuestionnaireResponse)
 class QuestionnaireResponseAdmin(admin.ModelAdmin): # type: ignore[type-arg]
     list_display = ('user_identifier', 'questionnaire', 'submitted_at')
@@ -27,8 +40,7 @@ class QuestionnaireResponseAdmin(admin.ModelAdmin): # type: ignore[type-arg]
 
 @admin.register(Questionnaire)
 class QuestionnaireAdmin(admin.ModelAdmin): # type: ignore[type-arg]
-    list_display = ('name', 'citation', 'description', 'order')
-    ordering=('order',)
+    list_display = ('name', 'citation', 'description')
     inlines = [QuestionBlockInline]
 
 @admin.register(QuestionBlock)
