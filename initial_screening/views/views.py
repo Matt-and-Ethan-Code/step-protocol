@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from ..scoring import DesTForm, Dass21Form, GSEForm, ItqForm, Pcl5Form, DesTResponse, DesTQuestion, Dass21Question, Dass21Response, Pcl5Question, Pcl5Response
 import initial_screening.scoring as scoring
 from typing import Any, cast
-from clinician_overview.models import ClientId
+from clinician_overview.models import Client
 import random
 from dataclasses import dataclass
 @dataclass
@@ -89,8 +89,8 @@ def questionnaire_view(request: HttpRequest, questionnaire_id: int | None):
             client = None
             # check if a client id exists yet
             try:
-                client = ClientId.objects.get(client_id=user_identifier)
-            except ClientId.DoesNotExist:
+                client = Client.objects.get(client_id=user_identifier)
+            except Client.DoesNotExist:
                 # get the selected provider
 
                 selected_provider_string = answers['30']
@@ -101,7 +101,7 @@ def questionnaire_view(request: HttpRequest, questionnaire_id: int | None):
                         clinician = User.objects.get(email=selected_provider_option.internal_value)
 
                         # create a new client id if not exists
-                        client = ClientId.objects.create(
+                        client = Client.objects.create(
                             client_id=user_identifier, 
                             clinician=clinician,
                             is_active=True, 

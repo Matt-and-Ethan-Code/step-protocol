@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.decorators import login_required
-from clinician_overview.models import ClientId
+from clinician_overview.models import Client
 #from initial_screening.models import QuestionnaireResponse
 
 @dataclass
@@ -20,9 +20,9 @@ def notifications_page(req: HttpRequest) -> HttpResponse:
   ctx = make_context(mock_messages())
   return render(req, 'clinician_overview/notifications_page.html', context=ctx)
 
-def get_submissions(user: AbstractBaseUser) -> list[ClientId]: 
+def get_submissions(user: AbstractBaseUser) -> list[Client]: 
   # get all clients for this user
-  clients = ClientId.objects.filter(clinician=user)
+  clients = Client.objects.filter(clinician=user)
   print(clients)
   return []
 

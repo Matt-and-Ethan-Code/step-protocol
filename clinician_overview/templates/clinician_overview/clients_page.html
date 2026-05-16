@@ -19,39 +19,39 @@
 {% endblock %}
 
 {% block content %}
-<div style="display: grid; grid-template-columns: 3fr 1fr">
 <header>
   <h2 class="tab-header">Clients</h2>
 </header>
-<!--select, client id, tags, screening, pre-intervention measures, post-intervention measures, feedback form-->
-<table class="etable">
-  <thead>
-    <tr class="etable-header-row">
-      <th class="etable-header-cell"></th>
-      <th class="etable-header-cell">Client Id</th>
-      <th class="etable-header-cell">Tags</th>
-      <th class="etable-header-cell">Screening</th>
-      <th class="etable-header-cell">Pre-Intervention<br />Measures</th>
-      <th class="etable-header-cell">Post-Intervention<br />Measures</th>
-      <th class="etable-header-cell">Feedback Form</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for client_info in client_infos %}
-    <tr class="etable-row">
-      <td class="etable-cell"></td>
-      <td class="etable-cell"><a class="client-id-link" href="{% url 'client_summary' client_info.client_id %}">{{ client_info.client_id }}</a></td>
-      <td class="etable-cell">{{ client_info.tags }}</td>
-      <td class="etable-cell">{{ client_info.screening }}</td>
-      <td class="etable-cell">{{ client_info.pre_intervention_measures }}</td>
-      <td class="etable-cell">{{ client_info.post_intervention_measures }}</td>
-      <td class="etable-cell">{{ client_info.feedback_form }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div style="display:grid; grid-template-columns: 4fr 1fr;">
+  <!--select, client id, tags, screening, pre-intervention measures, post-intervention measures, feedback form-->
+  <table class="etable">
+    <thead>
+      <tr class="etable-header-row">
+        <th class="etable-header-cell"></th>
+        <th class="etable-header-cell">Client Id</th>
+        <th class="etable-header-cell">Tags</th>
+        <th class="etable-header-cell">Screening</th>
+        <th class="etable-header-cell">Pre-Intervention<br />Measures</th>
+        <th class="etable-header-cell">Post-Intervention<br />Measures</th>
+        <th class="etable-header-cell">Feedback Form</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for client_info in client_infos %}
+      <tr class="etable-row">
+        <td class="etable-cell"></td>
+        <td class="etable-cell"><a class="client-id-link" href="{% url 'client_summary' client_info.client_id %}">{{ client_info.client_id }}</a></td>
+        <td class="etable-cell">{{ client_info.tags }}</td>
+        <td class="etable-cell">{{ client_info.screening }}</td>
+        <td class="etable-cell">{{ client_info.pre_intervention_measures }}</td>
+        <td class="etable-cell">{{ client_info.post_intervention_measures }}</td>
+        <td class="etable-cell">{{ client_info.feedback_form }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-<table class="etable" style="max-height: 10rem;">
+  <table class="etable" style="max-height: 10rem;">
     <thead>
       <tr class="etable-header-row">
         <th class="etable-header-cell">Create Client</th>
@@ -65,8 +65,17 @@
               {% csrf_token %}
               <input id="generated-client-id-input" name="new_client_id" readonly style="margin-right: 6px; text-align:center;" value="{{ initial_client_id }}"/>
               <button id="regenerate-id-button" type="button">Regenerate</button>
+
+
             </div>
-            <input style="padding: .3rem 1rem;" type="submit" value="Create Client"/>
+            <div style="display:flex;justify-content:center;">
+              <input style="padding: .3rem 1rem;" type="submit" value="Create Client"/>
+              <select name="duration">
+                <option value="7">7 days</option>
+                <option value="14">14 days</option>
+                <option value="30">30 days</option>
+              </select>
+            </div>
           </form>
         </td>
         

@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 from typing import Any
-from clinician_overview.models import ClientId
+from clinician_overview.models import Client
 from dataclasses import dataclass
 from datetime import date
 import clinician_overview.util.client_id as client_id
 
 def clients_page(req: HttpRequest) -> HttpResponse:
-  client_ids = ClientId.objects.all()
+  client_ids = Client.objects.all()
   client_infos: list[ViewClientInfo] = []
   for id in client_ids:
     client_infos.append(ViewClientInfo(

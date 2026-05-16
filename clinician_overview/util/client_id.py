@@ -1,10 +1,13 @@
 import random
-from clinician_overview.models import ClientId
+from clinician_overview.models import Client
 ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
 DIGITS = '0123456789'
 LENGTH =7
 
 def random_id() -> str:
+  """
+  Four letters followed by three numbers.
+  """
   letters = random.choices(ALPHABET, k=4)
   digits = random.choices(DIGITS, k=3)
   return ''.join(letters + digits)
@@ -16,12 +19,12 @@ def new_id() -> str:
     id = random_id()
   return id
 
-def client_id_exists(id: str) -> bool:
+def client_id_exists(id: str) -> Client | None:
   try:
-    _existing_id = ClientId.objects.get(client_id=id)
-    return True
-  except ClientId.DoesNotExist:
-    return False
+    existing_id = Client.objects.get(client_id=id)
+    return existing_id
+  except Client.DoesNotExist:
+    return None
 
 def is_valid(maybe_client_id: str) -> bool:
   if len(maybe_client_id) != 7:
