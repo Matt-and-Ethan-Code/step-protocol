@@ -45,7 +45,7 @@ class ViewQuestionnaireResponse:
 def overview_page_context(client_id: str, responses: list[QuestionnaireResponse]) -> dict[str, Any]:
   view_responses: list[ViewQuestionnaireResponse] = []
   for response in responses:
-    id = str(response.id)
+    id = str(response.pk)
     view_responses.append(ViewQuestionnaireResponse(
       questionnaire_response_id=id,
       submitted_at=response.submitted_at,

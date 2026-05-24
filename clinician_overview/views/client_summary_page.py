@@ -50,12 +50,17 @@ def make_context(client_id: str) -> dict[str, Any]:
     deletion_day = min(sub.submitted_at.day, calendar.monthrange(deletion_year, deletion_month)[1])
 
     formatted_submissions.append({
+      "id": sub.id,
       "form": form_name, 
       "submission_date": sub.submitted_at, 
       "results": "", 
       "scheduled_deletion": sub.submitted_at.replace(year = deletion_year, month=deletion_month, day=deletion_day)
     })
 
+    unique_form_names = []
+    for sub in formatted_submissions:
+      if sub['form'] not in unique_form_names:
+        unique_form_names.append(sub['form'])
 
   return {
     'nav_section': 'clients',
@@ -69,5 +74,5 @@ def make_context(client_id: str) -> dict[str, Any]:
     'access_expiry_date': access_expiry_date, 
     'access_status': access_status,
     'submissions': formatted_submissions, 
-    'form_submissions_filter_options': list(dict.fromkeys(x.form_name for x in formatted_submissions))
+    'form_submissions_filter_options': unique_form_names
   }

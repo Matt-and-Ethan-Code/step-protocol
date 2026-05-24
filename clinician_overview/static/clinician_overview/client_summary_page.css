@@ -6,6 +6,10 @@
   'opsz' 24
 }
 
+.flex-space-between {
+    justify-content: space-between;
+}
+
 .centered-flex-container {
     display: flex;
     align-items: center;
@@ -160,4 +164,8 @@ header a:hover .link-text {
 
 .bottom-margin {
     margin-bottom: 1em;
+}
+
+.hide-when-no-rows-selected {
+    display: none;
 }

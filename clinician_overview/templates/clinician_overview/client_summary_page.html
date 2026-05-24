@@ -67,14 +67,14 @@
                     </thead>
                     <tbody>
                         <tr class="etable-row">
-                            <th class="etable-cell">
+                            <td class="etable-cell">
                                 {% if screening %}
                                     <span class="etable-cell-pill bluish-pill"> {{screening}} </span>
                                 {% else %} 
                                     <span class="etable-cell-pill grey-pill">Not Submitted</span>
                                 {% endif %}
-                            </th>
-                            <th class="etable-cell">
+                            </td>
+                            <td class="etable-cell">
                                 {% if pre_intervention_measures %}
                                     <span class="etable-cell-pill bluish-pill">
                                         {{pre_intervention_measures}} 
@@ -84,8 +84,8 @@
                                         Not Submitted
                                     </span>
                                 {% endif %}
-                            </th>
-                            <th class="etable-cell">
+                            </td>
+                            <td class="etable-cell">
                                 {% if post_intervention_measures %}
                                     {{post_intervention_measures}} 
                                 {% else %} 
@@ -93,8 +93,8 @@
                                         Not Submitted
                                     </span>
                                 {% endif %}
-                            </th>
-                            <th class="etable-cell">
+                            </td>
+                            <td class="etable-cell">
                                 {% if feedback_form %}
                                     {{feedback_form}} 
                                 {% else %} 
@@ -103,7 +103,7 @@
                                     </span>
                                     
                                 {% endif %}
-                            </th>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -122,9 +122,9 @@
                     </thead>
                     <tbody>
                         <tr class="etable-row">
-                            <th class="etable-cell">{{access_status}}</th>
-                            <th class="etable-cell">{{access_renewed_date}}</th>
-                            <th class="etable-cell">{{access_expiry_date}}</th>
+                            <td class="etable-cell">{{access_status}}</td>
+                            <td class="etable-cell">{{access_renewed_date}}</td>
+                            <td class="etable-cell">{{access_expiry_date}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -156,44 +156,47 @@
                 </select>
 
             </div>
-            <div class="centered-flex-container" id="submissions-controls" style="display:none;">
+            <div class="centered-flex-container flex-space-between" id="submissions-controls">
                 <div class="centered-flex-container">
-                    <span id="selected-counter">
-                        0
-                    </span>
-                    selected
+                    <div class="centered-flex-container hide-when-no-rows-selected">
+                        <span id="selected-counter">
+                            0
+                        </span>
+                        selected
+                    </div>
+                    <div class="centered-flex-container hide-when-no-rows-selected" onclick="deleteListener()">
+                        <span class="material-symbols-outlined material-tags-control-badge">
+                            delete
+                        </span>
+                        Delete
+                    </div>
                 </div>
-                <div class="centered-flex-container">
+
+                <div class="centered-flex-container" onclick="downloadRowsListener()">
                     <span class="material-symbols-outlined material-tags-control-badge">
                         file_export
                     </span>
                     Export
-                </div>
-                <div class="centered-flex-container">
-                    <span class="material-symbols-outlined material-tags-control-badge">
-                        delete
-                    </span>
-                    Delete
                 </div>
             </div>
             <table class="etable" id="submissions-table">
                 <thead>
                     <tr class="etable-header-row">
                         <th class="etable-header-cell"></th>
-                        <th class="etable-header-cell">Form</th>
-                        <th class="etable-header-cell">Submission Date</th>
-                        <th class="etable-header-cell">Results</th>
-                        <th class="etable-header-cell">Scheduled Deletion</th>
+                        <th class="etable-header-cell data-cell">Form</th>
+                        <th class="etable-header-cell data-cell">Submission Date</th>
+                        <th class="etable-header-cell data-cell">Results</th>
+                        <th class="etable-header-cell data-cell">Scheduled Deletion</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for submission in submissions %}
                         <tr class="etable-row" data-form="{{ submission.form }}" data-id="{{submission.id}}">
-                            <th class="etable-cell"><input type="checkbox" onclick="handleSubmissionSelect()"></th>
-                            <th class="etable-cell">{{submission.form}}</th>
-                            <th class="etable-cell">{{submission.submission_date}}</th>
-                            <th class="etable-cell">{{submission.results}}</th>
-                            <th class="etable-cell">{{submission.scheduled_deletion}}</th>
+                            <td class="etable-cell"><input type="checkbox" onclick="handleSubmissionSelect()"></td>
+                            <td class="etable-cell data-cell">{{submission.form}}</td>
+                            <td class="etable-cell data-cell">{{submission.submission_date}}</td>
+                            <td class="etable-cell data-cell">{{submission.results}}</td>
+                            <td class="etable-cell data-cell">{{submission.scheduled_deletion}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -202,16 +205,124 @@
     </div>
 </div>
 <script>
-    const handleSubmissionSelect = () => {
+
+    /**
+     * Fires whenever the "X selected" value needs to update.
+     * Wiil fire when:
+     *  - rows are selected / deselected
+     *  - rows are deleted
+     * 
+     * Since the selected count also determines whether Delete is visible (and the counter), 
+     * their visibility also gets adjusted flexibly.
+     * 
+     * newSelectedCount: integer, the updated count of selected rows (should be zero or two)
+    */
+    const updateSelectedCounter = (newSelectedCount) => {
         const selectedCounter = document.getElementById("selected-counter");
-        const rowSelectNavBar = document.getElementById("submissions-controls");
-        const checkboxes = document.querySelectorAll("#submissions-table input[type='checkbox']:checked")
-        if (checkboxes.length == 0) {
-            rowSelectNavBar.style.display = "none";
-        } else {
-            rowSelectNavBar.style.display = "flex";
-            selectedCounter.textContent = checkboxes.length;
+        if (selectedCounter) {
+            selectedCounter.textContent = newSelectedCount;
         }
+
+        const hiddenControls = Array.from(document.querySelectorAll('.hide-when-no-rows-selected'));
+        if (newSelectedCount === 0) {
+            for (const control of hiddenControls) {
+                control.style.display = 'none';
+            }
+        } else {
+            for (const control of hiddenControls) {
+                control.style.display = "flex";
+            }
+        }
+    }
+
+    const deleteListener = async () => {
+        // parse the client identifier from the URL
+        const urlSections = window.location.pathname.split('/');
+        // the client identifier will be the last section of the url path -- extract it
+        const clientIdentifier = urlSections[urlSections.length - 1];
+
+        const selectedRows = Array.from(document.querySelectorAll('#submissions-table .etable-row:has(input:checked)'));
+        const selectedIds = []
+        for (const row of selectedRows) {
+            const thisRowID = row.dataset.id;
+            selectedIds.push(Number.parseInt(thisRowID));
+        }
+
+        const response = await fetch(`/clinician/clients/${clientIdentifier}/delete-submissions`, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",  // Django requires this for POST
+            },
+            body: JSON.stringify({ responses: selectedIds })
+        });
+
+        const result = await response.json();
+        //  if the deletion was successful, hide the rows
+        if (result.success) {
+            // hide each row
+            for (const row of selectedRows) {
+                row.remove();
+            }
+
+            // update the selected count
+            // set the new coount of updated rows to 0
+            updateSelectedCounter(0);
+        }
+
+    }
+
+    /** 
+     * Fires when the user signals that they want to download a CSV with submission results.
+     * If they selected rows: those rows will be exported.
+     * If they didn't select anything: all rows will be downloaded.
+    */
+    const downloadRowsListener = async () => {
+        // parse the client identifier from the URL
+        const urlSections = window.location.pathname.split('/');
+        // the client identifier will be the last section of the url path -- extract it
+        const clientIdentifier = urlSections[urlSections.length - 1];
+
+        const headerRow = document.querySelector('#submissions-table .etable-header-row');
+        // get the text of each header, filtering out empty header (the column containing checkboxes)
+        const headers = Array.from(headerRow.querySelectorAll('th.data-cell')).map((el) => el.textContent)
+        
+        // find the rows in the table that have a checked checkbox in them
+        const selectedRows = Array.from(document.querySelectorAll('#submissions-table .etable-row:has(input:checked)'));
+        const allRows = Array.from(document.querySelectorAll('#submissions-table .etable-row'));
+
+        // if the user didn't select anything, export all rows
+        const exportedRows = selectedRows.length === 0 ? allRows : selectedRows;
+        let rowsData = [];
+        for (const row of exportedRows) {
+            const thisRowData = Array.from(row.querySelectorAll('td.data-cell')).map((el) => el.textContent);
+            rowsData.push(thisRowData)
+        }
+
+
+        const response = await fetch(`/clinician/clients/${clientIdentifier}/export`, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",  // Django requires this for POST
+            },
+            body: JSON.stringify({ headers: headers, rows: rowsData })
+        });
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "export.csv";
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    const handleSubmissionSelect = () => {
+        const checkboxes = document.querySelectorAll("#submissions-table input[type='checkbox']:checked")
+        updateSelectedCounter(checkboxes.length);
     }
 
     const sortRowsSeverity = (a, b) => {
@@ -323,7 +434,6 @@
         // the client identifier will be the last section of the url path -- extract it
         const clientIdentifier = urlSections[urlSections.length - 1];
 
-        console.log("alltags: ", allTags);
         const response = await fetch(`/clinician/clients/${clientIdentifier}/save-tags`, {
             method: "POST",
             credentials: "same-origin",
