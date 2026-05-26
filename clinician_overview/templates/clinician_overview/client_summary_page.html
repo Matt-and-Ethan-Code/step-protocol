@@ -156,7 +156,7 @@
                 </select>
 
             </div>
-            <div class="centered-flex-container flex-space-between" id="submissions-controls">
+            <div class="centered-flex-container flex-space-between clickable-div" id="submissions-controls">
                 <div class="centered-flex-container">
                     <div class="centered-flex-container hide-when-no-rows-selected">
                         <span id="selected-counter">
@@ -164,7 +164,7 @@
                         </span>
                         selected
                     </div>
-                    <div class="centered-flex-container hide-when-no-rows-selected" onclick="deleteListener()">
+                    <div class="centered-flex-container hide-when-no-rows-selected clickable-div" onclick="deleteListener()">
                         <span class="material-symbols-outlined material-tags-control-badge">
                             delete
                         </span>
@@ -172,7 +172,7 @@
                     </div>
                 </div>
 
-                <div class="centered-flex-container" onclick="downloadRowsListener()">
+                <div class="centered-flex-container clickable-div" onclick="downloadRowsListener()">
                     <span class="material-symbols-outlined material-tags-control-badge">
                         file_export
                     </span>
@@ -193,7 +193,7 @@
                     {% for submission in submissions %}
                         <tr class="etable-row" data-form="{{ submission.form }}" data-id="{{submission.id}}">
                             <td class="etable-cell"><input type="checkbox" onclick="handleSubmissionSelect()"></td>
-                            <td class="etable-cell data-cell">{{submission.form}}</td>
+                            <td class="etable-cell data-cell"><a href="/clinician/response/{{submission.id}}">Testing</a>{{submission.form}}</td>
                             <td class="etable-cell data-cell">{{submission.submission_date}}</td>
                             <td class="etable-cell data-cell">{{submission.results}}</td>
                             <td class="etable-cell data-cell">{{submission.scheduled_deletion}}</td>
@@ -235,6 +235,7 @@
         }
     }
 
+    // listener to delete a submission (row of data) (or several) from the client
     const deleteListener = async () => {
         // parse the client identifier from the URL
         const urlSections = window.location.pathname.split('/');
@@ -369,107 +370,6 @@
                 row.style.display = "table-row";
             }
         }
-    }
-
-    // add ability to edit tags
-    const addDiv = document.getElementById("add-tag-controls-container");
-    const editDiv = document.getElementById("edit-tags-container");
-    const clientHeader = document.getElementById("client-header-container");
-
-    // function that should fire when the tags are being edited and a tag gets deleted
-    const deleteEventListener = (button) => {
-        // delete the parent
-        button.parentElement.remove();
-    }
-
-    // function to add a tag when the tags are being edited
-    const addTagListener = () => {
-        const tagsContainer = document.getElementById("tags-list-container");
-        // get enetered value
-        const addTag = document.getElementById("add-tag-input");
-        const eneteredValue = addTag?.value;
-
-        // clear out the input
-        addTag.value = "";
-
-        // create the new tag pill
-        const newTag = document.createElement('span');
-
-        // create the delete button and hook up the event listener
-        const deleteButtonSpan = document.createElement("span");
-        deleteButtonSpan.classList.add("material-symbols-outlined", "delete-icon");
-        deleteButtonSpan.textContent = "close";
-        deleteButtonSpan.addEventListener("click", (_) => deleteEventListener(deleteButtonSpan));
-
-        newTag.classList.add("client-tag", "white-tag-pill");
-        newTag.textContent = eneteredValue;
-        newTag.appendChild(deleteButtonSpan);
-        tagsContainer.appendChild(newTag);
-    }
-
-    const saveTagsListener = async () => {
-        const saveButton = document.getElementById("save-tags-button");
-
-        // hide the delete buttons
-        const deleteIcons = Array.from(document.getElementsByClassName("delete-icon"));
-        deleteIcons.forEach((el) => el.remove());
-
-        // hide the new tag input
-        const newTagInputDiv = document.getElementById("add-tag-input-container");
-        const newTagInput = document.getElementById("add-tag-input");
-        newTagInput.value = "";
-        newTagInputDiv.display = "none";
-
-        editDiv.style.display = "flex";
-        addDiv.style.display = "none";
-
-        // call the endpoint to save tags
-        const allTagElements = document.querySelectorAll(".client-tag");
-        let allTags = Array.from(allTagElements).map((el) => el.textContent);
-
-        allTags = allTags.filter((el) => el);
-
-        // parse the client identifier from the URL
-        const urlSections = window.location.pathname.split('/');
-        // the client identifier will be the last section of the url path -- extract it
-        const clientIdentifier = urlSections[urlSections.length - 1];
-
-        const response = await fetch(`/clinician/clients/${clientIdentifier}/save-tags`, {
-            method: "POST",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": "{{ csrf_token }}",  // Django requires this for POST
-            },
-            body: JSON.stringify({ tags: allTags })
-        });
-
-        const result = await response.json();
-
-    }
-
-    const tagsContainer = document.getElementById("tags-list-container");
-    if (editDiv && clientHeader) {
-        editDiv.addEventListener("click", (_) => {
-            const editDivOriginal = document.getElementById("edit-tags-container");
-            if (editDivOriginal && clientHeader) {
-                // 1. display the add button
-                editDiv.style.display = "none";
-                addDiv.style.display = "flex";
-
-                // 2. add delete buttons to all the tags
-                const tags = Array.from(tagsContainer.getElementsByClassName("client-tag"));
-                tags.forEach((el) => {
-                    const deleteButton = document.createElement("span");
-                    deleteButton.classList.add("material-symbols-outlined", "delete-icon");
-                    deleteButton.textContent = "close";
-                    deleteButton.addEventListener("click", (_) => deleteEventListener(deleteButton));
-
-                    el.appendChild(deleteButton)
-                })
-
-            }
-        })
     }
 </script>
 {% endblock %}

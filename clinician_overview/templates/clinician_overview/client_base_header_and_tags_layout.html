@@ -1,0 +1,159 @@
+{% extends 'clinician_overview/clinician_base_layout.html' %}
+{% load static %}
+{% block title %} Clients {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'clinician_overview/client_summary_page.css' %}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+{% endblock %}
+
+
+{% block content %}
+<header>
+    <h2 class="tab-header">Clients</h2>
+    <a class="centered-flex-container" href="/clinician/clients">
+        <span class="material-symbols-outlined">
+            arrow_back_ios
+        </span>
+        <span class="link-text">
+            Back to all clients
+        </span>
+    </a>
+</header>
+<div id="client-data-container">
+    <div id="client-header-container" class="centered-flex-container">
+        <h1 id="client-id">
+            {{client_id}}
+        </h1>
+        <div id="tags-list-container">
+            {% for tag in client_tags %}
+                <span class="client-tag white-tag-pill">{{tag}}</span>
+            {% endfor %}
+        </div>
+        <div class="tags-control-button" id="edit-tags-container">
+            <span class="material-symbols-outlined material-tags-control-badge">
+                edit
+            </span>
+            <i>Edit Tags</i>
+        </div>
+        <div id="add-tag-controls-container" style="display: none;">
+            <div class="white-tag-pill" id="add-tag-input-container">
+                <input type="text" id="add-tag-input" placeholder="New Tag">
+                <span class="material-symbols-outlined" id="add-button" onclick="addTagListener()">
+                    add
+                </span>
+            </div>
+            <div class="tags-control-button" id="save-tags-button" onclick="saveTagsListener()">
+                <span class="material-symbols-outlined material-tags-control-badge">
+                    check
+                </span> 
+                <i>Save Tags</i>
+            </div>
+        </div>
+    </div>
+    {% block content %}
+    <p>placeholder</p>
+    {% endblock %}
+</div>
+<script>
+    // add ability to edit tags
+    const addDiv = document.getElementById("add-tag-controls-container");
+    const editDiv = document.getElementById("edit-tags-container");
+    const clientHeader = document.getElementById("client-header-container");
+
+    // function that should fire when the tags are being edited and a tag gets deleted
+    const deleteEventListener = (button) => {
+        // delete the parent
+        button.parentElement.remove();
+    }
+
+    // function to add a tag when the tags are being edited
+    const addTagListener = () => {
+        const tagsContainer = document.getElementById("tags-list-container");
+        // get enetered value
+        const addTag = document.getElementById("add-tag-input");
+        const eneteredValue = addTag?.value;
+
+        // clear out the input
+        addTag.value = "";
+
+        // create the new tag pill
+        const newTag = document.createElement('span');
+
+        // create the delete button and hook up the event listener
+        const deleteButtonSpan = document.createElement("span");
+        deleteButtonSpan.classList.add("material-symbols-outlined", "delete-icon");
+        deleteButtonSpan.textContent = "close";
+        deleteButtonSpan.addEventListener("click", (_) => deleteEventListener(deleteButtonSpan));
+
+        newTag.classList.add("client-tag", "white-tag-pill");
+        newTag.textContent = eneteredValue;
+        newTag.appendChild(deleteButtonSpan);
+        tagsContainer.appendChild(newTag);
+    }
+
+    const saveTagsListener = async () => {
+        const saveButton = document.getElementById("save-tags-button");
+
+        // hide the delete buttons
+        const deleteIcons = Array.from(document.getElementsByClassName("delete-icon"));
+        deleteIcons.forEach((el) => el.remove());
+
+        // hide the new tag input
+        const newTagInputDiv = document.getElementById("add-tag-input-container");
+        const newTagInput = document.getElementById("add-tag-input");
+        newTagInput.value = "";
+        newTagInputDiv.display = "none";
+
+        editDiv.style.display = "flex";
+        addDiv.style.display = "none";
+
+        // call the endpoint to save tags
+        const allTagElements = document.querySelectorAll(".client-tag");
+        let allTags = Array.from(allTagElements).map((el) => el.textContent);
+
+        allTags = allTags.filter((el) => el);
+
+        // parse the client identifier from the URL
+        const urlSections = window.location.pathname.split('/');
+        // the client identifier will be the last section of the url path -- extract it
+        const clientIdentifier = urlSections[urlSections.length - 1];
+
+        const response = await fetch(`/clinician/clients/${clientIdentifier}/save-tags`, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",  // Django requires this for POST
+            },
+            body: JSON.stringify({ tags: allTags })
+        });
+
+        const result = await response.json();
+
+    }
+
+    const tagsContainer = document.getElementById("tags-list-container");
+    if (editDiv && clientHeader) {
+        editDiv.addEventListener("click", (_) => {
+            const editDivOriginal = document.getElementById("edit-tags-container");
+            if (editDivOriginal && clientHeader) {
+                // 1. display the add button
+                editDiv.style.display = "none";
+                addDiv.style.display = "flex";
+
+                // 2. add delete buttons to all the tags
+                const tags = Array.from(tagsContainer.getElementsByClassName("client-tag"));
+                tags.forEach((el) => {
+                    const deleteButton = document.createElement("span");
+                    deleteButton.classList.add("material-symbols-outlined", "delete-icon");
+                    deleteButton.textContent = "close";
+                    deleteButton.addEventListener("click", (_) => deleteEventListener(deleteButton));
+
+                    el.appendChild(deleteButton)
+                })
+            }
+        })
+    }
+    
+</script>
+{% endblock %}
