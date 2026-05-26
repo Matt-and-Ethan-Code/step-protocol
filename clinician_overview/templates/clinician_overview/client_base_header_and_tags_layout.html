@@ -1,6 +1,5 @@
 {% extends 'clinician_overview/clinician_base_layout.html' %}
 {% load static %}
-{% block title %} Clients {% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'clinician_overview/client_summary_page.css' %}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
@@ -50,9 +49,11 @@
             </div>
         </div>
     </div>
-    {% block content %}
-    <p>placeholder</p>
-    {% endblock %}
+    <div id="client-data-body">
+        {% block client-data %}
+            <p>placeholder</p>
+        {% endblock %}
+    </div>
 </div>
 <script>
     // add ability to edit tags
@@ -154,6 +155,6 @@
             }
         })
     }
-    
+
 </script>
 {% endblock %}

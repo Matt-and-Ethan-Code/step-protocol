@@ -32,7 +32,7 @@ header a:hover .link-text {
     text-decoration: underline;
 }
 
-#client-summary-body {
+#client-data-body {
     background-color: white;
     padding: 0 20px 40px;
 }
