@@ -17,3 +17,4 @@ initial_screening/__pycache__/apps.cpython-312.pyc
 settings.ini
 *~
 \#*\#
+.DS_Store

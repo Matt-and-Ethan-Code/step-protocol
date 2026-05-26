@@ -1,5 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
+
+from clinician_overview.util import client_id
 from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question, FormMembership
 from ..intake_forms import QuestionnaireForm
 from django.db.models.query import QuerySet
@@ -9,6 +11,7 @@ import initial_screening.scoring as scoring
 from typing import Any, cast
 from clinician_overview.models import Client
 import random
+from clinician_overview.util import access as access_module
 from dataclasses import dataclass
 @dataclass
 class AnswersDict:
@@ -127,7 +130,20 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             # get the user identifier -- at this point it should exist
             user_identifier = request.session.get('unique_identifier')
 
-            client = None
+            client: Client | None = client_id.client_id_exists(str(user_identifier))
+
+            if not client:
+                return render(request, 'initial_screening/client_does_not_exist.html')
+            
+            if request.user.is_authenticated:
+                user = cast(User, request.user)
+                has_access = access_module.has_access(user, client)
+
+                if not has_access:
+                    return render(request, 'initial_screening/client_does_not_have_permission.html')
+            else:
+                print("NOT AUTHENTICATED??")
+                    
 
             # check if a client id exists yet
             try:
