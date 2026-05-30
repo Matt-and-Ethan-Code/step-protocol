@@ -41,7 +41,7 @@ def create_client_id(req: HttpRequest) -> HttpResponse:
   if duration_in_days <= 0: return HttpResponseBadRequest()
   
 
-  if not client_id.is_valid(requested_new_client_id) or client_id.client_id_exists(requested_new_client_id):
+  if not client_id.is_valid(requested_new_client_id) or client_id.find(requested_new_client_id):
     return HttpResponseBadRequest() # 405
   
 

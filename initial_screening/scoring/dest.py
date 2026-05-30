@@ -1,3 +1,7 @@
+"""
+Use this: https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781118093146.app1
+"""
+
 from dataclasses import dataclass
 from typing import Literal
 from .dest_types import DesTQuestion, DesTForm

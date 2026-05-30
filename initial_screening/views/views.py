@@ -130,19 +130,10 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             # get the user identifier -- at this point it should exist
             user_identifier = request.session.get('unique_identifier')
 
-            client: Client | None = client_id.client_id_exists(str(user_identifier))
+            client: Client | None = client_id.find(str(user_identifier))
 
-            if not client:
+            if not client: # quit early if it doesnt exist
                 return render(request, 'initial_screening/client_does_not_exist.html')
-            
-            if request.user.is_authenticated:
-                user = cast(User, request.user)
-                has_access = access_module.has_access(user, client)
-
-                if not has_access:
-                    return render(request, 'initial_screening/client_does_not_have_permission.html')
-            else:
-                print("NOT AUTHENTICATED??")
                     
 
             # check if a client id exists yet
