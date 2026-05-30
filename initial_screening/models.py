@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import ForeignKey
-from clinician_overview.models import ClientId
+from clinician_overview.models import Client
 
 class Form(models.Model):
     """
@@ -62,7 +62,7 @@ class QuestionnaireResponse(models.Model):
     -   Does not contain what the user entered
     -   To see what the user entered: see ResponseItem
     """
-    user_identifier = ForeignKey(ClientId, on_delete=models.CASCADE) #models.CharField(max_length=300, null=True, blank=True)
+    user_identifier = ForeignKey(Client, on_delete=models.CASCADE) #models.CharField(max_length=300, null=True, blank=True)
     form = ForeignKey(Form, on_delete=models.CASCADE)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     submitted_at = models.DateTimeField(auto_now_add=True)
