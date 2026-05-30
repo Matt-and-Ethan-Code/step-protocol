@@ -1,5 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
+
+from clinician_overview.util import client_id
 from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question, FormMembership
 from ..intake_forms import QuestionnaireForm
 from django.db.models.query import QuerySet
@@ -7,8 +9,9 @@ from django.contrib.auth.models import User
 from ..scoring import DesTForm, Dass21Form, GSEForm, ItqForm, Pcl5Form, DesTResponse, DesTQuestion, Dass21Question, Dass21Response, Pcl5Question, Pcl5Response
 import initial_screening.scoring as scoring
 from typing import Any, cast
-from clinician_overview.models import ClientId
+from clinician_overview.models import Client
 import random
+from clinician_overview.util import access as access_module
 from dataclasses import dataclass
 @dataclass
 class AnswersDict:
@@ -127,13 +130,17 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             # get the user identifier -- at this point it should exist
             user_identifier = request.session.get('unique_identifier')
 
-            client = None
+            client: Client | None = client_id.find(str(user_identifier))
+
+            if not client: # quit early if it doesnt exist
+                return render(request, 'initial_screening/client_does_not_exist.html')
+                    
 
             # check if a client id exists yet
             try:
                 # look up the ClientId table on user identifier
-                client = ClientId.objects.get(client_id=user_identifier)
-            except ClientId.DoesNotExist:
+                client = Client.objects.get(client_id=user_identifier)
+            except Client.DoesNotExist:
 
                 # if objects.get fails, ClientId.DoesNotExist gets thrown
                 # must create ClientId
@@ -151,7 +158,7 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
 
                         # create a new client id if not exists
                         # using default values
-                        client = ClientId.objects.create(
+                        client = Client.objects.create(
                             client_id=user_identifier, 
                             clinician=clinician,
                             is_active=True, 

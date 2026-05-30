@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.decorators import login_required
-from clinician_overview.models import ClientId
+from clinician_overview.models import Client
 from initial_screening.models import FormMembership, QuestionnaireResponse
 #from initial_screening.models import QuestionnaireResponse
 
@@ -23,7 +23,7 @@ def notifications_page(req: HttpRequest) -> HttpResponse:
 
 def get_submissions(user: AbstractBaseUser) -> list[ViewNotification]: 
   # get all clients for this user
-  clients = ClientId.objects.filter(clinician=user)
+  clients = Client.objects.filter(clinician=user)
   notifications: list[ViewNotification] = []
   for client in clients:
     # get all responses where the client selected this clinician
