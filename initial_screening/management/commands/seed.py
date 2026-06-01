@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand 
 from django.core.management import call_command
-from initial_screening.models import Questionnaire, QuestionBlock, Question, AnswerOption
+from initial_screening.models import Form, FormMembership, Questionnaire, QuestionBlock, Question, AnswerOption
 from typing import Any
 
 class Command(BaseCommand):
@@ -11,6 +11,8 @@ class Command(BaseCommand):
         Question.objects.all().delete()
         QuestionBlock.objects.all().delete()
         Questionnaire.objects.all().delete()
+        Form.objects.all().delete()
+        FormMembership.objects.all().delete()
 
         self.stdout.write("Deleted all old data.")
         

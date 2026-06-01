@@ -40,12 +40,11 @@ def create_client_id(req: HttpRequest) -> HttpResponse:
 
   if duration_in_days <= 0: return HttpResponseBadRequest()
   
-
-  if not client_id.is_valid(requested_new_client_id) or client_id.find(requested_new_client_id):
+  user = cast(User, req.user)
+  if not client_id.is_valid(requested_new_client_id) or client_id.find(requested_new_client_id, clinician=user) is not None:
     return HttpResponseBadRequest() # 405
   
 
-  user = cast(User, req.user)
   # insert the new id
   new_client_id = Client(client_id=requested_new_client_id, clinician=user ,is_active=True)
   new_client_id.save()

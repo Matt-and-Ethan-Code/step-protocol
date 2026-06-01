@@ -1,6 +1,6 @@
 from django.http import HttpRequest
 from django.shortcuts import render
-import initial_screening.scoring as scoring
+import clinician_overview.scoring as scoring
 from typing import Any
 
 def pcl5_sample() -> scoring.Pcl5Form:

@@ -3,7 +3,30 @@
 {% block title %} Client Response {% endblock %}
 
 {% block client-data %}
+<h2>
+{{questionnaire_title}}
+</h2>
 <span>
-  Testing!
+  {{html_result_display}}
 </span>
+<table class="etable">
+  <thead>
+    <tr class="etable-header-row">
+      <th class="etable-header-cell">Question</th>
+      <th class="etable-header-cell">Response</th>
+    </tr>
+  </thead>
+  {% for item in response_items %}
+  <tr class="etable-row">
+    <td class="etable-cell">{{item.question.text}}</td>
+    <td class="etable-cell">
+      {% if item.answerID %}
+        {{item.answerID.text}}
+      {% else %}
+        {{item.answer}}
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
 {% endblock %}

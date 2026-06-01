@@ -1,5 +1,5 @@
 from django.http import HttpRequest
-import initial_screening.scoring as scoring
+import clinician_overview.scoring as scoring
 from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import render
 from django.template.loader import render_to_string
@@ -14,7 +14,7 @@ def dass21_email(request: HttpRequest):
             subject="ITQ Test",
             to=['email@email.com']
         )
-        itq_html_body = render_to_string("initial_screening/itq_email.html", itq_email_template_context("My id", "This is my troubling experience", sample_response()))
+        itq_html_body = render_to_string("initial_screening/itq_email.html", itq_results_template_context("My id", "This is my troubling experience", sample_response()))
         itq_email.attach_alternative(itq_html_body, "text/html")
         itq_email.send(fail_silently=False)
     if False:

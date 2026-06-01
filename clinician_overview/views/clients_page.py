@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
-from typing import Any
 from clinician_overview.models import Client
 from dataclasses import dataclass
 from datetime import date

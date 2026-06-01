@@ -21,6 +21,27 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='Questionnaire',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=300, unique=True)),
+                ('citation', models.TextField(blank=True)),
+                ('description', models.TextField(blank=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='FormMembership',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('order', models.PositiveBigIntegerField(default=0)),
+                ('form', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='initial_screening.form')),
+                ('questionnaire', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='initial_screening.questionnaire')),
+            ],
+            options={
+                'unique_together': {('questionnaire', 'form')},
+            },
+        ),
+        migrations.CreateModel(
             name='Question',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -44,15 +65,6 @@ class Migration(migrations.Migration):
             options={
                 'ordering': ['order'],
             },
-        ),
-        migrations.CreateModel(
-            name='Questionnaire',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=300, unique=True)),
-                ('citation', models.TextField(blank=True)),
-                ('description', models.TextField(blank=True)),
-            ],
         ),
         migrations.CreateModel(
             name='AnswerOption',
@@ -97,17 +109,5 @@ class Migration(migrations.Migration):
                 ('question', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='initial_screening.question')),
                 ('response', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='initial_screening.questionnaireresponse')),
             ],
-        ),
-        migrations.CreateModel(
-            name='FormMembership',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('order', models.PositiveBigIntegerField(default=0)),
-                ('form', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='initial_screening.form')),
-                ('questionnaire', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='initial_screening.questionnaire')),
-            ],
-            options={
-                'unique_together': {('questionnaire', 'form')},
-            },
-        ),
+        )
     ]

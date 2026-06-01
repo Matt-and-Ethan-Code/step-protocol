@@ -13,11 +13,11 @@ urlpatterns = [
   path('notifications', notifications_page, name='notifications'),
   path('clients', clients_page, name='clients'),
   path('measures', measures_page, name='measures'),
+  path('clients/<str:client_id>/response/<str:questionnaire_response_id>', questionnaire_response_page),
   path('clients/<str:client_id>/save-tags', save_tags_route, name='save_tags'),
   path('clients/<str:client_id>/export', export_csv_route,name="export"),
   path('clients/<str:client_id>/delete-submissions', delete_responses_route),
   path('clients/<str:client_id>', client_summary_page, name='client_summary'),
-  path('clients/<str:client_id>/response/<str:questionnaire_response_id>', questionnaire_response_page),
   path('clinician-required', not_clinician_page),
   path('<str:client_id>', client_responses_page),
   

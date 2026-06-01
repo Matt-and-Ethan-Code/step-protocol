@@ -1,0 +1,44 @@
+<p style="margin-bottom:0">  
+    <span style="font-weight:bold">
+        Results:
+    </span>
+    {% if DEST.significant %}
+        Dissociative experiences are within an elevated range. Priority review is required.
+    {% else %}
+        Dissociative experiences are within the expected range.
+    {% endif %}
+</p>
+<p style="margin-top:0.5em;">
+    <span style="font-weight:bold">
+        Score: 
+    </span>
+    {{DEST.score}}
+</p>
+<br>
+
+<i>
+    The information below is intended for clinician guidance only and does not constitute a diagnosis or treatment directive. Final decisions about participant suitability for STEP interventions should be made using professional judgment, taking into account each participant’s unique circumstances and needs along with scores on mental health measures.
+</i>
+
+<br>
+<ul style="padding-top: 1rem;">
+    <li>
+        <b>
+            Scores 19 or below:
+        </b>
+        Dissociative experiences are within the expected range. These scores generally indicate that participation in the standard STEP protocol would be appropriate, but clinicians should confirm suitability based on individual factors.
+    </li>
+    <li>
+        <b>
+            Scores 20-34:
+        </b>
+        Indicate elevated dissociative experiences; participants may benefit from additional support or individualized guidance
+    </li>
+    <li>
+        <b>
+            Scores 35 or above:
+        </b>
+        Indicate pronounced or significant dissociative experiences. These scores may warrant a more comprehensive assessment to determine the most appropriate intervention or therapeutic approach.
+    </li>
+</ul>
+</div>
