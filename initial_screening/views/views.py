@@ -117,7 +117,7 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             # get the user identifier -- at this point it should exist
             user_identifier = request.session.get('unique_identifier')
 
-            client: Client | None = client_id.find(str(user_identifier))
+            client: Client | None = Client.objects.filter(client_id=user_identifier).first()
 
             if not client: # quit early if it doesnt exist
                 return render(request, 'initial_screening/client_does_not_exist.html')
