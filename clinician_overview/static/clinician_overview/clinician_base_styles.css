@@ -126,3 +126,29 @@ footer {
     }
   }
 }
+
+.page-white-background {
+    background-color: white;
+    padding-bottom: 30px;
+}
+
+.etable-cell-pill {
+    border-radius: 50px;
+    padding: 4px 8px;
+}
+
+.bluish-pill {
+    border-radius: 50px;
+    background-color: color-mix(in srgb, var(--bluish) 60%, transparent);
+}
+
+select {
+    padding: 7px;
+    background-color: white;
+    border: 1px solid rgb(207, 212, 216);
+    border-radius: 2px;
+    box-sizing: border-box;
+    height: 40px;
+    color: rgb(75, 53, 28);
+    line-height: 1.4em;
+}

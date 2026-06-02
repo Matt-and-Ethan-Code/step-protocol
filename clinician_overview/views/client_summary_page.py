@@ -9,6 +9,9 @@ from clinician_overview.models import AccessGrant, Client
 from initial_screening.models import QuestionnaireResponse, FormMembership
 import calendar
 
+import clinician_overview.util.get_client_information as get_client_information
+from clinician_overview.util.get_client_information import ViewClientInfo
+
 class SubmissionSummary(TypedDict):
     id: int
     form: str
@@ -31,19 +34,9 @@ def get_form_completion_date_for_client(client_id: Client, form_id: int)  -> dat
 def make_context(client_id: str) -> dict[str, Any]:
   try:
     client: Client = Client.objects.get(client_id=client_id)
-    client_tags: list[str] = client.tags
+    client_basic_information: ViewClientInfo = get_client_information.get_client_information(client_id)
 
-    screening_form_id = 1
-    feedback_form_id = 2 
-    pre_test_form_id = 3
-    post_test_form_id = 4 
     unique_form_names: list[str] = []
-
-    screening_date = get_form_completion_date_for_client(client, screening_form_id)
-    pre_intervention_date = get_form_completion_date_for_client(client, pre_test_form_id)
-    post_intervention_date = get_form_completion_date_for_client(client, post_test_form_id)
-    feedback_form_date = get_form_completion_date_for_client(client, feedback_form_id)
-
     access_grant = AccessGrant.objects.filter(client=client).first()
     if access_grant:
       access_renewed_date = access_grant.created_at
@@ -78,14 +71,16 @@ def make_context(client_id: str) -> dict[str, Any]:
         if sub['form'] not in unique_form_names:
           unique_form_names.append(sub['form'])
 
+    print("client_basic_information: ", client_basic_information) # Debug print statement
+
     return {
         'nav_section': 'clients',
         'client_id': client_id, 
-        'client_tags': client_tags, 
-        'screening': screening_date, 
-        'pre_intervention_measures': pre_intervention_date, 
-        'post_intervention_measures': post_intervention_date, 
-        'feedback_form':feedback_form_date, 
+        'client_tags': client_basic_information.tags, 
+        'screening': client_basic_information.screening_date, 
+        'pre_intervention_measures': client_basic_information.pre_intervention_measures_date, 
+        'post_intervention_measures': client_basic_information.post_intervention_measures_date, 
+        'feedback_form':client_basic_information.feedback_form_date, 
         'access_renewed_date': access_renewed_date, 
         'access_expiry_date': access_expiry_date, 
         'access_status': access_status,

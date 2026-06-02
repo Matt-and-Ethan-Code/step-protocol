@@ -123,19 +123,7 @@ header a:hover .link-text {
     padding: 8px 10px;
 }
 
-.etable-cell-pill {
-    border-radius: 50px;
-    padding: 4px 8px;
-}
 
-.grey-pill {
-    background-color: rgba(224, 224, 224, 1);
-}
-
-.bluish-pill {
-    border-radius: 50px;
-    background-color: color-mix(in srgb, var(--bluish) 60%, transparent);
-}
 
 .button-pill {
     border: none;
@@ -172,15 +160,4 @@ header a:hover .link-text {
 
 .hide-when-no-rows-selected {
     display: none;
-}
-
-select {
-    padding: 7px;
-    background-color: white;
-    border: 1px solid rgb(207, 212, 216);
-    border-radius: 2px;
-    box-sizing: border-box;
-    height: 40px;
-    color: rgb(75, 53, 28);
-    line-height: 1.4em;
 }
