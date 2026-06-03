@@ -1,11 +1,12 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
-from typing import Any
 from clinician_overview.models import Client
 from dataclasses import dataclass
 from datetime import date
-import clinician_overview.util.client_id as client_id
+import clinician_overview.util.client as client_id
 
+@login_required
 def clients_page(req: HttpRequest) -> HttpResponse:
   client_ids = Client.objects.all()
   client_infos: list[ViewClientInfo] = []

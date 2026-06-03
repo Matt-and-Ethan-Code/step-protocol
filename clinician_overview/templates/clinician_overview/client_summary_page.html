@@ -129,8 +129,12 @@
                     </tbody>
                 </table>
                 <div id="access-buttons-container">
-                    <button id="extend-access-button" class="etable-cell-pill button-pill">Extend Access</button>
-                    <button id="remove-access-button" class="etable-cell-pill button-pill">Remove Access</button>
+                  <button id="extend-access-button" class="etable-cell-pill button-pill">Extend Access</button>
+                  <form method="POST" action="/clinician/revoke-access">
+                    {% csrf_token %}
+                    <input type="hidden" name="client_id" value="{{client_id}}">
+                    <button type="submit" id="remove-access-button" class="etable-cell-pill button-pill">Remove Access</button>
+                    </form>
                 </div>
             </div>
         </div>

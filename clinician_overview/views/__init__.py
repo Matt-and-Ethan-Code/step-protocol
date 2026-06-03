@@ -7,3 +7,4 @@ from .clients_page import clients_page # type: ignore
 from .client_summary_page import client_summary_page # type: ignore
 from .measures_page import measures_page # type: ignore
 from .save_tags_route import save_tags_route # type: ignore
+from .client_summary_extras import revoke_access # type: ignore

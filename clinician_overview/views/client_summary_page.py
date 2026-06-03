@@ -1,21 +1,33 @@
+from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from typing import Any
 from datetime import date, datetime
-
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from clinician_overview.models import AccessGrant, Client
+from clinician_overview.util import client as clientm
 from clinician_overview.util import access
 from initial_screening.models import QuestionnaireResponse, FormMembership
 from datetime import date
 import calendar
+from typing import cast
 
+
+@login_required
 def client_summary_page(request: HttpRequest, client_id: str) -> HttpResponse:
-  ctx = make_context(client_id)
+  clinician: User = cast(User, request.user)
+  client: Client | None = clientm.find(client_id, clinician)
+  if not client:
+    return render(request, 'clinician_overview/client_not_found.html', { "client_id": client_id })
+
+  access_grant = access.has_access(clinician, client)
+  
+  ctx = make_context(client, access_grant)
   return render(request, 'clinician_overview/client_summary_page.html', context=ctx)
 
 def get_form_completion_date_for_client(client_id: Client, form_id: int)  -> datetime | None:
-  last_questionnaire = FormMembership.objects.filter(form_id = form_id).order_by("order").last()
+  last_questionnaire = FormMembership.objects.filter(form_id=form_id).order_by("order").last()
   if last_questionnaire:
     last_response = QuestionnaireResponse.objects.filter(user_identifier=client_id, form_id=form_id, questionnaire_id=last_questionnaire.questionnaire.id).order_by("submitted_at").last()
 
@@ -23,9 +35,8 @@ def get_form_completion_date_for_client(client_id: Client, form_id: int)  -> dat
     if last_response:
       return last_response.submitted_at
 
-def make_context(client_id: str) -> dict[str, Any]:
+def make_context(client: Client, maybe_access_grant: AccessGrant | None) -> dict[str, Any]:
   try:
-    client: Client = Client.objects.get(client_id=client_id)
     client_tags: list[str] = client.tags
 
     screening_form_id = 1
@@ -38,11 +49,14 @@ def make_context(client_id: str) -> dict[str, Any]:
     post_intervention_date = get_form_completion_date_for_client(client, post_test_form_id)
     feedback_form_date = get_form_completion_date_for_client(client, feedback_form_id)
 
-    access_grant = AccessGrant.objects.filter(client=client).first()
-    if access_grant:
+    access_renewed_date: datetime| None = None
+    access_expiry_date: datetime | None = None
+    access_status: str = ""
+    if maybe_access_grant:
+      access_grant: AccessGrant = maybe_access_grant
       access_renewed_date = access_grant.created_at
       access_expiry_date = access_grant.expires_at
-      access_status = "Expiring Soon" if access_expiry_date > timezone.now() else "Expired"
+      access_status = "Expiring Soon" if access_expiry_date and access_expiry_date > timezone.now() else "Expired"
     else:
       access_renewed_date = None
       access_expiry_date = None
@@ -70,7 +84,7 @@ def make_context(client_id: str) -> dict[str, Any]:
 
     return {
       'nav_section': 'clients',
-      'client_id': client_id, 
+      'client_id': client.client_id,
       'client_tags': client_tags, 
       'screening': screening_date, 
       'pre_intervention_measures': pre_intervention_date, 

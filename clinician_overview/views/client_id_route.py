@@ -4,7 +4,7 @@ from django.utils import timezone
 import django.forms as forms
 from typing import cast
 from clinician_overview.util.access import new_grant_until
-import clinician_overview.util.client_id as client_id
+import clinician_overview.util.client as client_id
 from clinician_overview.models import Client
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
@@ -39,13 +39,13 @@ def create_client_id(req: HttpRequest) -> HttpResponse:
     return HttpResponseBadRequest("duration must be int")
 
   if duration_in_days <= 0: return HttpResponseBadRequest()
-  
+  user = cast(User, req.user)
 
-  if not client_id.is_valid(requested_new_client_id) or client_id.find(requested_new_client_id):
+  if not client_id.is_valid(requested_new_client_id) or client_id.find(requested_new_client_id, user):
     return HttpResponseBadRequest() # 405
   
 
-  user = cast(User, req.user)
+
   # insert the new id
   new_client_id = Client(client_id=requested_new_client_id, clinician=user ,is_active=True)
   new_client_id.save()

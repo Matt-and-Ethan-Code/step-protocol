@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
 
-from clinician_overview.util import client_id
+from clinician_overview.util import client as client_id
 from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question, FormMembership
 from ..intake_forms import QuestionnaireForm
 from django.db.models.query import QuerySet

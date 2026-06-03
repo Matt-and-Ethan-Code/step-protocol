@@ -32,14 +32,13 @@ def find(client_id: str, clinician: User | str) -> Client | None:
   clinician may be the clinician user, or the clinician's email (the lookup back to the user table will be done)
   """
   clinician_user = _clinician_from_email_or_user(clinician)
-  
   # if the clinician doesn't exist, can't look up the client so quit
   if clinician_user is None:
     return None
 
   # now find the client associated to the clinician
   try:
-    existing_client = Client.objects.get(client_id=id, clinician=clinician_user)
+    existing_client = Client.objects.get(client_id=client_id, clinician=clinician_user)
     return existing_client
   except Client.DoesNotExist:
     return None
