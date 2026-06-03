@@ -3,7 +3,6 @@ from django.http import HttpRequest, HttpResponse
 import json
 
 def export_csv_route(request: HttpRequest, client_id:str) -> HttpResponse:
-    print("request: ", request.body)
     data = json.loads(request.body)
 
     response = HttpResponse(content_type="text/csv")

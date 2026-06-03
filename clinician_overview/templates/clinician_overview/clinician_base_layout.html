@@ -50,5 +50,88 @@
         <a href="https://www.prepped4learning.com">Prepped 4 Learning</a>
       </h4>
     </footer>
+    <script>
+      /**
+       * Fires whenever the "X selected" value needs to update.
+       * Wiil fire when:
+       *  - rows are selected / deselected
+       *  - rows are deleted
+       * 
+       * Since the selected count also determines whether Delete is visible (and the counter), 
+       * their visibility also gets adjusted flexibly.
+       * 
+       * newSelectedCount: integer, the updated count of selected rows (should be zero or two)
+      */
+      const updateSelectedCounter = (newSelectedCount) => {
+          const selectedCounter = document.getElementById("selected-counter");
+          if (selectedCounter) {
+              selectedCounter.textContent = newSelectedCount;
+          }
+
+          const hiddenControls = Array.from(document.querySelectorAll('.hide-when-no-rows-selected'));
+          if (newSelectedCount === 0) {
+              for (const control of hiddenControls) {
+                  control.style.display = 'none';
+              }
+          } else {
+              for (const control of hiddenControls) {
+                  control.style.display = "flex";
+              }
+          }
+      }
+
+
+      
+      const handleRowSelect = () => {
+          const checkboxes = document.querySelectorAll("#selectable-table input[type='checkbox']:checked")
+          updateSelectedCounter(checkboxes.length);
+      }
+
+      
+
+      // listener to delete a submission (row of data) (or several) from the client
+      const deleteListener = async (buildEndpointFunction) => {
+          // parse the client identifier from the URL
+          const urlSections = window.location.pathname.split('/');
+          // the client identifier will be the last section of the url path -- extract it
+          const clientIdentifier = urlSections[urlSections.length - 1];
+
+          const selectedRows = Array.from(document.querySelectorAll('#selectable-table .etable-row:has(input:checked)'));
+          const selectedIds = []
+          for (const row of selectedRows) {
+              const thisRowID = row.dataset.id;
+              selectedIds.push(Number.parseInt(thisRowID));
+          }
+
+          const endpoint = buildEndpointFunction(clientIdentifier);
+
+          const response = await fetch(endpoint, {
+              method: "POST",
+              credentials: "same-origin",
+              headers: {
+                  "Content-Type": "application/json",
+                  "X-CSRFToken": "{{ csrf_token }}",  // Django requires this for POST
+              },
+              body: JSON.stringify({ rows: selectedIds })
+          });
+
+          const result = await response.json();
+          //  if the deletion was successful, hide the rows
+          if (result.success) {
+              // hide each row
+              for (const row of selectedRows) {
+                  row.remove();
+              }
+
+              // update the selected count
+              // set the new coount of updated rows to 0
+              updateSelectedCounter(0);
+          }
+
+      }
+
+
+      
+    </script>
   </body>
 </html>

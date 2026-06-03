@@ -6,7 +6,6 @@ from clinician_overview.scoring.itq_dichotomous import ItqDichotomousScore
 from clinician_overview.scoring.pcl5_diagnostic import Pcl5Score
 
 def render_dest(score: DesTScore) -> str:
-  print("score: ", score)
   return render_to_string("clinician_overview/detailed_form_result_display/dest_results.html", {"DEST": score})
 
 def render_dass21(score: Dass21Score) -> str:

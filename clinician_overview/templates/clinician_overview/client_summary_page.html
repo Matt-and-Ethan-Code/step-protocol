@@ -87,7 +87,7 @@
             </div>
         </div>
     </div>
-    <div id="submissions-table">
+    <div id="selectable-table">
         <h2 class="table-header">
             Submissions
         </h2>
@@ -117,7 +117,7 @@
                     </span>
                     selected
                 </div>
-                <div class="centered-flex-container hide-when-no-rows-selected clickable-div" onclick="deleteListener()">
+                <div class="centered-flex-container hide-when-no-rows-selected clickable-div" onclick="deleteListener((identifier) => `/clinician/clients/${identifier}/delete-submissions`)">
                     <span class="material-symbols-outlined material-tags-control-badge">
                         delete
                     </span>
@@ -132,7 +132,7 @@
                 Export
             </div>
         </div>
-        <table class="etable" id="submissions-table">
+        <table class="etable">
             <thead>
                 <tr class="etable-header-row">
                     <th class="etable-header-cell"></th>
@@ -145,7 +145,7 @@
             <tbody>
                 {% for submission in submissions %}
                     <tr class="etable-row" data-form="{{ submission.form }}" data-id="{{submission.id}}">
-                        <td class="etable-cell"><input type="checkbox" onclick="handleSubmissionSelect()"></td>
+                        <td class="etable-cell"><input type="checkbox" onclick="handleRowSelect()"></td>
                         <td class="etable-cell data-cell"><a href="/clinician/clients/{{client_id}}/response/{{submission.id}}">Testing!!!!!</a>{{submission.form}}</td>
                         <td class="etable-cell data-cell">{{submission.submission_date}}</td>
                         <td class="etable-cell data-cell">{{submission.results}}</td>
@@ -159,74 +159,6 @@
 
 <script>
 
-    /**
-     * Fires whenever the "X selected" value needs to update.
-     * Wiil fire when:
-     *  - rows are selected / deselected
-     *  - rows are deleted
-     * 
-     * Since the selected count also determines whether Delete is visible (and the counter), 
-     * their visibility also gets adjusted flexibly.
-     * 
-     * newSelectedCount: integer, the updated count of selected rows (should be zero or two)
-    */
-    const updateSelectedCounter = (newSelectedCount) => {
-        const selectedCounter = document.getElementById("selected-counter");
-        if (selectedCounter) {
-            selectedCounter.textContent = newSelectedCount;
-        }
-
-        const hiddenControls = Array.from(document.querySelectorAll('.hide-when-no-rows-selected'));
-        if (newSelectedCount === 0) {
-            for (const control of hiddenControls) {
-                control.style.display = 'none';
-            }
-        } else {
-            for (const control of hiddenControls) {
-                control.style.display = "flex";
-            }
-        }
-    }
-
-    // listener to delete a submission (row of data) (or several) from the client
-    const deleteListener = async () => {
-        // parse the client identifier from the URL
-        const urlSections = window.location.pathname.split('/');
-        // the client identifier will be the last section of the url path -- extract it
-        const clientIdentifier = urlSections[urlSections.length - 1];
-
-        const selectedRows = Array.from(document.querySelectorAll('#submissions-table .etable-row:has(input:checked)'));
-        const selectedIds = []
-        for (const row of selectedRows) {
-            const thisRowID = row.dataset.id;
-            selectedIds.push(Number.parseInt(thisRowID));
-        }
-
-        const response = await fetch(`/clinician/clients/${clientIdentifier}/delete-submissions`, {
-            method: "POST",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": "{{ csrf_token }}",  // Django requires this for POST
-            },
-            body: JSON.stringify({ responses: selectedIds })
-        });
-
-        const result = await response.json();
-        //  if the deletion was successful, hide the rows
-        if (result.success) {
-            // hide each row
-            for (const row of selectedRows) {
-                row.remove();
-            }
-
-            // update the selected count
-            // set the new coount of updated rows to 0
-            updateSelectedCounter(0);
-        }
-
-    }
-
     /** 
      * Fires when the user signals that they want to download a CSV with submission results.
      * If they selected rows: those rows will be exported.
@@ -238,13 +170,13 @@
         // the client identifier will be the last section of the url path -- extract it
         const clientIdentifier = urlSections[urlSections.length - 1];
 
-        const headerRow = document.querySelector('#submissions-table .etable-header-row');
+        const headerRow = document.querySelector('#selectable-table .etable-header-row');
         // get the text of each header, filtering out empty header (the column containing checkboxes)
         const headers = Array.from(headerRow.querySelectorAll('th.data-cell')).map((el) => el.textContent)
         
         // find the rows in the table that have a checked checkbox in them
-        const selectedRows = Array.from(document.querySelectorAll('#submissions-table .etable-row:has(input:checked)'));
-        const allRows = Array.from(document.querySelectorAll('#submissions-table .etable-row'));
+        const selectedRows = Array.from(document.querySelectorAll('#selectable-table .etable-row:has(input:checked)'));
+        const allRows = Array.from(document.querySelectorAll('#selectable-table .etable-row'));
 
         // if the user didn't select anything, export all rows
         const exportedRows = selectedRows.length === 0 ? allRows : selectedRows;
@@ -274,10 +206,6 @@
         URL.revokeObjectURL(url);
     }
 
-    const handleSubmissionSelect = () => {
-        const checkboxes = document.querySelectorAll("#submissions-table input[type='checkbox']:checked")
-        updateSelectedCounter(checkboxes.length);
-    }
 
     const sortRowsSeverity = (a, b) => {
         const aVal = a.cells[3].textContent;
@@ -305,8 +233,8 @@
 
     // sort the submissions table
     const sortTable = (sortFunc) => {
-        const rows = Array.from(document.querySelectorAll("#submissions-table .etable-row"));
-        const table = document.querySelector("#submissions-table tbody");
+        const rows = Array.from(document.querySelectorAll("#selectable-table .etable-row"));
+        const table = document.querySelector("#selectable-table tbody");
         rows.sort(sortFunc);
 
         rows.forEach(row => table.appendChild(row));
@@ -315,7 +243,7 @@
     // filter the table when a form is selected
     const filterTable = () => {
         const selected = document.getElementById("form-filter-select").value;
-        const rows = document.querySelectorAll("#submissions-table .etable-row");
+        const rows = document.querySelectorAll("#selectable-table .etable-row");
         for (const row of rows) {
             if (selected && !(row.dataset.form == selected) ) {
                 row.style.display = "none";

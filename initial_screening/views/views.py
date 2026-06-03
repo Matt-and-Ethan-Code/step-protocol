@@ -203,8 +203,6 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             # it's safer to query for the next largest order in form membership
             # as opposed to the order represented by the next sequential integer
             next_questionnaire = FormMembership.objects.filter(form_id=form_id).filter(order__gt=this_relationship.order).order_by('order').first()
-            print("next questionnaire: ", next_questionnaire)
-
 
             # check if the next questionnaire was found
             if next_questionnaire:

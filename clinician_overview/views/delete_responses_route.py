@@ -5,7 +5,7 @@ import json
 
 def delete_responses_route(request: HttpRequest, client_id:str) -> JsonResponse:
     data = json.loads(request.body)
-    delete_responses = data.get('responses')
+    delete_responses = data.get('rows')
 
     if delete_responses is None:
         return JsonResponse({'error': 'Provide responses to delete.'}, status=400)

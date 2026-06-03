@@ -18,7 +18,6 @@ class ViewNotification:
 def notifications_page(req: HttpRequest) -> HttpResponse:
   assert isinstance(req.user, AbstractBaseUser)
   submissions = get_submissions(req.user)
-  print("submissions: ", submissions, "user: ", req.user, "clients: ", Client.objects.all().values())
   ctx = make_context(submissions)
   return render(req, 'clinician_overview/notifications_page.html', context=ctx)
 

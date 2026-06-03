@@ -6,18 +6,7 @@
   'opsz' 24
 }
 
-.clickable-div, a {
-    cursor: pointer;
-}
 
-.flex-space-between {
-    justify-content: space-between;
-}
-
-.centered-flex-container {
-    display: flex;
-    align-items: center;
-}
 
 header {
     margin-bottom: 0;
@@ -73,20 +62,6 @@ header a:hover .link-text {
     cursor: pointer;
 }
 
-.material-symbols-outlined.material-tags-control-badge {
-    display: inline;
-    background-color: white;
-    border-radius: 100px;
-    height: 20px;
-    width: 20px;
-    line-height: 20px;
-    font-size: 20px;
-    padding: 5px;
-    color: var(--bluish);
-    display: inline-flex;
-    cursor: pointer;
-    margin-right: 5px;
-}
 
 .delete-icon {
     cursor: pointer;
@@ -103,7 +78,7 @@ header a:hover .link-text {
     gap: 40px;
 }
 
-#overview-tables-container .etable, #submissions-table .etable {
+#overview-tables-container .etable, #selectable-table .etable {
     margin: 0;
 }
 
@@ -146,18 +121,9 @@ header a:hover .link-text {
     color: white;
 }
 
-#selected-counter {
-    margin-right: 5px;
-}
 
-#submissions-controls {
-    gap: 2em;
-}
 
 .bottom-margin {
     margin-bottom: 1em;
 }
 
-.hide-when-no-rows-selected {
-    display: none;
-}

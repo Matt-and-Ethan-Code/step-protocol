@@ -6,6 +6,7 @@ from datetime import date, datetime
 
 @dataclass
 class ViewClientInfo:
+  id: int
   client_id: str
   tags: list[str]
   screening_date: date | None
@@ -37,6 +38,7 @@ def get_client_information(client_id: str) -> Any:
     feedback_form_date: datetime | None = get_form_completion_date_for_client(client, feedback_form_id)
 
     result_dict: dict[str, Any] = {
+        'id': client.pk,
         'client_id': client_id, 
         'tags': client_tags, 
         'screening_date': screening_date, 

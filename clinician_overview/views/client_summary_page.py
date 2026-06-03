@@ -71,8 +71,6 @@ def make_context(client_id: str) -> dict[str, Any]:
         if sub['form'] not in unique_form_names:
           unique_form_names.append(sub['form'])
 
-    print("client_basic_information: ", client_basic_information) # Debug print statement
-
     return {
         'nav_section': 'clients',
         'client_id': client_id, 
