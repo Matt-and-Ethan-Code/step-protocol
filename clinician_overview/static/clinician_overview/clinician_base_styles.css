@@ -32,6 +32,51 @@ h1 {
 
 .content-columns {
   display: flex;
+  gap: 2rem;
+}
+
+#client-header-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 1rem;
+    color: white;
+}
+
+@media (max-width: 768px) {
+  .content-columns {
+    flex-direction: column;
+  }
+
+  #client-header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: auto;
+  }
+
+  #main {
+    padding-left: 0;
+    margin-left: 0;
+  }
+
+  .etable-container {
+    overflow-x: auto;
+  }
+}
+@media (min-width: 769px) {
+  .content-columns {
+    flex-direction: row;
+  }
+
+  #main {
+    margin-left: 1rem; 
+    width: 100%;
+  }
 }
 
 a {
@@ -101,11 +146,10 @@ header, .tab-header {
   padding: 1rem;
   border: 2px solid var(--bluish);
   text-align: center;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 }
 
 .etable-container {
-  max-width: 90%;
   margin: auto;
 }
 
@@ -125,4 +169,74 @@ footer {
       text-decoration: none;
     }
   }
+}
+
+.page-white-background {
+    background-color: white;
+    padding-bottom: 30px;
+}
+
+.etable-cell-pill {
+    border-radius: 50px;
+    padding: 4px 8px;
+}
+
+.bluish-pill {
+    border-radius: 50px;
+    background-color: color-mix(in srgb, var(--bluish) 60%, transparent);
+    line-height: 2rem;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+select {
+    padding: 7px;
+    background-color: white;
+    border: 1px solid rgb(207, 212, 216);
+    border-radius: 2px;
+    box-sizing: border-box;
+    height: 40px;
+    color: rgb(75, 53, 28);
+    line-height: 1.4em;
+    max-width: 100%;
+}
+
+.centered-flex-container {
+    display: flex;
+    align-items: center;
+}
+
+.flex-space-between {
+    justify-content: space-between;
+}
+
+.clickable-div, a {
+    cursor: pointer;
+}
+
+#submissions-controls {
+    gap: 2em;
+}
+
+.hide-when-no-rows-selected {
+    display: none;
+}
+
+#selected-counter {
+    margin-right: 5px;
+}
+
+.material-symbols-outlined.material-tags-control-badge {
+    display: inline;
+    background-color: white;
+    border-radius: 100px;
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    font-size: 20px;
+    padding: 5px;
+    color: var(--bluish);
+    display: inline-flex;
+    cursor: pointer;
+    margin-right: 5px;
 }

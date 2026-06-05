@@ -1,3 +1,132 @@
 .client-id-link {
   color: var(--orangey);
 }
+
+#generate-client-id-container {
+  width: 30%;
+}
+
+#clients-page-grid-container .etable .etable-cell-pill.client-tag {
+  white-space: nowrap;
+}
+
+.grey-pill {
+    background-color: rgba(224, 224, 224, 1);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    line-height: 2rem;
+}
+
+.add-client-button {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+}
+
+.add-client-button .material-symbols-outlined {
+  /* background-color: var(--orangey);
+  color: white; */
+  color: var(--brown);
+  border-radius: 100px;
+  height: 23px;
+  width: 23px;
+  padding: 4px;
+  line-height: 23px;
+
+}
+
+.add-client-button .text-content {
+  color: var(--brown);
+  /* font-style: italic; */
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+#register-client-id-form input:disabled {
+  color: black;
+  background-color: white;
+  border: none;
+  text-align:left;
+  max-width: 5em;
+  font-size: 1em;
+  text-align: right;
+}
+
+#register-client-id-form #regenerate-id-button {
+  color:var(--bluish);
+  background-color: white;
+  border: none;
+  height: fit-content;
+  line-height: 1em;
+  font-size: 0.9em;
+  width: fit-content;
+}
+
+#register-client-id-form {
+  border: 5px solid var(--bluish);
+  border-radius: 10px;
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.horizontal-flex-centally-aligned {
+   display: flex; 
+   align-items: center;
+   justify-content: space-between;
+}
+
+input[type="submit"] {
+    margin: 1rem auto;
+    border-radius: 20px;
+    border: 0px;
+    background-color: rgb(198, 135, 60);
+    color: white;
+    line-height: 14px;
+    padding: 0.8rem;
+    font-size: 14px;
+    cursor: pointer;
+    display: block;
+    width: fit-content;
+}
+
+.etable th, .etable td {
+  white-space: wrap !important;
+}
+
+div:has(>#register-client-id-form) {
+  margin: 0 auto;
+}
+
+.etable {
+  min-width: 0;
+}
+
+#selectable-table {
+  overflow-x: auto;
+}
+
+#clients-page-grid-container {
+  display:grid; 
+  margin: 10px auto;
+}
+
+@media (max-width: 768px) { 
+  #clients-page-grid-container {
+    grid-template-columns: 1fr;
+  }
+  div:has(> #register-client-id-form) {
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 769px) {
+  #clients-page-grid-container {
+    grid-template-columns: 4fr 1fr;
+  }
+  div:has(> #register-client-id-form) {
+    margin-right: 2em;
+  }
+}

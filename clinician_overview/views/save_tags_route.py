@@ -6,7 +6,6 @@ from typing import Any, cast
 
 @require_POST
 def save_tags_route(request: HttpRequest, client_id: str):
-    print(request.body)
     data: Any = json.loads(request.body)
     tags: list[str] | None = parse_request(data)
 
@@ -15,7 +14,6 @@ def save_tags_route(request: HttpRequest, client_id: str):
         return JsonResponse({'error': 'tags must be an array of strings'}, status=400)
     
     client = Client.objects.get(client_id=client_id, clinician=request.user)
-    print(client)
     client.tags = tags
     client.save()
 

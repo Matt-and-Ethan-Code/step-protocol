@@ -1,0 +1,33 @@
+<p>
+    <b>
+        Results:
+    </b>
+    {% if ITQ.diagnosis == "none" %}
+        Scores indicate no significant trauma-related stress response.
+    {% elif ITQ.diagnoses == "ptsd" %}
+        Scores are PTSD-consistent.
+    {% else %}
+        Scores are Complex PTSD-consistent.
+    {% endif %}
+</p>
+
+<i>
+    The information below is intended for clinician guidance only and does not constitute a diagnosis or treatment directive. Final decisions about participant suitability for STEP interventions should be made using professional judgment, taking into account each participant’s unique circumstances and needs along with scores on mental health measures.
+</i>
+<br><br>
+<ul>
+    <li>
+        <b>Scores below threshold:</b>
+        Symptom levels are within a range generally compatible with STEP Solo participation. Clinicians should confirm suitability based on individual factors.
+    </li>
+    <li>
+        <b>PTSD-consistent scores:</b>
+        Symptoms reflect trauma-related stress consistent with a post-traumatic injury. Clinicians may consider STEP Together or individualized support rather than STEP Solo.
+    </li>
+    <li>
+        <b>
+            Complex PTSD-consistent scores:
+        </b>
+        Symptoms reflect higher or more complex trauma-related stress. Scores may warrant a more comprehensive assessment to determine the most appropriate intervention or therapeutic approach
+    </li>
+</ul>

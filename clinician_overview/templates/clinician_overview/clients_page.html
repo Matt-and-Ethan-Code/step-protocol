@@ -19,68 +19,162 @@
 {% endblock %}
 
 {% block content %}
-<header>
-  <h2 class="tab-header">Clients</h2>
-</header>
-<div style="display:grid; grid-template-columns: 4fr 1fr;">
-  <!--select, client id, tags, screening, pre-intervention measures, post-intervention measures, feedback form-->
-  <table class="etable">
-    <thead>
-      <tr class="etable-header-row">
-        <th class="etable-header-cell"></th>
-        <th class="etable-header-cell">Client Id</th>
-        <th class="etable-header-cell">Tags</th>
-        <th class="etable-header-cell">Screening</th>
-        <th class="etable-header-cell">Pre-Intervention<br />Measures</th>
-        <th class="etable-header-cell">Post-Intervention<br />Measures</th>
-        <th class="etable-header-cell">Feedback Form</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for client_info in client_infos %}
-      <tr class="etable-row">
-        <td class="etable-cell"></td>
-        <td class="etable-cell"><a class="client-id-link" href="{% url 'client_summary' client_info.client_id %}">{{ client_info.client_id }}</a></td>
-        <td class="etable-cell">{{ client_info.tags }}</td>
-        <td class="etable-cell">{{ client_info.screening }}</td>
-        <td class="etable-cell">{{ client_info.pre_intervention_measures }}</td>
-        <td class="etable-cell">{{ client_info.post_intervention_measures }}</td>
-        <td class="etable-cell">{{ client_info.feedback_form }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="page-white-background">
+  <header>
+    <h2 class="tab-header">Clients</h2>
+  </header>
 
-  <table class="etable" style="max-height: 10rem;">
-    <thead>
-      <tr class="etable-header-row">
-        <th class="etable-header-cell">Create Client</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="etable-row">
-        <td class="etable-cell">
-          <form id="register-client-id-form" method="post" action="/clinician/create-client-id">
-            <div style="display:flex;">
-              {% csrf_token %}
-              <input id="generated-client-id-input" name="new_client_id" readonly style="margin-right: 6px; text-align:center;" value="{{ initial_client_id }}"/>
-              <button id="regenerate-id-button" type="button">Regenerate</button>
+  <div id="clients-page-grid-container">
+    <div style="max-width: 90%;padding-left:10px; margin:0 auto;"  id="selectable-table">
+
+      <div class="centered-flex-container flex-space-between clickable-div" id="submissions-controls">
+          <div class="centered-flex-container">
+              <div class="centered-flex-container hide-when-no-rows-selected">
+                  <span id="selected-counter">
+                      0
+                  </span>
+                  selected
+              </div>
+              <div class="centered-flex-container hide-when-no-rows-selected clickable-div" onclick="deleteListener((_) => `/clinician/clients/delete-clients`)">
+                  <span class="material-symbols-outlined material-tags-control-badge">
+                      delete
+                  </span>
+                  Delete
+              </div>
+          </div>
+
+          <div class="centered-flex-container clickable-div" onclick="downloadRowsListener()">
+              <span class="material-symbols-outlined material-tags-control-badge">
+                  file_export
+              </span>
+              Export
+          </div>
+      </div>
 
 
+      <!--select, client id, tags, screening, pre-intervention measures, post-intervention measures, feedback form-->
+      <div class="etable-container">
+        <table class="etable">
+          <thead>
+            <tr class="etable-header-row">
+              <th class="etable-header-cell"></th>
+              <th class="etable-header-cell">Client Id</th>
+              <th class="etable-header-cell">Tags</th>
+              <th class="etable-header-cell">Screening</th>
+              <th class="etable-header-cell">Pre-Intervention<br />Measures</th>
+              <th class="etable-header-cell">Post-Intervention<br />Measures</th>
+              <th class="etable-header-cell">Feedback Form</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for client_info in client_infos %}
+            <tr class="etable-row" data-id="{{ client_info.id }}">
+              <td class="etable-cell">
+                <input type="checkbox" onclick="handleRowSelect()">
+              </td>
+              <td class="etable-cell"><a class="client-id-link" href="{% url 'client_summary' client_info.client_id %}">{{ client_info.client_id }}</a></td>
+              <td class="etable-cell">
+                {% for tag in client_info.tags %}
+                  <span class="client-tag etable-cell-pill bluish-pill">{{tag}}</span>
+                {% endfor %}
+              </td>
+              {% if client_info.screening_date %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill bluish-pill">
+                    {{ client_info.screening_date }}
+                  </span>
+                </td>
+              {% else %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill grey-pill">
+                    Not Submitted
+                  </span>
+                </td>
+              {% endif %}
+              {% if client_info.pre_intervention_measures_date %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill bluish-pill">
+                    {{ client_info.pre_intervention_measures_date }}
+                  </span>
+                </td>
+              {% else %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill grey-pill">
+                    Not Submitted
+                  </span>
+                </td>
+              {% endif %}
+              {% if client_info.post_intervention_measures_date %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill bluish-pill">
+                    {{ client_info.post_intervention_measures_date }}
+                  </span>
+                </td>
+              {% else %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill grey-pill">
+                    Not Submitted
+                  </span>
+                </td>
+              {% endif %}
+              {% if client_info.feedback_form_date %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill bluish-pill">
+                    {{ client_info.feedback_form_date }}
+                  </span>
+                </td>
+              {% else %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill grey-pill">
+                    Not Submitted
+                  </span>
+                </td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <div>
+      <form id="register-client-id-form" method="post" action="/clinician/create-client-id">
+        <div style="display:flex;flex-direction:column;">
+          <h3>
+            New Client
+          </h3>
+          {% csrf_token %}
+          <div class="horizontal-flex-centally-aligned">
+            <span>
+              Client ID:
+            </span>
+            <div style="display: flex; align-items: center;">
+              <input id="generated-client-id-input" name="new_client_id" disabled readonly value="{{ initial_client_id }}"/>
+              <button id="regenerate-id-button" type="button">
+                <span class="material-symbols-outlined">
+                  cached
+                </span>
+              </button>
             </div>
-            <div style="display:flex;justify-content:center;">
-              <input style="padding: .3rem 1rem;" type="submit" value="Create Client"/>
-              <select name="duration">
-                <option value="3">3 days</option>
-                <option value="7">7 days</option>
-                <option value="14">14 days</option>
-              </select>
-            </div>
-          </form>
-        </td>
-        
-      </tr>
-    </tbody>
-  </table>
+          </div>
+          <div class="horizontal-flex-centally-aligned">
+            <span>
+              Access: 
+            </span>
+            <select name="duration" style="min-width: 9em;">
+              <option value="3">3 days</option>
+              <option value="7">7 days</option>
+              <option value="14">14 days</option>
+            </select>
+          </div>
+          <input type="submit" value="Create Client"/>
+
+        </div>
+      </form>
+
+    </div>
+
+  </div>
 </div>
 {% endblock %}

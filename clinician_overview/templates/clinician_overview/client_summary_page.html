@@ -1,61 +1,15 @@
-{% extends 'clinician_overview/clinician_base_layout.html' %}
+{% extends 'clinician_overview/client_base_header_and_tags_layout.html' %}
 {% load static %}
 {% block title %} Clients {% endblock %}
-{% block head %}
-<link rel="stylesheet" href="{% static 'clinician_overview/client_summary_page.css' %}">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-{% endblock %}
 
-
-{% block content %}
-<header>
-    <h2 class="tab-header">Clients</h2>
-    <a class="centered-flex-container" href="/clinician/clients">
-        <span class="material-symbols-outlined">
-            arrow_back_ios
-        </span>
-        <span class="link-text">
-            Back to all clients
-        </span>
-    </a>
-</header>
-<div id="client-data-container">
-    <div id="client-header-container" class="centered-flex-container">
-        <h1 id="client-id">
-            {{client_id}}
-        </h1>
-        <div id="tags-list-container">
-            {% for tag in client_tags %}
-                <span class="client-tag white-tag-pill">{{tag}}</span>
-            {% endfor %}
-        </div>
-        <div class="tags-control-button" id="edit-tags-container">
-            <span class="material-symbols-outlined material-tags-control-badge">
-                edit
-            </span>
-            <i>Edit Tags</i>
-        </div>
-        <div id="add-tag-controls-container" style="display: none;">
-            <div class="white-tag-pill" id="add-tag-input-container">
-                <input type="text" id="add-tag-input" placeholder="New Tag">
-                <span class="material-symbols-outlined" id="add-button" onclick="addTagListener()">
-                    add
-                </span>
-            </div>
-            <div class="tags-control-button" id="save-tags-button" onclick="saveTagsListener()">
-                <span class="material-symbols-outlined material-tags-control-badge">
-                    check
-                </span> 
-                <i>Save Tags</i>
-            </div>
-        </div>
-    </div>
-    <div id="client-summary-body">
-        <div id="overview-tables-container">
-            <div id="at-a-glance-table">
-                <h2 class="table-header">
-                    At a Glance
-                </h2>
+{% block client-data %}
+<div>
+    <div id="overview-tables-container">
+        <div id="at-a-glance-table">
+            <h2 class="table-header">
+                At a Glance
+            </h2>
+            <div class="etable-container">
                 <table class="etable">
                     <thead>
                         <tr class="etable-header-row">
@@ -67,14 +21,14 @@
                     </thead>
                     <tbody>
                         <tr class="etable-row">
-                            <th class="etable-cell">
+                            <td class="etable-cell">
                                 {% if screening %}
                                     <span class="etable-cell-pill bluish-pill"> {{screening}} </span>
                                 {% else %} 
                                     <span class="etable-cell-pill grey-pill">Not Submitted</span>
                                 {% endif %}
-                            </th>
-                            <th class="etable-cell">
+                            </td>
+                            <td class="etable-cell">
                                 {% if pre_intervention_measures %}
                                     <span class="etable-cell-pill bluish-pill">
                                         {{pre_intervention_measures}} 
@@ -84,8 +38,8 @@
                                         Not Submitted
                                     </span>
                                 {% endif %}
-                            </th>
-                            <th class="etable-cell">
+                            </td>
+                            <td class="etable-cell">
                                 {% if post_intervention_measures %}
                                     {{post_intervention_measures}} 
                                 {% else %} 
@@ -93,8 +47,8 @@
                                         Not Submitted
                                     </span>
                                 {% endif %}
-                            </th>
-                            <th class="etable-cell">
+                            </td>
+                            <td class="etable-cell">
                                 {% if feedback_form %}
                                     {{feedback_form}} 
                                 {% else %} 
@@ -103,15 +57,17 @@
                                     </span>
                                     
                                 {% endif %}
-                            </th>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div id="step-solo-access">
-                <h2 class="table-header">
-                    STEP Solo Access
-                </h2>
+        </div>
+        <div id="step-solo-access">
+            <h2 class="table-header">
+                STEP Solo Access
+            </h2>
+            <div class="etable-container">
                 <table class="etable">
                     <thead>
                         <tr class="etable-header-row">
@@ -122,23 +78,26 @@
                     </thead>
                     <tbody>
                         <tr class="etable-row">
-                            <th class="etable-cell">{{access_status}}</th>
-                            <th class="etable-cell">{{access_renewed_date}}</th>
-                            <th class="etable-cell">{{access_expiry_date}}</th>
+                            <td class="etable-cell">{{access_status}}</td>
+                            <td class="etable-cell">{{access_renewed_date}}</td>
+                            <td class="etable-cell">{{access_expiry_date}}</td>
                         </tr>
                     </tbody>
                 </table>
-                <div id="access-buttons-container">
-                    <button id="extend-access-button" class="etable-cell-pill button-pill">Extend Access</button>
-                    <button id="remove-access-button" class="etable-cell-pill button-pill">Remove Access</button>
-                </div>
+            </div>
+            <div id="access-buttons-container">
+                <button id="extend-access-button" class="etable-cell-pill button-pill">Extend Access</button>
+                <button id="remove-access-button" class="etable-cell-pill button-pill">Remove Access</button>
             </div>
         </div>
-        <div id="submissions-table">
-            <h2 class="table-header">
-                Submissions
-            </h2>
-            <div class="bottom-margin">
+    </div>
+
+    <div id="selectable-table">
+        <h2 class="table-header">
+            Submissions
+        </h2>
+        <div class="bottom-margin">
+            <div class="etable-filter-container">
                 <label for="form-filter">Filter</label>
                 <select id="form-filter-select" name="form-filter" onclick="filterTable()"> 
                         <option value=""> </option>
@@ -146,7 +105,9 @@
                         <option value="{{ form_type }}">{{ form_type }}</option>
                     {% endfor %}
                 </select>
+            </div>
 
+            <div class="etable-filter-container">
                 <label for="sort-order">Sort by</label>
                 <select id="sort-order-select" name="sort-order">
                     <option value=""></option>
@@ -154,46 +115,51 @@
                     <option value="submission-date-asc" onclick="sortTable(sortRowsDateAsc)">Submission Date (Oldest first)</option>
                     <option value="range-desc" onclick="sortTable(sortRowsSeverity)">Range (Elevated first)</option>
                 </select>
-
             </div>
-            <div class="centered-flex-container" id="submissions-controls" style="display:none;">
-                <div class="centered-flex-container">
+
+        </div>
+        <div class="centered-flex-container flex-space-between clickable-div" id="submissions-controls">
+            <div class="centered-flex-container">
+                <div class="centered-flex-container hide-when-no-rows-selected">
                     <span id="selected-counter">
                         0
                     </span>
                     selected
                 </div>
-                <div class="centered-flex-container">
-                    <span class="material-symbols-outlined material-tags-control-badge">
-                        file_export
-                    </span>
-                    Export
-                </div>
-                <div class="centered-flex-container">
+                <div class="centered-flex-container hide-when-no-rows-selected clickable-div" onclick="deleteListener((identifier) => `/clinician/clients/${identifier}/delete-submissions`)">
                     <span class="material-symbols-outlined material-tags-control-badge">
                         delete
                     </span>
                     Delete
                 </div>
             </div>
+
+            <div class="centered-flex-container clickable-div" onclick="downloadRowsListener()">
+                <span class="material-symbols-outlined material-tags-control-badge">
+                    file_export
+                </span>
+                Export
+            </div>
+        </div>
+        <div class="etable-container">
             <table class="etable" id="submissions-table">
                 <thead>
                     <tr class="etable-header-row">
                         <th class="etable-header-cell"></th>
-                        <th class="etable-header-cell">Form</th>
-                        <th class="etable-header-cell">Submission Date</th>
-                        <th class="etable-header-cell">Results</th>
-                        <th class="etable-header-cell">Scheduled Deletion</th>
+                        <th class="etable-header-cell data-cell">Form</th>
+                        <th class="etable-header-cell data-cell">Submission Date</th>
+                        <th class="etable-header-cell data-cell">Results</th>
+                        <th class="etable-header-cell data-cell">Scheduled Deletion</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for submission in submissions %}
                         <tr class="etable-row" data-form="{{ submission.form }}" data-id="{{submission.id}}">
-                            <th class="etable-cell"><input type="checkbox" onclick="handleSubmissionSelect()"></th>
-                            <th class="etable-cell">{{submission.form}}</th>
-                            <th class="etable-cell">{{submission.submission_date}}</th>
-                            <th class="etable-cell">{{submission.results}}</th>
-                            <th class="etable-cell">{{submission.scheduled_deletion}}</th>
+                            <td class="etable-cell"><input type="checkbox" onclick="handleRowSelect()"></td>
+                            <td class="etable-cell data-cell" data-label="Submission"><a href="/clinician/clients/{{client_id}}/response/{{submission.id}}">{{submission.form}}</a></td>
+                            <td class="etable-cell data-cell" data-label="Submitted">{{submission.submission_date}}</td>
+                            <td class="etable-cell data-cell" data-label="Results">{{submission.results}}</td>
+                            <td class="etable-cell data-cell" data-label="Deletion">{{submission.scheduled_deletion}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -201,18 +167,56 @@
         </div>
     </div>
 </div>
+
 <script>
-    const handleSubmissionSelect = () => {
-        const selectedCounter = document.getElementById("selected-counter");
-        const rowSelectNavBar = document.getElementById("submissions-controls");
-        const checkboxes = document.querySelectorAll("#submissions-table input[type='checkbox']:checked")
-        if (checkboxes.length == 0) {
-            rowSelectNavBar.style.display = "none";
-        } else {
-            rowSelectNavBar.style.display = "flex";
-            selectedCounter.textContent = checkboxes.length;
+
+    /** 
+     * Fires when the user signals that they want to download a CSV with submission results.
+     * If they selected rows: those rows will be exported.
+     * If they didn't select anything: all rows will be downloaded.
+    */
+    const downloadRowsListener = async () => {
+        // parse the client identifier from the URL
+        const urlSections = window.location.pathname.split('/');
+        // the client identifier will be the last section of the url path -- extract it
+        const clientIdentifier = urlSections[urlSections.length - 1];
+
+        const headerRow = document.querySelector('#selectable-table .etable-header-row');
+        // get the text of each header, filtering out empty header (the column containing checkboxes)
+        const headers = Array.from(headerRow.querySelectorAll('th.data-cell')).map((el) => el.textContent)
+        
+        // find the rows in the table that have a checked checkbox in them
+        const selectedRows = Array.from(document.querySelectorAll('#selectable-table .etable-row:has(input:checked)'));
+        const allRows = Array.from(document.querySelectorAll('#selectable-table .etable-row'));
+
+        // if the user didn't select anything, export all rows
+        const exportedRows = selectedRows.length === 0 ? allRows : selectedRows;
+        let rowsData = [];
+        for (const row of exportedRows) {
+            const thisRowData = Array.from(row.querySelectorAll('td.data-cell')).map((el) => el.textContent);
+            rowsData.push(thisRowData)
         }
+
+
+        const response = await fetch(`/clinician/clients/${clientIdentifier}/export`, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",  // Django requires this for POST
+            },
+            body: JSON.stringify({ headers: headers, rows: rowsData })
+        });
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "export.csv";
+        a.click();
+        URL.revokeObjectURL(url);
     }
+
 
     const sortRowsSeverity = (a, b) => {
         const aVal = a.cells[3].textContent;
@@ -224,24 +228,34 @@
         return true;
     }
 
-    const sortRowsDateAsc = (a, b) => {
-        const aVal = a.cells[2].textContent;
-        const bVal = b.cells[2].textContent;
+    // remove a.m and p.m notation to allow the date to parse properly
+    const parseDate = (str) => {
+    const cleaned = str.trim()
+        .replace('a.m.', 'AM')
+        .replace('p.m.', 'PM');
+    return new Date(cleaned);
+    };
 
-        return new Date(aVal) - new Date(bVal);
+    const sortRowsDateAsc = (a, b) => {
+        const aVal = parseDate(a.cells[2].textContent);
+        const bVal = parseDate(b.cells[2].textContent);
+
+        console.log("aVal: ", aVal, "bVal: ", bVal, "result of sort: ", aVal - bVal);
+
+        return aVal - bVal;
     }
 
     const sortRowsDateDesc = (a, b) => {
-        const aVal = a.cells[2].textContent;
-        const bVal = b.cells[2].textContent;
+        const aVal = parseDate(a.cells[2].textContent);
+        const bVal = parseDate(b.cells[2].textContent);
 
-        return new Date(bVal) - new Date(aVal)
+        return bVal - aVal;
     }
 
     // sort the submissions table
     const sortTable = (sortFunc) => {
-        const rows = Array.from(document.querySelectorAll("#submissions-table .etable-row"));
-        const table = document.querySelector("#submissions-table tbody");
+        const rows = Array.from(document.querySelectorAll("#selectable-table .etable-row"));
+        const table = document.querySelector("#selectable-table tbody");
         rows.sort(sortFunc);
 
         rows.forEach(row => table.appendChild(row));
@@ -250,7 +264,7 @@
     // filter the table when a form is selected
     const filterTable = () => {
         const selected = document.getElementById("form-filter-select").value;
-        const rows = document.querySelectorAll("#submissions-table .etable-row");
+        const rows = document.querySelectorAll("#selectable-table .etable-row");
         for (const row of rows) {
             if (selected && !(row.dataset.form == selected) ) {
                 row.style.display = "none";
@@ -258,108 +272,6 @@
                 row.style.display = "table-row";
             }
         }
-    }
-
-    // add ability to edit tags
-    const addDiv = document.getElementById("add-tag-controls-container");
-    const editDiv = document.getElementById("edit-tags-container");
-    const clientHeader = document.getElementById("client-header-container");
-
-    // function that should fire when the tags are being edited and a tag gets deleted
-    const deleteEventListener = (button) => {
-        // delete the parent
-        button.parentElement.remove();
-    }
-
-    // function to add a tag when the tags are being edited
-    const addTagListener = () => {
-        const tagsContainer = document.getElementById("tags-list-container");
-        // get enetered value
-        const addTag = document.getElementById("add-tag-input");
-        const eneteredValue = addTag?.value;
-
-        // clear out the input
-        addTag.value = "";
-
-        // create the new tag pill
-        const newTag = document.createElement('span');
-
-        // create the delete button and hook up the event listener
-        const deleteButtonSpan = document.createElement("span");
-        deleteButtonSpan.classList.add("material-symbols-outlined", "delete-icon");
-        deleteButtonSpan.textContent = "close";
-        deleteButtonSpan.addEventListener("click", (_) => deleteEventListener(deleteButtonSpan));
-
-        newTag.classList.add("client-tag", "white-tag-pill");
-        newTag.textContent = eneteredValue;
-        newTag.appendChild(deleteButtonSpan);
-        tagsContainer.appendChild(newTag);
-    }
-
-    const saveTagsListener = async () => {
-        const saveButton = document.getElementById("save-tags-button");
-
-        // hide the delete buttons
-        const deleteIcons = Array.from(document.getElementsByClassName("delete-icon"));
-        deleteIcons.forEach((el) => el.remove());
-
-        // hide the new tag input
-        const newTagInputDiv = document.getElementById("add-tag-input-container");
-        const newTagInput = document.getElementById("add-tag-input");
-        newTagInput.value = "";
-        newTagInputDiv.display = "none";
-
-        editDiv.style.display = "flex";
-        addDiv.style.display = "none";
-
-        // call the endpoint to save tags
-        const allTagElements = document.querySelectorAll(".client-tag");
-        let allTags = Array.from(allTagElements).map((el) => el.textContent);
-
-        allTags = allTags.filter((el) => el);
-
-        // parse the client identifier from the URL
-        const urlSections = window.location.pathname.split('/');
-        // the client identifier will be the last section of the url path -- extract it
-        const clientIdentifier = urlSections[urlSections.length - 1];
-
-        console.log("alltags: ", allTags);
-        const response = await fetch(`/clinician/clients/${clientIdentifier}/save-tags`, {
-            method: "POST",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": "{{ csrf_token }}",  // Django requires this for POST
-            },
-            body: JSON.stringify({ tags: allTags })
-        });
-
-        const result = await response.json();
-
-    }
-
-    const tagsContainer = document.getElementById("tags-list-container");
-    if (editDiv && clientHeader) {
-        editDiv.addEventListener("click", (_) => {
-            const editDivOriginal = document.getElementById("edit-tags-container");
-            if (editDivOriginal && clientHeader) {
-                // 1. display the add button
-                editDiv.style.display = "none";
-                addDiv.style.display = "flex";
-
-                // 2. add delete buttons to all the tags
-                const tags = Array.from(tagsContainer.getElementsByClassName("client-tag"));
-                tags.forEach((el) => {
-                    const deleteButton = document.createElement("span");
-                    deleteButton.classList.add("material-symbols-outlined", "delete-icon");
-                    deleteButton.textContent = "close";
-                    deleteButton.addEventListener("click", (_) => deleteEventListener(deleteButton));
-
-                    el.appendChild(deleteButton)
-                })
-
-            }
-        })
     }
 </script>
 {% endblock %}

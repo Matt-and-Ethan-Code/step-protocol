@@ -1,38 +1,26 @@
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
-from typing import Any
 from clinician_overview.models import Client
-from dataclasses import dataclass
-from datetime import date
 import clinician_overview.util.client_id as client_id
+import clinician_overview.util.get_client_information as get_client_information
+from clinician_overview.util.get_client_information import ViewClientInfo
+from django.contrib.auth.decorators import login_required
+from initial_screening.decorators import clinician_required
 
+@login_required
+@clinician_required
 def clients_page(req: HttpRequest) -> HttpResponse:
-  client_ids = Client.objects.all()
+  clients = Client.objects.filter(clinician=req.user)
   client_infos: list[ViewClientInfo] = []
-  for id in client_ids:
-    client_infos.append(ViewClientInfo(
-      client_id=id.client_id,
-      client_id_url=id.client_id,
-      tags=[],
-      screening_date=date.today(),
-      pre_intervention_measures_date=None,
-      post_intervention_measures_date=None,
-      feedback_form_date=None
-    ))
+  for client in clients:
+    thisClientInfo: ViewClientInfo = get_client_information.get_client_information(client.client_id)
+
+    client_infos.append(thisClientInfo)
+
 
   ctx = make_context(client_infos)
   return render(req, 'clinician_overview/clients_page.html', context=ctx)
 
-
-@dataclass
-class ViewClientInfo:
-  client_id: str
-  client_id_url: str
-  tags: list[str]
-  screening_date: date | None
-  pre_intervention_measures_date: date | None
-  post_intervention_measures_date: date | None
-  feedback_form_date: date | None
 
 def get_client_infos() -> list[ViewClientInfo]:
   return []
@@ -44,8 +32,3 @@ def make_context(client_infos: list[ViewClientInfo]) -> dict[str, str | list[Vie
     "client_infos": client_infos
   }
 
-def mock_client_infos() -> list[ViewClientInfo]:
-  return [
-    ViewClientInfo('hxto3849', 'hxto3849',['feb 2026'], date.today(), None, None, None),
-    ViewClientInfo('ostc0204', 'ostc0204', [], date.today(), None, date.today(), None),
-  ]
