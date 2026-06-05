@@ -45,7 +45,7 @@
   font-weight: 500;
 }
 
-#register-client-id-form input:disabled {
+#register-client-id-form input[readonly] {
   color: black;
   background-color: white;
   border: none;

@@ -61,3 +61,4 @@ class QuestionnaireForm(forms.Form):
                         required=question.is_required,
                         widget=forms.RadioSelect
                     )
+

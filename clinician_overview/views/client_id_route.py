@@ -4,7 +4,7 @@ from django.utils import timezone
 import django.forms as forms
 from typing import cast
 from clinician_overview.util.access import new_grant_until
-import clinician_overview.util.client_id as client_id
+import clinician_overview.util.client as client_id
 from clinician_overview.models import Client
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User

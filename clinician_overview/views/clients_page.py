@@ -1,7 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 from clinician_overview.models import Client
-import clinician_overview.util.client_id as client_id
+from dataclasses import dataclass
+from datetime import date
+import clinician_overview.util.client as client_id
 import clinician_overview.util.get_client_information as get_client_information
 from clinician_overview.util.get_client_information import ViewClientInfo
 from django.contrib.auth.decorators import login_required
