@@ -55,7 +55,7 @@ def make_context(client: Client, maybe_access_grant: AccessGrant | None) -> dict
     if maybe_access_grant:
       access_grant: AccessGrant = maybe_access_grant
       access_renewed_date = access_grant.created_at
-      access_expiry_date = access_grant.expires_at
+      access_expiry_date = access.has_access_until(client)
       access_status = "Expiring Soon" if access_expiry_date and access_expiry_date > timezone.now() else "Expired"
     else:
       access_renewed_date = None

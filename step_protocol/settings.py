@@ -127,8 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
-
 USE_I18N = True
 
 USE_TZ = True
@@ -174,9 +172,9 @@ ACCOUNT_LOGOUT_ON_GET = True
 MFA_ADAPTER = "allauth.mfa.adapter.DefaultMFAAdapter"
 
 # session expiration
-SESSION_IDLE_TIMEOUT = 5*60 # 5 minutes
-SESSION_ABSOLUTE_TIMEOUT = 10 * 60 # 10 minutes -- logs out even if active
-SESSION_COOKIE_AGE = 5 * 60
+SESSION_IDLE_TIMEOUT = 5*60 * 60 # 5 minutes
+SESSION_ABSOLUTE_TIMEOUT = 10 * 60 * 60 # 10 minutes -- logs out even if active
+SESSION_COOKIE_AGE = 5 * 60 * 60
 SESSION_SAVE_EVERY_REQUEST = False #True 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False 
 SESSION_COOKIE_HTTPONLY = False #True 

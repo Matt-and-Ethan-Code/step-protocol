@@ -1,4 +1,5 @@
 {% extends 'clinician_overview/clinician_base_layout.html' %}
+{% load tz %}
 {% load static %}
 {% block title %} Clients {% endblock %}
 {% block head %}
@@ -123,13 +124,22 @@
                     <tbody>
                         <tr class="etable-row">
                             <th class="etable-cell">{{access_status}}</th>
-                            <th class="etable-cell">{{access_renewed_date}}</th>
-                            <th class="etable-cell">{{access_expiry_date}}</th>
+                            <th class="etable-cell">{{access_renewed_date | localtime}}</th>
+                            <th class="etable-cell">{{access_expiry_date | localtime}}</th>
                         </tr>
                     </tbody>
                 </table>
                 <div id="access-buttons-container">
-                  <button id="extend-access-button" class="etable-cell-pill button-pill">Extend Access</button>
+                    <form method="POST" action="/clinician/extend-access">
+                        {% csrf_token %}
+                        <select name="duration">
+                            <option value="3">3 Days</option>
+                            <option value="7">7 Days</option>
+                            <option value="14">14 Days</option>
+                        </select>
+                        <input type="hidden" name="client_id" value="{{client_id}}">
+                      <button type="submit" id="extend-access-button" class="etable-cell-pill button-pill">Extend Access</button>
+                  </form>
                   <form method="POST" action="/clinician/revoke-access">
                     {% csrf_token %}
                     <input type="hidden" name="client_id" value="{{client_id}}">
