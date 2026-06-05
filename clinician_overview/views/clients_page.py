@@ -4,7 +4,11 @@ from clinician_overview.models import Client
 import clinician_overview.util.client_id as client_id
 import clinician_overview.util.get_client_information as get_client_information
 from clinician_overview.util.get_client_information import ViewClientInfo
+from django.contrib.auth.decorators import login_required
+from initial_screening.decorators import clinician_required
 
+@login_required
+@clinician_required
 def clients_page(req: HttpRequest) -> HttpResponse:
   clients = Client.objects.filter(clinician=req.user)
   client_infos: list[ViewClientInfo] = []

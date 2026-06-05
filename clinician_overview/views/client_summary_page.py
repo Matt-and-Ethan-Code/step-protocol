@@ -6,8 +6,16 @@ from datetime import datetime
 
 from django.utils import timezone
 from clinician_overview.models import AccessGrant, Client
-from initial_screening.models import QuestionnaireResponse, FormMembership
+from clinician_overview.scoring.dass21 import Dass21Score
+from clinician_overview.scoring.dest import DesTScore
+from clinician_overview.scoring.gse import GSEScore
+from clinician_overview.scoring.itq_dichotomous import ItqDichotomousScore
+from clinician_overview.scoring.pcl5_diagnostic import Pcl5Score
+from clinician_overview.util.score_questionnaire_response import score_questionnaire_response
+from initial_screening.decorators.clinician_decorator import clinician_required
+from initial_screening.models import QuestionnaireResponse, FormMembership, ResponseItem
 import calendar
+from django.contrib.auth.decorators import login_required
 
 import clinician_overview.util.get_client_information as get_client_information
 from clinician_overview.util.get_client_information import ViewClientInfo
@@ -19,6 +27,8 @@ class SubmissionSummary(TypedDict):
     results: str
     scheduled_deletion: datetime
 
+@clinician_required
+@login_required
 def client_summary_page(request: HttpRequest, client_id: str) -> HttpResponse:
   ctx = make_context(client_id)
   return render(request, 'clinician_overview/client_summary_page.html', context=ctx)
@@ -30,7 +40,23 @@ def get_form_completion_date_for_client(client_id: Client, form_id: int)  -> dat
 
     if last_response:
       return last_response.submitted_at
-
+    
+def create_questionnaire_result_string(result: DesTScore | ItqDichotomousScore | Pcl5Score | Dass21Score | GSEScore) -> str:
+  elevated_string = "Elevated - Priority Review"
+  routine_string = "Within Range - Routine Review"
+  if isinstance(result, DesTScore):
+    return elevated_string if result.significant else routine_string
+  elif isinstance(result, ItqDichotomousScore):
+    return routine_string if result.diagnosis == "none" else elevated_string
+  elif isinstance(result, Pcl5Score):
+    return elevated_string if result.ptsd_indicated else routine_string
+  elif isinstance(result, Dass21Score):
+    return elevated_string if result.total >= 60 or result.depression >= 21 else routine_string
+  else:
+    # GSE
+    return routine_string
+  
+  
 def make_context(client_id: str) -> dict[str, Any]:
   try:
     client: Client = Client.objects.get(client_id=client_id)
@@ -47,7 +73,9 @@ def make_context(client_id: str) -> dict[str, Any]:
       access_expiry_date = None
       access_status = "No Access"
 
-    submissions: BaseManager[QuestionnaireResponse] = QuestionnaireResponse.objects.filter(user_identifier = client)
+    initial_screening_questionnaire_id = 3
+
+    submissions: BaseManager[QuestionnaireResponse] = QuestionnaireResponse.objects.filter(user_identifier = client).exclude( questionnaire_id=initial_screening_questionnaire_id)
 
     formatted_submissions: list[SubmissionSummary] = []
     for sub in submissions:
@@ -59,17 +87,21 @@ def make_context(client_id: str) -> dict[str, Any]:
       deletion_month = deletion_month % 12 + 1
       deletion_day = min(sub.submitted_at.day, calendar.monthrange(deletion_year, deletion_month)[1])
 
+      responses = ResponseItem.objects.filter(response=sub)
+      score: DesTScore | ItqDichotomousScore | Pcl5Score | Dass21Score | GSEScore | None = score_questionnaire_response(responses, sub.questionnaire.name)
+
       formatted_submissions.append({
         "id": sub.pk,
         "form": form_name, 
         "submission_date": sub.submitted_at, 
-        "results": "", 
+        "results": create_questionnaire_result_string(score) if score else "",
         "scheduled_deletion": sub.submitted_at.replace(year = deletion_year, month=deletion_month, day=deletion_day)
       })
 
       for sub in formatted_submissions:
         if sub['form'] not in unique_form_names:
           unique_form_names.append(sub['form'])
+
 
     return {
         'nav_section': 'clients',

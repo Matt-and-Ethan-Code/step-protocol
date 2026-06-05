@@ -1,0 +1,5 @@
+#client-responses-table .etable-cell {
+    white-space: wrap;
+    word-break: break-word;
+    text-align: left;
+}

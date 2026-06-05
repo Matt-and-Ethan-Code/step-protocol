@@ -26,11 +26,7 @@ header a:hover .link-text {
     padding: 0 20px 40px;
 }
 
-#client-header-container {
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 1rem;
-    color: white;
-}
+
 
 #client-data-container {
     display: flex;
@@ -39,13 +35,75 @@ header a:hover .link-text {
 }
 
 .client-tag, .white-tag-pill {
-    margin: auto 10px;
+    margin: 5px 10px;
     padding: 0.5em 2em;
     color: black;
     background-color: white;
     border-radius: 20px;
     display: inline-flex;
     justify-content: center;
+}
+
+.etable-filter-container {
+    display: inline-block;
+}
+
+@media (min-width: 769px) {
+    #overview-tables-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    #overview-tables-container {
+        grid-template-columns: 1fr;
+    }
+
+    .etable-filter-container {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    #submissions-table tr {
+        display: block;
+        border: 1px solid var(--bluish);
+        position: relative;
+    }
+    #submissions-table td {
+        display: flex;
+        border: none;
+        white-space: normal;
+        word-break: break-word;
+        text-align: left;
+        margin-right: 2rem;
+    }
+    #submissions-table td:has(input) {
+        position: absolute;
+        border: none;
+        padding: 0;
+        top: 0.6rem;
+        right: 0.75rem;
+    }
+
+    #submissions-table th {
+        display: none;
+    }
+
+    #submissions-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        margin-right: 1rem;
+        word-break: keep-all;
+    }
+
+    #sort-order-select, #form-filter-select {
+        width: 100%;
+    }
+}
+
+#at-a-glance-table, #step-solo-access {
+    max-width:100%;
+    overflow-x: auto;
 }
 
 .tags-control-button {
@@ -74,13 +132,15 @@ header a:hover .link-text {
 }
 
 #overview-tables-container {
-    display: flex;
+    display: grid;
     gap: 40px;
+    min-width: min-content;
 }
 
 #overview-tables-container .etable, #selectable-table .etable {
     margin: 0;
 }
+
 
 #tags-list-container {
     display: inline;
@@ -121,9 +181,54 @@ header a:hover .link-text {
     color: white;
 }
 
-
-
 .bottom-margin {
     margin-bottom: 1em;
 }
 
+.heatmap-cell {
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: default;
+  transition: transform 0.1s ease, filter 0.1s ease;
+  position: relative;
+}
+
+.heatmap-screening-row {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 6px;
+  align-items: center;
+  grid-template-columns: 88px repeat(6, 1fr);
+}
+
+:root {
+  --bg: #f5f4f0;
+  --text-1: #1a1917;
+  --red-bg: #fad5d5;
+  --red-text: #8a1a1a;
+}
+
+.heatmap-cell.red {
+  background: var(--red-bg);
+  color: var(--red-text);
+}
+
+.heatmap-cell.orange {
+  background: var(--orange-bg);
+  color: var(--orange-text);
+}
+
+.heatmap-cell.yellow {
+  background: var(--yellow-bg);
+  color: var(--yellow-text);
+}
+
+.heatmap-cell.green {
+  background: var(--green-bg);
+  color: var(--green-text);
+}

@@ -3,12 +3,14 @@ from django.http import HttpRequest, HttpResponse
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from initial_screening.decorators.clinician_decorator import clinician_required
 from initial_screening.models import QuestionnaireResponse
 from dataclasses import dataclass
 from typing import Any, cast
 
 
 @login_required
+@clinician_required
 def client_responses_page(request: HttpRequest, client_id: str) -> HttpResponse:
   user = cast(User, request.user)
   if not user_is_clinician(user):

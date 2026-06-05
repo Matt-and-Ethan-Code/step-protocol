@@ -24,8 +24,8 @@
     <h2 class="tab-header">Clients</h2>
   </header>
 
-  <div style="display:grid; grid-template-columns: 4fr 1fr;">
-    <div style="max-width: 90%; margin: 0 auto;"  id="selectable-table">
+  <div id="clients-page-grid-container">
+    <div style="max-width: 90%;padding-left:10px; margin:0 auto;"  id="selectable-table">
 
       <div class="centered-flex-container flex-space-between clickable-div" id="submissions-controls">
           <div class="centered-flex-container">
@@ -53,90 +53,92 @@
 
 
       <!--select, client id, tags, screening, pre-intervention measures, post-intervention measures, feedback form-->
-      <table class="etable">
-        <thead>
-          <tr class="etable-header-row">
-            <th class="etable-header-cell"></th>
-            <th class="etable-header-cell">Client Id</th>
-            <th class="etable-header-cell">Tags</th>
-            <th class="etable-header-cell">Screening</th>
-            <th class="etable-header-cell">Pre-Intervention<br />Measures</th>
-            <th class="etable-header-cell">Post-Intervention<br />Measures</th>
-            <th class="etable-header-cell">Feedback Form</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for client_info in client_infos %}
-          <tr class="etable-row" data-id="{{ client_info.id }}">
-            <td class="etable-cell">
-              <input type="checkbox" onclick="handleRowSelect()">
-            </td>
-            <td class="etable-cell"><a class="client-id-link" href="{% url 'client_summary' client_info.client_id %}">{{ client_info.client_id }}</a></td>
-            <td class="etable-cell">
-              {% for tag in client_info.tags %}
-                <span class="client-tag etable-cell-pill bluish-pill">{{tag}}</span>
-              {% endfor %}
-            </td>
-            {% if client_info.screening_date %}
+      <div class="etable-container">
+        <table class="etable">
+          <thead>
+            <tr class="etable-header-row">
+              <th class="etable-header-cell"></th>
+              <th class="etable-header-cell">Client Id</th>
+              <th class="etable-header-cell">Tags</th>
+              <th class="etable-header-cell">Screening</th>
+              <th class="etable-header-cell">Pre-Intervention<br />Measures</th>
+              <th class="etable-header-cell">Post-Intervention<br />Measures</th>
+              <th class="etable-header-cell">Feedback Form</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for client_info in client_infos %}
+            <tr class="etable-row" data-id="{{ client_info.id }}">
               <td class="etable-cell">
-                <span class="client-tag etable-cell-pill bluish-pill">
-                  {{ client_info.screening_date }}
-                </span>
+                <input type="checkbox" onclick="handleRowSelect()">
               </td>
-            {% else %}
+              <td class="etable-cell"><a class="client-id-link" href="{% url 'client_summary' client_info.client_id %}">{{ client_info.client_id }}</a></td>
               <td class="etable-cell">
-                <span class="client-tag etable-cell-pill grey-pill">
-                  Not Submitted
-                </span>
+                {% for tag in client_info.tags %}
+                  <span class="client-tag etable-cell-pill bluish-pill">{{tag}}</span>
+                {% endfor %}
               </td>
-            {% endif %}
-            {% if client_info.pre_intervention_measures_date %}
-              <td class="etable-cell">
-                <span class="client-tag etable-cell-pill bluish-pill">
-                  {{ client_info.pre_intervention_measures_date }}
-                </span>
-              </td>
-            {% else %}
-              <td class="etable-cell">
-                <span class="client-tag etable-cell-pill grey-pill">
-                  Not Submitted
-                </span>
-              </td>
-            {% endif %}
-            {% if client_info.post_intervention_measures_date %}
-              <td class="etable-cell">
-                <span class="client-tag etable-cell-pill bluish-pill">
-                  {{ client_info.post_intervention_measures_date }}
-                </span>
-              </td>
-            {% else %}
-              <td class="etable-cell">
-                <span class="client-tag etable-cell-pill grey-pill">
-                  Not Submitted
-                </span>
-              </td>
-            {% endif %}
-            {% if client_info.feedback_form_date %}
-              <td class="etable-cell">
-                <span class="client-tag etable-cell-pill bluish-pill">
-                  {{ client_info.feedback_form_date }}
-                </span>
-              </td>
-            {% else %}
-              <td class="etable-cell">
-                <span class="client-tag etable-cell-pill grey-pill">
-                  Not Submitted
-                </span>
-              </td>
-            {% endif %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+              {% if client_info.screening_date %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill bluish-pill">
+                    {{ client_info.screening_date }}
+                  </span>
+                </td>
+              {% else %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill grey-pill">
+                    Not Submitted
+                  </span>
+                </td>
+              {% endif %}
+              {% if client_info.pre_intervention_measures_date %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill bluish-pill">
+                    {{ client_info.pre_intervention_measures_date }}
+                  </span>
+                </td>
+              {% else %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill grey-pill">
+                    Not Submitted
+                  </span>
+                </td>
+              {% endif %}
+              {% if client_info.post_intervention_measures_date %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill bluish-pill">
+                    {{ client_info.post_intervention_measures_date }}
+                  </span>
+                </td>
+              {% else %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill grey-pill">
+                    Not Submitted
+                  </span>
+                </td>
+              {% endif %}
+              {% if client_info.feedback_form_date %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill bluish-pill">
+                    {{ client_info.feedback_form_date }}
+                  </span>
+                </td>
+              {% else %}
+                <td class="etable-cell">
+                  <span class="etable-cell-pill grey-pill">
+                    Not Submitted
+                  </span>
+                </td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
     </div>
 
-    <div style="max-width: 90%;">
+    <div>
       <form id="register-client-id-form" method="post" action="/clinician/create-client-id">
         <div style="display:flex;flex-direction:column;">
           <h3>
