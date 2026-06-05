@@ -3,6 +3,7 @@ from django.shortcuts import render
 from initial_screening.models import QuestionnaireResponse
 from initial_screening.decorators import clinician_required
 from typing import Any
+from django.contrib.auth.decorators import login_required
 
 """
 TODO
@@ -13,6 +14,7 @@ Include/sort when they last submitted
 """
 
 @clinician_required
+@login_required
 def clinician_overview_page(request: HttpRequest) -> HttpResponse:
   """
   Show overview of clients that.

@@ -1,29 +1,38 @@
+{% extends 'clinician_overview/client_base_header_and_tags_layout.html' %}
 {% load static %}
-<html lang="en" style="font-family: Arial;">
-  <head>
-    <link rel="stylesheet" href="">
-    <link rel="stylesheet" href="{% static 'clinician_overview/nav_styles.css' %}">
-  </head>
-  <body style="margin:0; display:flex; flex-direction:column; align-items:center;">
-    {% include 'clinician_overview/navbar.html'%}
-    <main>
-      <h1>{{ questionnaire_name }}</h1>
-      <table>
-        <thead>
-          <th># &nbsp; &nbsp; &nbsp;</th>
-          <th>Question</th>
-          <th>Response</th>
-        </thead>
-        <tbody>
-          {% for response in responses %}
-          <tr>
-            <td> {{ forloop.counter }}</td>
-            <td>{{ response.question }}</td>
-            <td>{{ response.answer }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </main>
-  </body>
-</html>
+{% block head %}
+<link rel="stylesheet" href="{% static 'clinician_overview/client_response_page.css' %}">
+<link rel="stylesheet" href="{% static 'clinician_overview/client_summary_page.css' %}">
+{% endblock %}
+{% block title %} Client Response {% endblock %}
+
+{% block client-data %}
+<h2>
+{{questionnaire_title}}
+</h2>
+<span>
+  {{html_result_display}}
+</span>
+<div class="etable-container">
+  <table class="etable" id="client-responses-table">
+    <thead>
+      <tr class="etable-header-row">
+        <th class="etable-header-cell">Question</th>
+        <th class="etable-header-cell">Response</th>
+      </tr>
+    </thead>
+    {% for item in response_items %}
+    <tr class="etable-row">
+      <td class="etable-cell">{{item.question.text}}</td>
+      <td class="etable-cell">
+        {% if item.answerID %}
+          {{item.answerID.text}}
+        {% else %}
+          {{item.answer}}
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

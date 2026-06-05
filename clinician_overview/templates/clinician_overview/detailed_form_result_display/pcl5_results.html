@@ -1,0 +1,38 @@
+<p style="margin:0;">
+    <b>
+        Results:
+    </b>
+    {% if PCL5.ptsd_indicated %}
+        Scores are above the clinically significant threshold.
+    {% else %}
+        Scores are below the clinically significant threshold.
+    {% endif %}
+</p>
+<p style="margin:0;">
+    <b>
+        Score:
+    </b>
+    {{ PCL5.score }}
+</p>
+
+<br>
+<i>
+    The information below is intended for clinician guidance only and does not constitute a diagnosis or treatment directive. Final decisions about participant suitability for STEP interventions should be made using professional judgment, taking into account each participant’s unique circumstances and needs along with scores on mental health measures.
+</i>
+
+<br>
+
+<ul>
+    <li>
+        <b>
+            Scores 33 or below: 
+        </b>
+        PTSD-related symptoms are below the threshold of concern.
+    </li>
+    <li>
+        <b>
+            Scores above 33:
+        </b>
+        PTSD-related symptoms are elevated and may be clinically significant. Clinicians may consider STEP Together or conduct a more comprehensive assessment to determine the most appropriate intervention or therapeutic approach.
+    </li>
+</ul>

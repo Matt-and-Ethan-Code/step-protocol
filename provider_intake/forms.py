@@ -248,7 +248,6 @@ class ProviderIntakeForm(forms.ModelForm):
         emdr = cleaned_data.get("emdr")
         emdr_other = cleaned_data.get("emdr_other")
         if emdr == 'other' and not emdr_other:
-            print("FOUND EMDR ERROR!")
             self.add_error(
                 'emdr_other', 
                 other_error

@@ -6,10 +6,7 @@
   'opsz' 24
 }
 
-.centered-flex-container {
-    display: flex;
-    align-items: center;
-}
+
 
 header {
     margin-bottom: 0;
@@ -24,16 +21,12 @@ header a:hover .link-text {
     text-decoration: underline;
 }
 
-#client-summary-body {
+#client-data-body {
     background-color: white;
     padding: 0 20px 40px;
 }
 
-#client-header-container {
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 1rem;
-    color: white;
-}
+
 
 #client-data-container {
     display: flex;
@@ -42,13 +35,75 @@ header a:hover .link-text {
 }
 
 .client-tag, .white-tag-pill {
-    margin: auto 10px;
+    margin: 5px 10px;
     padding: 0.5em 2em;
     color: black;
     background-color: white;
     border-radius: 20px;
     display: inline-flex;
     justify-content: center;
+}
+
+.etable-filter-container {
+    display: inline-block;
+}
+
+@media (min-width: 769px) {
+    #overview-tables-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    #overview-tables-container {
+        grid-template-columns: 1fr;
+    }
+
+    .etable-filter-container {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    #submissions-table tr {
+        display: block;
+        border: 1px solid var(--bluish);
+        position: relative;
+    }
+    #submissions-table td {
+        display: flex;
+        border: none;
+        white-space: normal;
+        word-break: break-word;
+        text-align: left;
+        margin-right: 2rem;
+    }
+    #submissions-table td:has(input) {
+        position: absolute;
+        border: none;
+        padding: 0;
+        top: 0.6rem;
+        right: 0.75rem;
+    }
+
+    #submissions-table th {
+        display: none;
+    }
+
+    #submissions-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        margin-right: 1rem;
+        word-break: keep-all;
+    }
+
+    #sort-order-select, #form-filter-select {
+        width: 100%;
+    }
+}
+
+#at-a-glance-table, #step-solo-access {
+    max-width:100%;
+    overflow-x: auto;
 }
 
 .tags-control-button {
@@ -65,20 +120,6 @@ header a:hover .link-text {
     cursor: pointer;
 }
 
-.material-symbols-outlined.material-tags-control-badge {
-    display: inline;
-    background-color: white;
-    border-radius: 100px;
-    height: 20px;
-    width: 20px;
-    line-height: 20px;
-    font-size: 20px;
-    padding: 5px;
-    color: var(--bluish);
-    display: inline-flex;
-    cursor: pointer;
-    margin-right: 5px;
-}
 
 .delete-icon {
     cursor: pointer;
@@ -91,13 +132,15 @@ header a:hover .link-text {
 }
 
 #overview-tables-container {
-    display: flex;
+    display: grid;
     gap: 40px;
+    min-width: min-content;
 }
 
-#overview-tables-container .etable, #submissions-table .etable {
+#overview-tables-container .etable, #selectable-table .etable {
     margin: 0;
 }
+
 
 #tags-list-container {
     display: inline;
@@ -115,19 +158,7 @@ header a:hover .link-text {
     padding: 8px 10px;
 }
 
-.etable-cell-pill {
-    border-radius: 50px;
-    padding: 4px 8px;
-}
 
-.grey-pill {
-    background-color: rgba(224, 224, 224, 1);
-}
-
-.bluish-pill {
-    border-radius: 50px;
-    background-color: color-mix(in srgb, var(--bluish) 60%, transparent);
-}
 
 .button-pill {
     border: none;
@@ -150,14 +181,54 @@ header a:hover .link-text {
     color: white;
 }
 
-#selected-counter {
-    margin-right: 5px;
-}
-
-#submissions-controls {
-    gap: 2em;
-}
-
 .bottom-margin {
     margin-bottom: 1em;
+}
+
+.heatmap-cell {
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: default;
+  transition: transform 0.1s ease, filter 0.1s ease;
+  position: relative;
+}
+
+.heatmap-screening-row {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 6px;
+  align-items: center;
+  grid-template-columns: 88px repeat(6, 1fr);
+}
+
+:root {
+  --bg: #f5f4f0;
+  --text-1: #1a1917;
+  --red-bg: #fad5d5;
+  --red-text: #8a1a1a;
+}
+
+.heatmap-cell.red {
+  background: var(--red-bg);
+  color: var(--red-text);
+}
+
+.heatmap-cell.orange {
+  background: var(--orange-bg);
+  color: var(--orange-text);
+}
+
+.heatmap-cell.yellow {
+  background: var(--yellow-bg);
+  color: var(--yellow-text);
+}
+
+.heatmap-cell.green {
+  background: var(--green-bg);
+  color: var(--green-text);
 }

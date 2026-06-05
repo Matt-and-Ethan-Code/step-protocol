@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 
 class Client(models.Model):
@@ -13,8 +12,6 @@ class Client(models.Model):
   
   def __str__(self):
     return self.client_id
-
-  
 
   class Meta:
     constraints = [

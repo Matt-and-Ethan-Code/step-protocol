@@ -3,12 +3,14 @@ from django.http import HttpRequest, HttpResponse
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from initial_screening.decorators.clinician_decorator import clinician_required
 from initial_screening.models import QuestionnaireResponse
 from dataclasses import dataclass
 from typing import Any, cast
 
 
 @login_required
+@clinician_required
 def client_responses_page(request: HttpRequest, client_id: str) -> HttpResponse:
   user = cast(User, request.user)
   if not user_is_clinician(user):
@@ -45,7 +47,7 @@ class ViewQuestionnaireResponse:
 def overview_page_context(client_id: str, responses: list[QuestionnaireResponse]) -> dict[str, Any]:
   view_responses: list[ViewQuestionnaireResponse] = []
   for response in responses:
-    id = str(response.id)
+    id = str(response.pk)
     view_responses.append(ViewQuestionnaireResponse(
       questionnaire_response_id=id,
       submitted_at=response.submitted_at,
