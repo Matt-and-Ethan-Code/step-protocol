@@ -127,28 +127,26 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
 
                 # the question asking the ID will be question 29
                 unique_identifier = answers['29']
+                selected_provider_string = answers['30']
+                if isinstance(selected_provider_string, str):
+                    selected_provider_option = AnswerOption.objects.filter(question_id=30, id=int(selected_provider_string)).first()
+                    if selected_provider_option:
+                        clinician_email = selected_provider_option.internal_value
+                        request.session['clinician_email'] = clinician_email
+
                 # store the unique identifier in a session variable
                 request.session['unique_identifier'] = unique_identifier
 
             # get the user identifier -- at this point it should exist
             user_identifier = request.session.get('unique_identifier')
+            clinician_email = request.session.get('clinician_email')
 
-            clinician: User | None = None
-            # get the selected provider -- in question 30
-            selected_provider_string = answers['30']
-            if isinstance(selected_provider_string, str):
-                # question 30 is a multiple choice question (dropdown), so we must look up its AnswerOption
-                # see models for more information.
-                selected_provider_option = AnswerOption.objects.filter(question_id=30, id=int(selected_provider_string)).first()
-                if (selected_provider_option):
-                    # query the users table for a matching provider
-                    # the email is stored in the internal_value field
-                    clinician = User.objects.filter(email=selected_provider_option.internal_value).first()
-            
-            if not clinician:
+            if not clinician_email:
                 # if they are in the dropdown list, they should exist as a user in the db
                 return HttpResponseServerError()
-            
+            clinician = clientm._clinician_from_email_or_user(clinician_email)
+            if not clinician:
+                return HttpResponseServerError()
 
             client: Client | None = clientm.find(str(user_identifier), clinician)
 
