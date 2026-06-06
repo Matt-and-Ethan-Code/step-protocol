@@ -158,7 +158,7 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             # check that the client has access now
             client_can_access = access_module.has_access(clinician, client)
             if not client_can_access:
-                return render(request, 'initial_screening/client_does_not_have_access.html')
+                return render(request, 'initial_screening/client_does_not_have_permission.html')
 
 
             # store the QuestionnaireResponse
