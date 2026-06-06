@@ -158,7 +158,7 @@
                             <td class="etable-cell"><input type="checkbox" onclick="handleRowSelect()"></td>
                             <td class="etable-cell data-cell" data-label="Submission"><a href="/clinician/clients/{{client_id}}/response/{{submission.id}}">{{submission.form}}</a></td>
                             <td class="etable-cell data-cell" data-label="Submitted">{{submission.submission_date}}</td>
-                            <td class="etable-cell data-cell" data-label="Results">{{submission.results}}</td>
+                            <td class="etable-cell data-cell {% if 'Elevated' in submission.results %}text-red{% else %}text-yellow{% endif %}" data-label="Results">{{submission.results}}</td>
                             <td class="etable-cell data-cell" data-label="Deletion">{{submission.scheduled_deletion}}</td>
                         </tr>
                     {% endfor %}

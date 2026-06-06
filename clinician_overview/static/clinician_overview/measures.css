@@ -1,0 +1,40 @@
+.measures-page-section {
+    background-color: white; 
+    min-width: 50%;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+}
+
+.measures-page-section h3 {
+    background-color: color-mix(in srgb, var(--bluish) 70%, transparent);
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    padding: 1rem 0;
+    color: white;
+    font-weight: 400;
+}
+
+#measures-link-header {
+    background-color: var(--brown);
+    color: white;
+    padding:1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.masures-pill {
+    padding: 1rem;
+    border-radius: 50em;
+}
+
+.orange-pill {
+    background-color: var(--orangey);
+    color: white;
+}
+
+.blue-pill {
+    background-color: var(--bluish);
+    color: white;
+}

@@ -1,1 +1,47 @@
-Hi!
+{% extends 'clinician_overview/clinician_base_layout.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'clinician_overview/measures.css' %}">
+{% endblock %}
+{% block content %}
+<header style="margin-bottom:0;">
+    <h2 class="tab-header">Measures</h2>
+</header>
+<div style="display: flex; flex-wrap: wrap; background-color: white;">
+    <div class="measures-page-section">
+        <h3>
+            Screening at a Glance
+        </h3>
+        <img>
+        
+    </div>
+    <div class="measures-page-section">
+        <h3>
+            Links for Measures
+        </h3>
+        <div id="measures-link-header">
+            Select a form below to copy its link to your clipboard for emailing to your client.
+        </div>
+        <div style="text-align: center; margin: 2rem; display: flex; flex-direction: column; gap: 2em;">
+            <span>
+                Before Group:
+            </span>
+            <div class="masures-pill orange-pill">
+                Screening Measures: ITQ/DES-T
+            </div>
+            <div class="masures-pill orange-pill">
+                PRE-Intervention Measures: PCL-5, DASS-21, GSE
+            </div>
+            <span>
+                After Group:
+            </span>
+            <div class="masures-pill blue-pill">
+                Feedback Form
+            </div>
+            <div class="masures-pill blue-pill">
+                POST-Intervention Measures: PCL-5, DASS-21, GSE
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
