@@ -1,4 +1,5 @@
 {% extends 'clinician_overview/client_base_header_and_tags_layout.html' %}
+{% load tz %}
 {% load static %}
 {% block title %} Clients {% endblock %}
 
@@ -78,16 +79,29 @@
                     </thead>
                     <tbody>
                         <tr class="etable-row">
-                            <td class="etable-cell">{{access_status}}</td>
-                            <td class="etable-cell">{{access_renewed_date}}</td>
-                            <td class="etable-cell">{{access_expiry_date}}</td>
+                            <th class="etable-cell">{{access_status}}</th>
+                            <th class="etable-cell">{{access_renewed_date | localtime}}</th>
+                            <th class="etable-cell">{{access_expiry_date | localtime}}</th>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div id="access-buttons-container">
-                <button id="extend-access-button" class="etable-cell-pill button-pill">Extend Access</button>
-                <button id="remove-access-button" class="etable-cell-pill button-pill">Remove Access</button>
+                <div id="access-buttons-container">
+                    <form method="POST" action="/clinician/extend-access">
+                        {% csrf_token %}
+                        <select name="duration">
+                            <option value="3">3 Days</option>
+                            <option value="7">7 Days</option>
+                            <option value="14">14 Days</option>
+                        </select>
+                        <input type="hidden" name="client_id" value="{{client_id}}">
+                      <button type="submit" id="extend-access-button" class="etable-cell-pill button-pill">Extend Access</button>
+                  </form>
+                  <form method="POST" action="/clinician/revoke-access">
+                    {% csrf_token %}
+                    <input type="hidden" name="client_id" value="{{client_id}}">
+                    <button type="submit" id="remove-access-button" class="etable-cell-pill button-pill">Remove Access</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

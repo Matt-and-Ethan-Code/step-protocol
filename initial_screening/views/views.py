@@ -1,10 +1,26 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
-
+import clinician_overview.util.client as clientm
 from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question, FormMembership
 from ..intake_forms import QuestionnaireForm
 from django.contrib.auth.models import User
+from clinician_overview.scoring import DesTForm, Dass21Form, GSEForm, ItqForm, Pcl5Form, DesTResponse, DesTQuestion, Dass21Question, Dass21Response, Pcl5Question, Pcl5Response
+import initial_screening.scoring as scoring
+from typing import Any, cast
+import random
+from clinician_overview.util import access as access_module
+from django.http import HttpResponseServerError
+from dataclasses import dataclass
 from clinician_overview.models import Client
+
+@dataclass
+class AnswersDict:
+    DEST: DesTForm
+    DASS: Dass21Form
+    GSE: GSEForm
+    ITQ: ItqForm
+    PCL: Pcl5Form
+
 
 
 def home_view(_: HttpRequest):
@@ -111,46 +127,37 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
 
                 # the question asking the ID will be question 29
                 unique_identifier = answers['29']
+                selected_provider_string = answers['30']
+                if isinstance(selected_provider_string, str):
+                    selected_provider_option = AnswerOption.objects.filter(question_id=30, id=int(selected_provider_string)).first()
+                    if selected_provider_option:
+                        clinician_email = selected_provider_option.internal_value
+                        request.session['clinician_email'] = clinician_email
+
                 # store the unique identifier in a session variable
                 request.session['unique_identifier'] = unique_identifier
 
             # get the user identifier -- at this point it should exist
             user_identifier = request.session.get('unique_identifier')
+            clinician_email = request.session.get('clinician_email')
 
-            client: Client | None = Client.objects.filter(client_id=user_identifier).first()
+            if not clinician_email:
+                # if they are in the dropdown list, they should exist as a user in the db
+                return HttpResponseServerError()
+            clinician = clientm._clinician_from_email_or_user(clinician_email)
+            if not clinician:
+                return HttpResponseServerError()
+
+            client: Client | None = clientm.find(str(user_identifier), clinician)
 
             if not client: # quit early if it doesnt exist
                 return render(request, 'initial_screening/client_does_not_exist.html')
-                    
+            
+            # check that the client has access now
+            client_can_access = access_module.has_access(clinician, client)
+            if not client_can_access:
+                return render(request, 'initial_screening/client_does_not_have_permission.html')
 
-            # check if a client id exists yet
-            try:
-                # look up the ClientId table on user identifier
-                client = Client.objects.get(client_id=user_identifier)
-            except Client.DoesNotExist:
-
-                # if objects.get fails, ClientId.DoesNotExist gets thrown
-                # must create ClientId
-
-                # get the selected provider -- in question 30
-                selected_provider_string = answers['30']
-                if isinstance(selected_provider_string, str):
-                    # question 30 is a multiple choice question (dropdown), so we must look up its AnswerOption
-                    # see models for more information.
-                    selected_provider_option = AnswerOption.objects.filter(question_id=30, id=int(selected_provider_string)).first()
-                    if (selected_provider_option):
-                        # query the users table for a matching provider
-                        # the email is stored in the internal_value field
-                        clinician = User.objects.get(email=selected_provider_option.internal_value)
-
-                        # create a new client id if not exists
-                        # using default values
-                        client = Client.objects.create(
-                            client_id=user_identifier, 
-                            clinician=clinician,
-                            is_active=True, 
-                            tags=[]
-                        )
 
             # store the QuestionnaireResponse
             # this will not contain any answers, but just the record that the user responded to the questionnaire.

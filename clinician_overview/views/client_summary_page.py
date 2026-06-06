@@ -1,9 +1,8 @@
 from django.db.models.manager import BaseManager
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from typing import Any, TypedDict
+from typing import Any, TypedDict, cast
 from datetime import datetime
-
 from django.utils import timezone
 from clinician_overview.models import AccessGrant, Client
 from clinician_overview.scoring.dass21 import Dass21Score
@@ -11,6 +10,9 @@ from clinician_overview.scoring.dest import DesTScore
 from clinician_overview.scoring.gse import GSEScore
 from clinician_overview.scoring.itq_dichotomous import ItqDichotomousScore
 from clinician_overview.scoring.pcl5_diagnostic import Pcl5Score
+from clinician_overview.util import client as clientm
+from django.contrib.auth.models import User
+import clinician_overview.util.access as access
 from clinician_overview.util.score_questionnaire_response import score_questionnaire_response
 from initial_screening.decorators.clinician_decorator import clinician_required
 from initial_screening.models import QuestionnaireResponse, FormMembership, ResponseItem
@@ -30,11 +32,18 @@ class SubmissionSummary(TypedDict):
 @clinician_required
 @login_required
 def client_summary_page(request: HttpRequest, client_id: str) -> HttpResponse:
-  ctx = make_context(client_id)
+  clinician: User = cast(User, request.user)
+  client: Client | None = clientm.find(client_id, clinician)
+  if not client:
+    return render(request, 'clinician_overview/client_not_found.html', { "client_id": client_id })
+
+  access_grant = access.has_access(clinician, client)
+  
+  ctx = make_context(client, access_grant)
   return render(request, 'clinician_overview/client_summary_page.html', context=ctx)
 
 def get_form_completion_date_for_client(client_id: Client, form_id: int)  -> datetime | None:
-  last_questionnaire = FormMembership.objects.filter(form_id = form_id).order_by("order").last()
+  last_questionnaire = FormMembership.objects.filter(form_id=form_id).order_by("order").last()
   if last_questionnaire:
     last_response = QuestionnaireResponse.objects.filter(user_identifier=client_id, form_id=form_id, questionnaire_id=last_questionnaire.questionnaire.id).order_by("submitted_at").last()
 
@@ -57,17 +66,17 @@ def create_questionnaire_result_string(result: DesTScore | ItqDichotomousScore |
     return routine_string
   
   
-def make_context(client_id: str) -> dict[str, Any]:
+def make_context(client_id: str, access_grant: AccessGrant | None) -> dict[str, Any]:
   try:
     client: Client = Client.objects.get(client_id=client_id)
     client_basic_information: ViewClientInfo = get_client_information.get_client_information(client_id)
 
     unique_form_names: list[str] = []
-    access_grant = AccessGrant.objects.filter(client=client).first()
+
     if access_grant:
       access_renewed_date = access_grant.created_at
-      access_expiry_date = access_grant.expires_at
-      access_status = "Expiring Soon" if access_expiry_date > timezone.now() else "Expired"
+      access_expiry_date = access.has_access_until(client)
+      access_status = "Expiring Soon" if access_expiry_date and access_expiry_date > timezone.now() else "Expired"
     else:
       access_renewed_date = None
       access_expiry_date = None

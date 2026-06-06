@@ -1,6 +1,6 @@
 from django.urls import path
 from django.http import HttpRequest, HttpResponse
-from clinician_overview.views import delete_clients_route, delete_responses_route, client_responses_page, save_tags_route, measures_page, questionnaire_response_page, not_clinician_page, notifications_page, clients_page, client_summary_page, client_id_route, export_csv_route
+from clinician_overview.views import delete_clients_route, delete_responses_route, client_responses_page, save_tags_route, measures_page, questionnaire_response_page, not_clinician_page, notifications_page, clients_page, client_summary_page, client_id_route, export_csv_route, revoke_access, extend_access
 from django.shortcuts import redirect
 
 def handle_index(_req: HttpRequest) -> HttpResponse:
@@ -20,6 +20,7 @@ urlpatterns = [
   path('clients/delete-clients', delete_clients_route, name='delete_clients'),
   path('clients/<str:client_id>', client_summary_page, name='client_summary'),
   path('clinician-required', not_clinician_page),
+  path('revoke-access', revoke_access),
+  path('extend-access', extend_access),
   path('<str:client_id>', client_responses_page),
-  
 ]
