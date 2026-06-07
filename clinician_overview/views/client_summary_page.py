@@ -66,10 +66,9 @@ def create_questionnaire_result_string(result: DesTScore | ItqDichotomousScore |
     return routine_string
   
   
-def make_context(client_id: str, access_grant: AccessGrant | None) -> dict[str, Any]:
+def make_context(client: Client, access_grant: AccessGrant | None) -> dict[str, Any]:
   try:
-    client: Client = Client.objects.get(client_id=client_id)
-    client_basic_information: ViewClientInfo = get_client_information.get_client_information(client_id)
+    client_basic_information: ViewClientInfo = get_client_information.get_client_information(client)
 
     unique_form_names: list[str] = []
 
@@ -114,7 +113,7 @@ def make_context(client_id: str, access_grant: AccessGrant | None) -> dict[str, 
 
     return {
         'nav_section': 'clients',
-        'client_id': client_id, 
+        'client_id': client.client_id, 
         'client_tags': client_basic_information.tags, 
         'screening': client_basic_information.screening_date, 
         'pre_intervention_measures': client_basic_information.pre_intervention_measures_date, 
@@ -129,7 +128,7 @@ def make_context(client_id: str, access_grant: AccessGrant | None) -> dict[str, 
   except Client.DoesNotExist:
     return {
       'nav_section': 'clients',
-      'client_id': client_id, 
+      'client_id': "", 
       'client_tags': [], 
       'screening': None, 
       'pre_intervention_measures': None, 

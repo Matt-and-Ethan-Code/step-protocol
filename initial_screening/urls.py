@@ -5,8 +5,5 @@ urlpatterns = [
     path('', views.home_view, name="home_page"),
     path('start/<int:form_id>', views.start_testing, name='start_testing'),
     path('forms/<int:form_id>/questionnaire/<int:questionnaire_id>', views.questionnaire_view, name="questionnaire_view"),
-    path('complete/', views.testing_complete, name='testing_complete'),
-    path('itq-sample-response/', views.itq_email, name='itq_email'),
-    path('dass21-sample-response/', views.dass21_email, name='dass21_email'),
-    path('pcl5-sample-response/', views.pcl5_email, name='pcl5_email')
+    path('complete/', views.testing_complete, name='testing_complete')
 ]

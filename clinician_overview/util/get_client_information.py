@@ -23,8 +23,7 @@ def get_form_completion_date_for_client(client_id: Client, form_id: int)  -> dat
       return last_response.submitted_at
 
 
-def get_client_information(client_id: str) -> Any:
-    client: Client = Client.objects.get(client_id=client_id)
+def get_client_information(client: Client) -> Any:
     client_tags: list[str] = client.tags
 
     screening_form_id = 1
@@ -39,7 +38,7 @@ def get_client_information(client_id: str) -> Any:
 
     result_dict: dict[str, Any] = {
         'id': client.pk,
-        'client_id': client_id, 
+        'client_id': client.client_id, 
         'tags': client_tags, 
         'screening_date': screening_date, 
         'pre_intervention_measures_date': pre_intervention_date, 

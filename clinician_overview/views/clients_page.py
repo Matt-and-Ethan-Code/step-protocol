@@ -16,7 +16,7 @@ def clients_page(req: HttpRequest) -> HttpResponse:
   clients = Client.objects.filter(clinician=req.user)
   client_infos: list[ViewClientInfo] = []
   for client in clients:
-    thisClientInfo: ViewClientInfo = get_client_information.get_client_information(client.client_id)
+    thisClientInfo: ViewClientInfo = get_client_information.get_client_information(client)
 
     client_infos.append(thisClientInfo)
 
