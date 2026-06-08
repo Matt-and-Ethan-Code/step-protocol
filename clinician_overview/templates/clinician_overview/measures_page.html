@@ -7,41 +7,57 @@
 <header style="margin-bottom:0;">
     <h2 class="tab-header">Measures</h2>
 </header>
-<div style="display: flex; flex-wrap: wrap; background-color: white;">
-    <div class="measures-page-section">
-        <h3>
-            Screening at a Glance
-        </h3>
-        <img>
-        
-    </div>
-    <div class="measures-page-section">
-        <h3>
-            Links for Measures
-        </h3>
-        <div id="measures-link-header">
-            Select a form below to copy its link to your clipboard for emailing to your client.
+<div id="flex-container">
+    <div style="display: flex; flex-wrap: wrap; gap: 2px;">
+        <div class="measures-page-section">
+            <h3>
+                Screening at a Glance
+            </h3>
+            <a href="{% static 'clinician_overview/step-measures.png' %}" target="_blank" rel="noopener noreferrer">
+                <img style="max-width: 100%;" src="{% static 'clinician_overview/step-measures.png' %}">
+                <small>Tap to view full size</small>
+            </a>
+
         </div>
-        <div style="text-align: center; margin: 2rem; display: flex; flex-direction: column; gap: 2em;">
-            <span>
-                Before Group:
-            </span>
-            <div class="masures-pill orange-pill">
-                Screening Measures: ITQ/DES-T
+        <div class="measures-page-section">
+            <h3>
+                Links for Measures
+            </h3>
+            <div id="measures-link-header">
+                Select a form below to copy its link to your clipboard for emailing to your client.
             </div>
-            <div class="masures-pill orange-pill">
-                PRE-Intervention Measures: PCL-5, DASS-21, GSE
-            </div>
-            <span>
-                After Group:
-            </span>
-            <div class="masures-pill blue-pill">
-                Feedback Form
-            </div>
-            <div class="masures-pill blue-pill">
-                POST-Intervention Measures: PCL-5, DASS-21, GSE
+            <div style="text-align: center; margin: 2rem; display: flex; flex-direction: column; gap: 2em;">
+                <span>
+                    Before Group:
+                </span>
+                <div data-url="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 1 %}" class="masures-pill orange-pill" onclick="copyLink(this)" style="cursor: pointer;">
+                    Screening Measures: ITQ/DES-T
+                </div>
+                <div data-url="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 3 %}" class="masures-pill orange-pill" onclick="copyLink(this)" style="cursor: pointer;">
+                    PRE-Intervention Measures: PCL-5, DASS-21, GSE
+                </div>
+                <span>
+                    After Group:
+                </span>
+                <div class="masures-pill blue-pill" style="cursor: pointer;">
+                    Feedback Form
+                </div>
+                <div data-url="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 4 %}" class="masures-pill blue-pill" onclick="copyLink(this)" style="cursor: pointer;">
+                    POST-Intervention Measures: PCL-5, DASS-21, GSE
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+function copyLink(el) {
+    const url = el.dataset.url;
+    console.log("url: ", url);
+  navigator.clipboard.writeText(url).then(() => {
+    const original = el.innerText;
+    el.innerText = 'Copied!';
+    setTimeout(() => el.innerText = original, 2000);
+  });
+}
+</script>
 {% endblock %}

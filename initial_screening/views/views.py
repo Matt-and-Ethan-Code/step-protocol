@@ -5,7 +5,7 @@ from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, Answer
 from ..intake_forms import QuestionnaireForm
 from django.contrib.auth.models import User
 from clinician_overview.scoring import DesTForm, Dass21Form, GSEForm, ItqForm, Pcl5Form, DesTResponse, DesTQuestion, Dass21Question, Dass21Response, Pcl5Question, Pcl5Response
-import initial_screening.scoring as scoring
+import clinician_overview.scoring as scoring
 from typing import Any, cast
 import random
 from clinician_overview.util import access as access_module
