@@ -185,50 +185,11 @@ header a:hover .link-text {
     margin-bottom: 1em;
 }
 
-.heatmap-cell {
-  height: 48px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: default;
-  transition: transform 0.1s ease, filter 0.1s ease;
-  position: relative;
+
+.text-red {
+    color: #9c0000;
 }
 
-.heatmap-screening-row {
-  display: grid;
-  gap: 6px;
-  margin-bottom: 6px;
-  align-items: center;
-  grid-template-columns: 88px repeat(6, 1fr);
-}
-
-:root {
-  --bg: #f5f4f0;
-  --text-1: #1a1917;
-  --red-bg: #fad5d5;
-  --red-text: #8a1a1a;
-}
-
-.heatmap-cell.red {
-  background: var(--red-bg);
-  color: var(--red-text);
-}
-
-.heatmap-cell.orange {
-  background: var(--orange-bg);
-  color: var(--orange-text);
-}
-
-.heatmap-cell.yellow {
-  background: var(--yellow-bg);
-  color: var(--yellow-text);
-}
-
-.heatmap-cell.green {
-  background: var(--green-bg);
-  color: var(--green-text);
+.text-yellow {
+    color: var(--orangey)
 }

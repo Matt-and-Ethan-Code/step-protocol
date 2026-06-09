@@ -5,23 +5,27 @@ from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, Answer
 from ..intake_forms import QuestionnaireForm
 from django.contrib.auth.models import User
 from clinician_overview.scoring import DesTForm, Dass21Form, GSEForm, ItqForm, Pcl5Form, DesTResponse, DesTQuestion, Dass21Question, Dass21Response, Pcl5Question, Pcl5Response
-import initial_screening.scoring as scoring
+import clinician_overview.scoring as scoring
 from typing import Any, cast
 import random
 from clinician_overview.util import access as access_module
 from django.http import HttpResponseServerError
 from dataclasses import dataclass
 from clinician_overview.models import Client
-
-@dataclass
-class AnswersDict:
-    DEST: DesTForm
-    DASS: Dass21Form
-    GSE: GSEForm
-    ITQ: ItqForm
-    PCL: Pcl5Form
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 
+def notify_clinician(clinician:User):
+    subject = render_to_string(
+        "initial_screening/provider_notifications/new_response_notification_email_subject.txt"
+    ).strip()
+    html_body = render_to_string(
+        "initial_screening/provider_notifications/new_response_notification_email.html"
+    )
+    email = EmailMultiAlternatives(subject=subject, to=[clinician.email])
+    email.attach_alternative(html_body, "text/html")
+    email.send(fail_silently=True)
 
 def home_view(_: HttpRequest):
     initial_screening_form_id = 1
@@ -194,8 +198,10 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
                         response = new_response,
                         question_id = question_id,
                         answer = answers[answer]
-                    )             
+                    )  
 
+            # send email to clinician notifying them of change
+            notify_clinician(clinician)           
 
         # query FormMembership for the order of current questionnaire.
         # note: in django, it's possible to filter a database using foreignkey_id=[id] syntax to filter on a foreign key column.

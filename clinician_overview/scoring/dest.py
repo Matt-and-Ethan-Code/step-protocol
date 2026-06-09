@@ -15,8 +15,9 @@ def score(responses: DesTForm) -> DesTScore:
   Returns the score, which is the mean of the responses.
   Significant if the mean is >= 20%.
   """
+  print("responses: ", responses)
   question_count = 8
-  score = sum(responses.keys()) // question_count # the average among the 8 questions
+  score = sum(responses.values()) // question_count # the average among the 8 questions
 
   return DesTScore(
     score=score,

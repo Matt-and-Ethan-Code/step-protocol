@@ -50,7 +50,11 @@ def score_questionnaire_response(responseItems: BaseManager[ResponseItem], quest
         lambda count: cast(ItqResponse, count),
         lambda i: cast(ItqQuestion, i),
         )
-        return scoring.itq_dichotomous_score(itqResponseForm)
+        traumatic_experience = responseItems.filter(question_id=9).first()
+        if traumatic_experience:
+            return scoring.itq_dichotomous_score(itqResponseForm, traumatic_experience.answer)
+        else:
+            return scoring.itq_dichotomous_score(itqResponseForm, "")
     elif "PCL-5" in questionnaire_title:
         pclResponseForm: Pcl5Form = build_response_form(
         responseItems,

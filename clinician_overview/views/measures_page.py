@@ -5,4 +5,4 @@ from initial_screening.decorators.clinician_decorator import clinician_required
 
 @clinician_required
 def measures_page(request: HttpRequest) -> HttpResponse:
-    return render(request, 'clinician_overview/measures_page.html')
+    return render(request, 'clinician_overview/measures_page.html', {"nav_section": "measures"})

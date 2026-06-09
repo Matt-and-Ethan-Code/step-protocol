@@ -29,8 +29,9 @@ class ItqDichotomousScore:
     negative_self_concept_met: bool
     disturbances_in_relationships_met: bool
     dso_functional_impairment_met: bool
+    traumatic_experience: str
 
-def score(responses: ItqForm) -> ItqDichotomousScore:
+def score(responses: ItqForm, traumatic_experience) -> ItqDichotomousScore:
     """
     Score the full ITQ form according to dichotomous criteria
     """
@@ -53,7 +54,8 @@ def score(responses: ItqForm) -> ItqDichotomousScore:
         affective_disregulation_met=dso.affective_disregulation_met,
         negative_self_concept_met=dso.negative_self_concept_met,
         disturbances_in_relationships_met=dso.disturbances_in_relationships_met,
-        dso_functional_impairment_met=dso.functional_impairment_met
+        dso_functional_impairment_met=dso.functional_impairment_met, 
+        traumatic_experience=traumatic_experience
     )
 
 
