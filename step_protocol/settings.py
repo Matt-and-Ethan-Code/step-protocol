@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from typing import Any
-from configparser import RawConfigParser
+from configparser import RawConfigParser, NoOptionError
 
 config = RawConfigParser()
 config.read('settings.ini')
@@ -28,7 +28,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config.get('section','DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+try:
+    DEBUG = config.get('section', 'DEBUG') == 'True'
+except NoOptionError:
+    DEBUG = False # assume production if it's not set
+
+IS_PRODUCTION = not DEBUG
 
 ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1', 'localhost']
 
@@ -164,9 +169,8 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 ACCOUNT_LOGIN_METHODS = {"email"}
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False 
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
+
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGOUT_ON_GET = True 
 
@@ -178,6 +182,14 @@ SESSION_ABSOLUTE_TIMEOUT = 2 * 60 * 60 # 2 hours -- logs out even if active
 SESSION_COOKIE_AGE = 2 * 60 * 60
 SESSION_SAVE_EVERY_REQUEST = False #True 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False 
-SESSION_COOKIE_HTTPONLY = False #True 
-SESSION_COOKIE_SECURE = False #True # HTTPS only
-CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = IS_PRODUCTION
+SESSION_COOKIE_SECURE = IS_PRODUCTION # HTTPS only
+CSRF_COOKIE_SECURE = IS_PRODUCTION
+
+if IS_PRODUCTION:  # in production
+    SECURE_SSL_REDIRECT = True # redirect http to https
+    SECURE_SECONDS_HSTS = 30
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+

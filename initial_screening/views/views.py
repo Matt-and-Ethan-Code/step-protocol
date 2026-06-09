@@ -147,10 +147,10 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
 
             if not clinician_email:
                 # if they are in the dropdown list, they should exist as a user in the db
-                return HttpResponseServerError()
+                return HttpResponseServerError("Clinician not provided!")
             clinician = clientm._clinician_from_email_or_user(clinician_email)
             if not clinician:
-                return HttpResponseServerError()
+                return HttpResponseServerError("Clinician not found!")
 
             client: Client | None = clientm.find(str(user_identifier), clinician)
 
