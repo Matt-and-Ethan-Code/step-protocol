@@ -201,7 +201,7 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
                     )  
 
             # send email to clinician notifying them of change
-            notify_clinician(clinician)           
+            #notify_clinician(clinician)           
 
         # query FormMembership for the order of current questionnaire.
         # note: in django, it's possible to filter a database using foreignkey_id=[id] syntax to filter on a foreign key column.
