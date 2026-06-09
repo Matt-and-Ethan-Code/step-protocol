@@ -130,6 +130,7 @@ LANGUAGE_CODE = 'en-us'
 USE_I18N = True
 
 USE_TZ = True
+TIME_ZONE = "America/Edmonton"
 
 
 # Static files (CSS, JavaScript, Images)
