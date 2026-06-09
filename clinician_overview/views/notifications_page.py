@@ -47,9 +47,3 @@ def make_context(notifications: list[ViewNotification]) -> dict[str, list[ViewNo
     "notifications": notifications
   }
 
-def mock_messages() -> list[ViewNotification]:
-  return [
-    ViewNotification("sakf2049", "This thing was submitted", datetime.now()),
-    ViewNotification("fkal3058", "This thing was submitted", datetime.now()),
-    ViewNotification("slfo2950", "This thing was submitted", datetime.now()),
-  ]
