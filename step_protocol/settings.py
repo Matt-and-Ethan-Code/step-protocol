@@ -35,7 +35,7 @@ except NoOptionError:
 
 IS_PRODUCTION = not DEBUG
 
-ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1', 'localhost', 'https://step-protocol-soft-cove-2004.fly.dev']
 
 
 # Application definition
