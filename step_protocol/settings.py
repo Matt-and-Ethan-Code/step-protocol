@@ -35,7 +35,7 @@ except:
 # SECURITY WARNING: don't run with debug turned on in production!
 try:
     DEBUG =  ( os.environ.get('DEBUG') or config.get('section', 'DEBUG'))  == 'True'
-except NoOptionError:
+except:
     DEBUG = False # assume production if it's not set
 
 IS_PRODUCTION = not DEBUG
