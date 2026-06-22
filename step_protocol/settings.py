@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from typing import Any
 from configparser import RawConfigParser, NoOptionError
+import os
 
 config = RawConfigParser()
 config.read('settings.ini')
@@ -25,11 +26,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config.get('section','DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') or config.get('section','DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 try:
-    DEBUG = config.get('section', 'DEBUG') == 'True'
+    DEBUG =  ( os.environ.get('DEBUG') or config.get('section', 'DEBUG'))  == 'True'
 except NoOptionError:
     DEBUG = False # assume production if it's not set
 
@@ -159,7 +160,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "step.protocol.test@gmail.com"
-EMAIL_HOST_PASSWORD = config.get('section','EMAIL_HOST_PASSWORD')
+EMAIL_HOST_PASSWORD =os.environ.get('EMAIL_HOST_PASSWORD') or config.get('section','EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = "STEP <step.protocol.test@gmail.com>"
 EMAIL_SUBJECT_PREFIX = "[STEP] "
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
