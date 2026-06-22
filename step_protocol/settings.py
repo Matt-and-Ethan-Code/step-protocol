@@ -26,11 +26,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# db location should be different depending on whether the app is in fly.io or run locally
+db_location = ""
 try:
-    SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-except:
+    # local version: look in base_dir
     SECRET_KEY = config.get('section','DJANGO_SECRET_KEY')
+    db_location = BASE_DIR / 'db.sqlite3'
+except:
+    # fly.io version: look in data
+    SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+    db_location = '/data/db.sqlite3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 try:
@@ -108,7 +113,7 @@ WSGI_APPLICATION = 'step_protocol.wsgi.application'
 DATABASES: dict[str, Any] = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': db_location
     }
 }
 
@@ -165,9 +170,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "step.protocol.test@gmail.com"
 try:
-    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-except:
     EMAIL_HOST_PASSWORD = config.get('section','EMAIL_HOST_PASSWORD')
+except:
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
     
 DEFAULT_FROM_EMAIL = "STEP <step.protocol.test@gmail.com>"
 EMAIL_SUBJECT_PREFIX = "[STEP] "
