@@ -21,19 +21,20 @@ config.read('settings.ini')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# flag for whether config should be used (if deploying using fly.io)
-USE_ENV = os.environ.get('DJANGO_SECRET_KEY') is not None 
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') if USE_ENV else config.get('section','DJANGO_SECRET_KEY')
+try:
+    SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+except:
+    SECRET_KEY = config.get('section','DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 try:
-    DEBUG =  ( os.environ.get('DEBUG') if USE_ENV else config.get('section', 'DEBUG'))  == 'True'
+    DEBUG =  ( os.environ.get('DEBUG') or config.get('section', 'DEBUG'))  == 'True'
 except NoOptionError:
     DEBUG = False # assume production if it's not set
 
@@ -163,7 +164,11 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "step.protocol.test@gmail.com"
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') if USE_ENV else config.get('section','EMAIL_HOST_PASSWORD')
+try:
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+except:
+    EMAIL_HOST_PASSWORD = config.get('section','EMAIL_HOST_PASSWORD')
+    
 DEFAULT_FROM_EMAIL = "STEP <step.protocol.test@gmail.com>"
 EMAIL_SUBJECT_PREFIX = "[STEP] "
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
