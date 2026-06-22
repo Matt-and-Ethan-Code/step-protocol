@@ -46,6 +46,7 @@ except:
 IS_PRODUCTION = not DEBUG
 
 ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1', 'localhost', 'step-protocol-soft-cove-2004.fly.dev']
+CSRF_TRUSTED_ORIGINS = ['step-protocol-soft-cove-2004.fly.dev']
 
 
 # Application definition
