@@ -29,13 +29,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # db location should be different depending on whether the app is in fly.io or run locally
 db_location = ""
 try:
+    db_location = '/data/db.sqlite3' if os.environ.get("USE_FLY") == 'True' else BASE_DIR / 'db.sqlite3' 
+except:
+    db_location = ""
+
+try:
     # local version: look in base_dir
     SECRET_KEY = config.get('section','DJANGO_SECRET_KEY')
-    db_location = BASE_DIR / 'db.sqlite3'
 except:
     # fly.io version: look in data
     SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-    db_location = '/data/db.sqlite3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 try:
@@ -46,8 +49,7 @@ except:
 IS_PRODUCTION = not DEBUG
 
 ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1', 'localhost', 'step-protocol-soft-cove-2004.fly.dev']
-CSRF_TRUSTED_ORIGINS = ['step-protocol-soft-cove-2004.fly.dev']
-
+CSRF_TRUSTED_ORIGINS = ['https://step-protocol-soft-cove-2004.fly.dev', 'http://step-protocol-soft-cove-2004.fly.dev']
 
 # Application definition
 
