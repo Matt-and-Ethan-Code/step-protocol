@@ -1,0 +1,111 @@
+{% extends 'clinician_overview/clinician_base_layout.html' %} {% load static %}
+{% block title %} STEP Resources {% endblock %} 
+{% block head %}
+<link rel="stylesheet" href="{% static 'clinician_overview/resources.css' %}">
+{% endblock %} {% block content %}
+<div class="page-white-background">
+  <header>
+    <h1 class="tab-header">STEP Resources</h2>
+  </header>
+    <section class="resource-section">
+        <h2 class="resource-section-header" id="manual-and-script">STEP Manual and Script</h2>
+        <div class="resource-cards">
+            <div class="resource-card">
+                <div class="resource-card-preview">
+                    <a href="{% static 'clinician_overview/STEP_Manual.pdf' %}" target="_blank">
+                        <img src="{% static 'clinician_overview/resource_previews/STEP_Manual.png' %}" class="resource-card-pdf">
+                    </a>
+                </div>
+                <p class="resource-card-label">Manual</p>
+                <a href="{% static 'clinician_overview/STEP_Manual.pdf' %}" download class="resource-card-download">Download</a>
+            </div>
+            <div class="resource-card">
+                <div class="resource-card-preview">
+                    <a href="{% static 'clinician_overview/STEP_Script.pdf' %}" target="_blank">
+                        <img src="{% static 'clinician_overview/resource_previews/STEP_Script.png' %}" class="resource-card-pdf" />
+                    </a>
+                </div>
+                <p class="resource-card-label">Script</p>
+                <a href="{% static 'clinician_overview/STEP_Script.pdf' %}" download class="resource-card-download">Download</a>
+            </div>
+        </div>
+    </section>
+    <section class="resource-section">
+        <h2 class="resource-section-header" id="sample-emails">STEP Sample Emails, Consent and Information Letter</h2>
+        <div class="resource-cards">
+            <div class="resource-card">
+                <div class="resource-card-preview">
+                    <a href="{% static 'clinician_overview/STEP_Sample_Emails.docx' %}" target="_blank">
+                        <img src="{% static 'clinician_overview/resource_previews/STEP_Sample_Emails.png' %}" class="resource-card-pdf" />
+                    </a>
+                </div>
+                <p class="resource-card-label">Sample Emails</p>
+                <a href="{% static 'clinician_overview/STEP_Sample_Emails.docx' %}" download class="resource-card-download">Download</a>
+            </div>
+            <div class="resource-card">
+                <div class="resource-card-preview">
+                    <a href="{% static 'clinician_overview/STEP_Info_Letter.pdf' %}" target="_blank">
+                        <img src="{% static 'clinician_overview/resource_previews/STEP_Sample_Info_Letter.png' %}" class="resource-card-pdf" />
+                    </a>
+                </div>
+                <p class="resource-card-label">Sample Info Letter</p>
+                <a href="{% static 'clinician_overview/STEP_Info_Letter.pdf' %}" download class="resource-card-download">Download</a>
+            </div>
+            <div class="resource-card">
+                <div class="resource-card-preview">
+                    <a href="{% static 'clinician_overview/STEP_Sample_Consent.pdf' %}" target="_blank">
+                        <img src="{% static 'clinician_overview/resource_previews/STEP_Sample_Consent.png' %}" class="resource-card-pdf" />
+                    </a>
+                </div>
+                <p class="resource-card-label">Sample Consent</p>
+                <a href="{% static 'clinician_overview/STEP_Sample_Consent.pdf' %}" download class="resource-card-download">Download</a>
+            </div>
+        </div>
+    </section>
+    <section class="resource-section">
+        <h2 class="resource-section-header" id="tracking-documents">STEP Tracking Documents and Checklists</h2>
+        <div class="resource-cards">
+            <div class="resource-card">
+                <div class="resource-card-preview">
+                    <a href="{% static 'clinician_overview/STEP_Contact_Info.pdf' %}" target="_blank">
+                        <img src="{% static 'clinician_overview/resource_previews/STEP_Contact_Info.png' %}" class="resource-card-pdf" />
+                    </a>
+                </div>
+                <p class="resource-card-label">Contact Information</p>
+                <a href="{% static 'clinician_overview/STEP_Contact_Info.pdf' %}" download class="resource-card-download">Download</a>
+            </div>
+            <div class="resource-card">
+                <div class="resource-card-preview">
+                    <a href="{% static 'clinician_overview/STEP_Checklist.pdf' %}" target="_blank">
+                        <img src="{% static 'clinician_overview/resource_previews/STEP_Checklist.png' %}" class="resource-card-pdf" />
+                    </a>
+                </div>
+                <p class="resource-card-label">Checklist</p>
+                <a href="{% static 'clinician_overview/STEP_Checklist.pdf' %}" download class="resource-card-download">Download</a>
+            </div>
+        </div>
+    </section>
+    <section class="resource-section">
+        <h2 class="resource-section-header" id="four-elements">4 Elements Audio and Poster</h2>
+        <div class="resource-cards">
+            <div class="resource-card">
+                <div class="resource-card-icon-preview">
+                    <span class="material-symbols-outlined resource-card-icon">headphones</span>
+                </div>
+                <p class="resource-card-label">Audio</p>
+                <a href="" download class="resource-card-download">Download</a>
+            </div>
+            <div class="resource-card">
+                <div class="resource-card-icon-preview">
+                    <a href="{% static 'clinician_overview/STEP_Poster.pdf' %}" target="_blank">
+                        <span class="material-symbols-outlined resource-card-icon">description</span>
+                    </a>
+                </div>
+                <p class="resource-card-label">Poster</p>
+                <a href="{% static 'clinician_overview/STEP_Poster.pdf' %}" download class="resource-card-download">Download</a>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}
