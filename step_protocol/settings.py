@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from typing import Any
-from configparser import RawConfigParser
+from configparser import RawConfigParser, NoOptionError
+import os
 
 config = RawConfigParser()
 config.read('settings.ini')
@@ -21,17 +22,34 @@ config.read('settings.ini')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config.get('section','DJANGO_SECRET_KEY')
+# db location should be different depending on whether the app is in fly.io or run locally
+db_location = ""
+try:
+    db_location = '/data/db.sqlite3' if os.environ.get("USE_FLY") == 'True' else BASE_DIR / 'db.sqlite3' 
+except:
+    db_location = ""
+
+try:
+    # local version: look in base_dir
+    SECRET_KEY = config.get('section','DJANGO_SECRET_KEY')
+except:
+    # fly.io version: look in data
+    SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+try:
+    DEBUG =  ( os.environ.get('DEBUG') or config.get('section', 'DEBUG'))  == 'True'
+except:
+    DEBUG = False # assume production if it's not set
 
-ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1', 'localhost']
+IS_PRODUCTION = not DEBUG
 
+ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1', 'localhost', 'step-protocol-soft-cove-2004.fly.dev']
+CSRF_TRUSTED_ORIGINS = ['https://step-protocol-soft-cove-2004.fly.dev', 'http://step-protocol-soft-cove-2004.fly.dev']
 
 # Application definition
 
@@ -98,7 +116,7 @@ WSGI_APPLICATION = 'step_protocol.wsgi.application'
 DATABASES: dict[str, Any] = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': db_location
     }
 }
 
@@ -130,6 +148,7 @@ LANGUAGE_CODE = 'en-us'
 USE_I18N = True
 
 USE_TZ = True
+TIME_ZONE = "America/Edmonton"
 
 
 # Static files (CSS, JavaScript, Images)
@@ -153,7 +172,11 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "step.protocol.test@gmail.com"
-EMAIL_HOST_PASSWORD = config.get('section','EMAIL_HOST_PASSWORD')
+try:
+    EMAIL_HOST_PASSWORD = config.get('section','EMAIL_HOST_PASSWORD')
+except:
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+    
 DEFAULT_FROM_EMAIL = "STEP <step.protocol.test@gmail.com>"
 EMAIL_SUBJECT_PREFIX = "[STEP] "
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
@@ -163,9 +186,8 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 ACCOUNT_LOGIN_METHODS = {"email"}
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False 
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
+
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGOUT_ON_GET = True 
 
@@ -177,6 +199,14 @@ SESSION_ABSOLUTE_TIMEOUT = 2 * 60 * 60 # 2 hours -- logs out even if active
 SESSION_COOKIE_AGE = 2 * 60 * 60
 SESSION_SAVE_EVERY_REQUEST = False #True 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False 
-SESSION_COOKIE_HTTPONLY = False #True 
-SESSION_COOKIE_SECURE = False #True # HTTPS only
-CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = IS_PRODUCTION
+SESSION_COOKIE_SECURE = IS_PRODUCTION # HTTPS only
+CSRF_COOKIE_SECURE = IS_PRODUCTION
+
+if IS_PRODUCTION:  # in production
+    SECURE_SSL_REDIRECT = True # redirect http to https
+    SECURE_SECONDS_HSTS = 30
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
