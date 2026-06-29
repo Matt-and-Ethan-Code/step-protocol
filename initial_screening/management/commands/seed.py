@@ -7,14 +7,14 @@ class Command(BaseCommand):
     help = "Seed the database with questionnaire data"
 
     def handle(self, *args: str, **options: Any):
-        AnswerOption.objects.all().delete()
-        Question.objects.all().delete()
-        QuestionBlock.objects.all().delete()
-        Questionnaire.objects.all().delete()
-        Form.objects.all().delete()
-        FormMembership.objects.all().delete()
+        # AnswerOption.objects.all().delete()
+        # Question.objects.all().delete()
+        # QuestionBlock.objects.all().delete()
+        # Questionnaire.objects.all().delete()
+        # Form.objects.all().delete()
+        # FormMembership.objects.all().delete()
 
-        self.stdout.write("Deleted all old data.")
+        # self.stdout.write("Deleted all old data.")
         
         call_command('loaddata', 'fixtures/form.json')
         self.stdout.write("Loaded form data.")
