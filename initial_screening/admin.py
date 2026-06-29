@@ -8,10 +8,12 @@ class AnswerOptionInline(admin.TabularInline): # type: ignore[type-arg]
 class QuestionInline(admin.TabularInline): # type: ignore[type-arg]
     model = Question
     extra = 1
+    show_change_link = True
 
 class QuestionBlockInline(admin.TabularInline): # type: ignore[type-arg]
     model = QuestionBlock
     extra = 1
+    show_change_link = True
 
 class ResponseItemInline(admin.TabularInline): # type: ignore[type-arg]
     model = ResponseItem
@@ -27,7 +29,7 @@ class FormMembershipInline(admin.TabularInline): # type: ignore[type-arg]
 
 @admin.register(Form)
 class FormAdmin(admin.ModelAdmin): # type: ignore[type-arg]
-    list_display = ('name',)
+    list_display = ('name','anonymous')
     inlines = [FormMembershipInline]
 
 @admin.register(QuestionnaireResponse)
@@ -35,12 +37,10 @@ class QuestionnaireResponseAdmin(admin.ModelAdmin): # type: ignore[type-arg]
     list_display = ('user_identifier', 'questionnaire', 'submitted_at')
     list_filter = ('user_identifier', 'questionnaire', 'submitted_at')
     inlines = [ResponseItemInline]
-    
-
 
 @admin.register(Questionnaire)
 class QuestionnaireAdmin(admin.ModelAdmin): # type: ignore[type-arg]
-    list_display = ('name', 'citation', 'description')
+    list_display = ('name', 'citation', 'description', 'omit_notifications')
     inlines = [QuestionBlockInline]
 
 @admin.register(QuestionBlock)

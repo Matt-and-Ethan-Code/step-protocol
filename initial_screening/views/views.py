@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
 import clinician_overview.util.client as clientm
-from ..models import Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question, FormMembership
+from ..models import Form, Questionnaire,  QuestionnaireResponse, ResponseItem, AnswerOption, Question, FormMembership
 from ..intake_forms import QuestionnaireForm
 from django.contrib.auth.models import User
 from clinician_overview.scoring import DesTForm, Dass21Form, GSEForm, ItqForm, Pcl5Form, DesTResponse, DesTQuestion, Dass21Question, Dass21Response, Pcl5Question, Pcl5Response
@@ -108,6 +108,7 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
 
         # get the answers as a dictionary
         answers = request.POST.dict()
+
         # remove csrf token
         # for more information, see: https://docs.djangoproject.com/en/6.0/ref/csrf/ 
         answers.pop('csrfmiddlewaretoken', None)
@@ -126,24 +127,41 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
         if min_relationship:
             min_questionnaire = min_relationship.questionnaire
             # compare the ID of the smallest questionnaire with the questionnaire ID received in the request path
-            # this should be questionnaire 3, "STEP Screening Forms"
+            # in most forms, this would be questionnaire 3, "STEP Screening Forms"
+            # this is a different page for the feedback questionnaire
             if questionnaire_id == min_questionnaire.id:
+                unique_provider_question = Question.objects.filter(
+                    id__in=answers.keys(),
+                    text__icontains="Who is"
+                ).first()
+
+                user_unique_identifier_question = Question.objects.filter(
+                    id__in=answers.keys(),
+                    text__icontains="unique identifier"
+                ).first()
 
                 # the question asking the ID will be question 29
-                unique_identifier = answers['29']
-                selected_provider_string = answers['30']
+                unique_identifier = "" if user_unique_identifier_question is None else  answers[str(user_unique_identifier_question.id)]
+                # the question asking the email of the provider will be question 30
+                selected_provider_string = "" if unique_provider_question is None else answers[str(unique_provider_question.id)]
                 if isinstance(selected_provider_string, str):
-                    selected_provider_option = AnswerOption.objects.filter(question_id=30, id=int(selected_provider_string)).first()
+                    selected_provider_option = AnswerOption.objects.filter(question_id=30 if unique_provider_question is None else unique_provider_question.id, id=int(selected_provider_string)).first()
+                    print("selected provider option: ", selected_provider_option)
                     if selected_provider_option:
+
                         clinician_email = selected_provider_option.internal_value
+                        print("clinician email: ", clinician_email)
                         request.session['clinician_email'] = clinician_email
+
 
                 # store the unique identifier in a session variable
                 request.session['unique_identifier'] = unique_identifier
 
+
             # get the user identifier -- at this point it should exist
             user_identifier = request.session.get('unique_identifier')
             clinician_email = request.session.get('clinician_email')
+
 
             if not clinician_email:
                 # if they are in the dropdown list, they should exist as a user in the db
@@ -153,15 +171,16 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
                 return HttpResponseServerError()
 
             client: Client | None = clientm.find(str(user_identifier), clinician)
+            matching_form = Form.objects.get(id=form_id)
+            form_anonymous = matching_form.anonymous
 
-            if not client: # quit early if it doesnt exist
+            if not client and not form_anonymous: # quit early if it doesnt exist
                 return render(request, 'initial_screening/client_does_not_exist.html')
-            
-            # check that the client has access now
-            client_can_access = access_module.has_access(clinician, client)
-            if not client_can_access:
-                return render(request, 'initial_screening/client_does_not_have_permission.html')
-
+            elif client and not form_anonymous:
+                # check that the client has access now
+                client_can_access = access_module.has_access(clinician, client)
+                if not client_can_access:
+                    return render(request, 'initial_screening/client_does_not_have_permission.html')
 
             # store the QuestionnaireResponse
             # this will not contain any answers, but just the record that the user responded to the questionnaire.
@@ -200,8 +219,9 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
                         answer = answers[answer]
                     )  
 
-            # send email to clinician notifying them of change
-            notify_clinician(clinician)           
+            # send email to clinician notifying them of submission
+            if not questionnaire.omit_notifications:
+                notify_clinician(clinician)           
 
         # query FormMembership for the order of current questionnaire.
         # note: in django, it's possible to filter a database using foreignkey_id=[id] syntax to filter on a foreign key column.
@@ -230,27 +250,7 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
     form = QuestionnaireForm(questionnaire, request.POST or None)
     return render(request, 'initial_screening/questionnaire.html', {'form': form, 'questionnaire': questionnaire, 'questionnaire_count': questionnaire_count})
 
+# shown to the user after the last questionnaire in the form
 def testing_complete(request: HttpRequest):
-    # retrieve all questionnaire responses
-    # unique_identifier = request.session.get('unique_identifier')
-    # latest_response_subquery = (
-    #     QuestionnaireResponse.objects
-    #     .filter(
-    #         user_identifier = unique_identifier,
-    #         questionnaire=OuterRef('questionnaire')
-    #     )
-    #     .order_by('-submitted_at')
-    #     .values('id')[:1]
-    # )
-
-    # latest_responses = (
-    #     QuestionnaireResponse.objects
-    #     .filter(user_identifier=unique_identifier)
-    #     .filter(id=Subquery(latest_response_subquery))
-    #     .select_related('questionnaire')
-    # )
-
-    #answer_maps = calculate_map(latest_responses)
-
     return render(request, "initial_screening/testing_complete.html")
 

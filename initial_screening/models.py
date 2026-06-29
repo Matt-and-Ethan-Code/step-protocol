@@ -11,6 +11,7 @@ class Form(models.Model):
     """
     id: int
     name = models.CharField(max_length=300, unique=True)
+    anonymous = models.BooleanField(default=False)
 
 class Questionnaire(models.Model):
     """
@@ -24,6 +25,7 @@ class Questionnaire(models.Model):
     citation = models.TextField(blank=True)
     description = models.TextField(blank=True)
     question_blocks: models.Manager["QuestionBlock"]
+    omit_notifications = models.BooleanField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -62,7 +64,7 @@ class QuestionnaireResponse(models.Model):
     -   Does not contain what the user entered
     -   To see what the user entered: see ResponseItem
     """
-    user_identifier = ForeignKey(Client, on_delete=models.CASCADE) #models.CharField(max_length=300, null=True, blank=True)
+    user_identifier = ForeignKey(Client, on_delete=models.CASCADE, null=True) 
     form = ForeignKey(Form, on_delete=models.CASCADE)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     submitted_at = models.DateTimeField(auto_now_add=True)
