@@ -15,11 +15,7 @@
         {% load form_extras %}
         <div id="questionnaire-container">
             <h1>{{ questionnaire.name }}</h1>
-            <!-- <form method="POST">
-                {% csrf_token %}
 
-                {{ form }}
-            </form> -->
 
             <form method="POST">
 
@@ -27,7 +23,7 @@
                     <section>
                         <div class="question-header-container">
                             <p class="question-block-title">{{ block.title }}</p>
-                            <p class="question-block-description">{{ block.description }}</p>
+                            <p class="question-block-description">{{ block.description|linebreaks }}</p>
                         </div>
 
                         {% for question in block.questions.all %}

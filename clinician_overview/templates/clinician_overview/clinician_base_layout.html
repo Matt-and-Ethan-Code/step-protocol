@@ -33,7 +33,18 @@
             <li class="{% if nav_section == 'measures' %}active{% endif %}"><a href="{% url 'measures' %}">Measures</a></li>
             <li class="{% if nav_section == 'step-together' %}active{% endif %}"><a>STEP Together</a></li>
             <li class="{% if nav_section == 'step-solo' %}active{% endif %}"><a>STEP Solo Access</a></li>
-            <li class="{% if nav_section == 'step-resources' %}active{% endif %}"><a>STEP Resources</a></li>
+            <li class="{% if nav_section == 'step-resources' %}active{% endif %}">
+              <a href="{% url 'resources' %}">STEP Resources</a>
+              <ul id="nested-nav-links">
+                <li class="nested-nav-link"><a href="{% url 'resources' %}#manual-and-script">Manual and Script</a></li>
+                <li class="nested-nav-link"><a href="{% url 'resources' %}#sample-emails">STEP Sample Emails</a></li>
+                <li class="nested-nav-link"><a href="{% url 'resources' %}#sample-emails">Consent Form</a></li>
+                <li class="nested-nav-link"><a href="{% url 'resources' %}#sample-emails">Information Letter</a></li>
+                <li class="nested-nav-link"><a href="{% url 'resources' %}#tracking-documents">STEP Tracking Documents</a></li>
+                <li class="nested-nav-link"><a href="{% url 'resources' %}#tracking-documents">STEP Checklist</a></li>
+                <li class="nested-nav-link"><a href="{% url 'resources' %}#four-elements">4 Elements</a></li>
+              </ul>
+            </li>
             <li class="{% if nav_section == 'flash-tep' %}active{% endif %}"><a>Flash-TEP</a></li>
             <li class="{% if nav_section == 'help' %}active{% endif %}"><a>Help</a></li>
           </ul>

@@ -11,3 +11,4 @@ from .client_summary_extras import revoke_access, extend_access # type: ignore
 from .export_csv_route import export_csv_route # type: ignore
 from .delete_responses_route import delete_responses_route # type: ignore
 from .delete_client_route import delete_clients_route # type: ignore
+from .resources_page import resources_page #type: ignore
