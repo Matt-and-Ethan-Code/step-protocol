@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'allauth.account', 
     'django.contrib.sites', 
     'provider_intake', 
+    'step_together',
     'allauth.mfa'
 ]
 

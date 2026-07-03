@@ -1,0 +1,77 @@
+{% extends "admin/app_index.html" %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <style>
+    #content.colMS {
+      width: auto;
+      max-width: 80%;
+      margin: 0 auto;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<div class="module" style="max-width: 1100px; width: 90%; margin: 0 auto 20px auto; padding: 10px 15px;">
+  <h2>HELP</h2>
+  <dl>
+    <dt><strong><a href="{% url 'admin:initial_screening_form_changelist' %}">Form</a></strong></dt>
+    <dd>
+      A collection of questionnaires.
+      <p>The form can be displayed for the clinician. It may be anonymous.</p>
+      <p>Example:</p>
+      <ul>
+        <li>Post-Intervention Screening</li>
+        <li>Initial Screening</li>
+        <li>Feedback Form</li>
+      </ul>
+    </dd>
+    <dt><strong><a href="{% url 'admin:initial_screening_questionnaire_changelist' %}">Questionnaire</a></strong></dt>
+    <dd>
+      A page of questions.
+      <p>
+        Example:
+      </p>
+      <ul>
+        <li>DES-T</li>
+        <li>PCL-5</li>
+      </ul>
+      <p>
+        The questions always take up a page. Next page = next questionnaire.
+      </p>
+      <p>
+        Technically, a questionnaire is made up of question blocks, which hold questions.
+      </p>
+      </dd>
+
+    <dt><strong><a href="{% url 'admin:initial_screening_questionblock_changelist' %}">Question Block</a></strong></dt>
+    <dd>
+      A group of Questions within a Questionnaire.
+      <p>
+        Questions are usually logically grouped.
+      </p>
+      <p>
+        Questions may have the same instructions.
+      </p>
+      <p>
+        Example: "For the next 3 questions, think about how often it has occurred in the past month."
+      </p>
+      Plain, ungrouped questions still live in one big block.</dd>
+
+    <dt><strong><a href="{% url 'admin:initial_screening_question_changelist' %}">Question</a></strong></dt>
+    <dd>A single question within a Question Block.
+      <p>
+        Stores question text, format (e.g. text, dropdown), order.
+      </p>
+      <p>
+        Questions may be optional.
+      </p>
+    </dd>
+
+    <dt><strong><a href="{% url 'admin:initial_screening_questionnaireresponse_changelist' %}">Questionnaire Response</a></strong></dt>
+    <dd>Records that a user submitted a response to a form/questionnaire. 
+      <p>See Response Item for what the user entered.</p>
+    </dd>
+  </dl>
+</div>
+{% endblock %}

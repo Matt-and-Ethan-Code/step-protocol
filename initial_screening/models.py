@@ -10,8 +10,14 @@ class Form(models.Model):
     Contains only the questionnaire data, not the responses associated (only the shape of the data.)
     """
     id: int
-    name = models.CharField(max_length=300, unique=True)
-    anonymous = models.BooleanField(default=False)
+    name = models.CharField(
+        max_length=300, 
+        unique=True, 
+        help_text="The name of the form. This is for internal use only and will not be shown to the user.")
+    anonymous = models.BooleanField(
+        default=False, 
+        help_text="If the form is anonymous, STEP will not display user answers to the clinician. There is no enforcement as to whether a question collecting user identity has been added."
+        )
 
 class Questionnaire(models.Model):
     """
