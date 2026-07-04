@@ -1,11 +1,11 @@
 from django import forms
 from django.contrib import admin
 from django.utils.html import format_html, format_html_join
-from .models import AgreementCondition, ProviderAgrees, Agreement, TextQuestion
+from .models import AgreementCondition, Agreement, ProviderConfirmation, TextQuestion
 
 
-@admin.register(ProviderAgrees)
-class ProviderAgreesAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+@admin.register(ProviderConfirmation)
+class ProviderConfirmationAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     list_display = ('provider_name', 'provider_organization', 'agreement_date')
 
 

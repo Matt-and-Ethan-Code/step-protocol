@@ -5,7 +5,7 @@ from django.db import models
 # they also would've filled checkboxes acknowledging the terms of the agreement
 # check the Agreement model for the content of those terms
 # use the agreement date to find the correct version
-class ProviderAgrees(models.Model):
+class ProviderConfirmation(models.Model):
     provider_name = models.CharField(max_length=100)
     provider_organization = models.CharField(max_length=100)
     agreement_date = models.DateTimeField(auto_now_add=True)
