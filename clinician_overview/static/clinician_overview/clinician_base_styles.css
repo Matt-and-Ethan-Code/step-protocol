@@ -268,8 +268,15 @@ select {
     border: 2px solid #ABABAB;
     border-radius: 6px;
     margin-right: 1rem;
+
+    @media(width <= 768px) {
+        width: 100%;
+    }
+    
     li {
         text-align: center;
+        padding: 12px;
+        font-size: 1.2rem;
     }
     li:not(:last-child) {
         border-bottom: 1px solid #ABABAB;
