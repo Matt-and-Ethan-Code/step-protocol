@@ -113,7 +113,8 @@ class Question(models.Model):
         ('radio', "Multiple Choice (Single-select)"),
         ('checkbox', "Multiple Choice (Multi-select)"),
         ('dropdown', "Dropdown"),
-        ('date', "Date")
+        ('date', "Date"), 
+        ('file', 'File')
     ]
     options: models.Manager["AnswerOption"]
 
@@ -131,6 +132,7 @@ class Question(models.Model):
     )
     order = models.PositiveBigIntegerField(default=0)
     is_required = models.BooleanField(default=False)
+    image_url = models.TextField(blank=True, null=True, help_text="Optional URL for an image to display with the question.")
 
     class Meta:
         ordering = ['order']

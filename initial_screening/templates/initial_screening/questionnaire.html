@@ -28,6 +28,12 @@
 
                         {% for question in block.questions.all %}
                             <div class="question-container">
+                                {% if question.image_url %}
+                                    <div class="question-image-container">
+                                        <img src="{% static 'initial_screening/images/' %}{{ question.image_url }}" class="question-image">
+                                    </div>
+                                {% endif %}
+
                                 <div class="question-text-container">
                                     {% if question.is_required %}
                                         <p class="required-arrow">*</p>
@@ -73,6 +79,16 @@
                                             <br>
                                         {% endfor %}
                                     </div>
+                                {% elif question.question_type == 'file' %}
+                                    <input 
+                                        {% if question.is_required %}
+                                            required 
+                                        {% endif %} 
+                                        class="input-field" 
+                                        type="file" 
+                                        accept="image/*,.pdf"
+                                        name="{{ question.id }}"
+                                        >
                                 {% elif question.question_type == 'textarea' %}
                                     <textarea 
                                         {% if question.is_required %}

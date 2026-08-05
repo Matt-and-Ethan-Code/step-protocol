@@ -1,0 +1,342 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'styles.css'%}?v=1234 ">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Karla:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Mono+One&display=swap" rel="stylesheet">
+        <title>{page_title}</title>
+    </head>
+    <body>
+        {% load form_extras %}
+        <div id="questionnaire-container">
+            <h1>STEP Together Feedback Form</h1>
+
+
+            <form method="POST">
+                <section>
+                    <div>
+                        Please provide some feedback on your experience with the Self-Care Traumatic Episode Protocol (STEP).
+                    </div>
+                    <div>
+                        This form will share your ratings with your provider and will be used to guide your treatment plan. Your responses are important in shaping the next steps of your care.
+                    </div>
+                </section>
+
+                <section>
+                    <div>
+                        <p>What is the unique identifier you received from your STEP Intervention Provider?<span>*</span></p>
+                        <input type="text" required>
+                    </div>
+                    <div>
+                        <p>Who is your STEP Intervention Provider?<span>*</span></p>
+                        <select required>
+                            <option value="">
+                                Provider 1
+                            </option>
+                            <option value="">
+                                Provider 2
+                            </option>
+                            <option value="">
+                                Provider 3
+                            </option>
+                        </select>
+                    </div>
+                </section>
+
+                <section>
+                    <div>
+                        <img src="{% static 'initial_screening/images/step-present-safety-before.png'%}">
+                        <div>
+                            <p>What was your SUD rating BEFORE the 4 Elements exercise? <span>*</span></p>
+                            <select required>
+                                <option>
+                                    0
+                                </option>
+                                <option>
+                                    1
+                                </option>
+                                <option>
+                                    2
+                                </option>
+                                <option>
+                                    3
+                                </option>
+                                <option>
+                                    4
+                                </option>
+                                <option>
+                                    5
+                                </option>
+                                <option>
+                                    6
+                                </option>
+                                <option>
+                                    7
+                                </option>
+                                <option>
+                                    8
+                                </option>
+                                <option>
+                                    9
+                                </option>
+                                <option>
+                                    10
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <img src="{% static 'initial_screening/images/step-present-safety-after.png'%}">
+                        <div>
+                            <p>What was your SUD rating AFTER the 4 Elements exercise? <span>*</span></p>
+                            <select required>
+                                <option>
+                                    0
+                                </option>
+                                <option>
+                                    1
+                                </option>
+                                <option>
+                                    2
+                                </option>
+                                <option>
+                                    3
+                                </option>
+                                <option>
+                                    4
+                                </option>
+                                <option>
+                                    5
+                                </option>
+                                <option>
+                                    6
+                                </option>
+                                <option>
+                                    7
+                                </option>
+                                <option>
+                                    8
+                                </option>
+                                <option>
+                                    9
+                                </option>
+                                <option>
+                                    10
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <p>Look at STEP 2 on your protocol sheet.</p>
+                    <img src="{% static 'initial_screening/images/step-beginning-of-the-difficult-time.png' %}">
+                    <p>What was your rating from 0 to 10? <span>*</span></p>
+                    <select required>
+                        <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                    </select>
+                </section>
+
+                <section>
+                    <p>Look at STEP 5, <u>POD 1</u> on your protocol sheet</p>
+                    <img src="{% static 'initial_screening/images/step-pod1.png' %}">
+                </section>
+
+                <section>
+                    <div>
+                        <p>Look at STEP 5, <u>PoD 1</u> on your protocol sheet</p>
+                        <img src="{% static 'initial_screening/images/step-pod1-page2.png' %}">
+                    </div>
+                    <div>
+                        <p>For PoD 1 - What was your first rating?<span>*</span></p>
+                        <select required>
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section>
+                    <div>
+                        <p>Look at STEP 5, <u>PoD 1</u> on your protocol sheet</p>
+                        <img src="{% static 'initial_screening/images/step-pod1-page3.png' %}">
+                    </div>
+                    <div>
+                        <p>For PoD 1 - What was your last rating?<span>*</span></p>
+                        <select required>
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section>
+                    <p>Look at STEP 5, <u>PoD 2</u> on your protocol sheet</p>
+                    <img src="{% static 'initial_screening/images/step-pod2.png' %}">
+                </section>
+                <section>
+                    <div>
+                        <p>Look at STEP 5, <u>PoD 2</u> on your protocol sheet</p>
+                        <img src="{% static 'initial_screening/images/step-pod2-first-rating.png' %}">
+                    </div>
+                    <div>
+                        <p>For PoD 2 - What was your first rating?<span>*</span></p>
+                        <select required>
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                        </select>
+                    </div>
+                </section>
+                <section>
+                    <div>
+                        <p>Look at STEP 5, <u>PoD 2</u> on your protocol sheet</p>
+                        <img src="{% static 'initial_screening/images/step-pod2-last-rating.png' %}">
+                    </div>
+                    <div>
+                        <p>For PoD 2 - What was your last rating?<span>*</span></p>
+                        <select required>
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section>
+                    <p>Look at STEP 5, <u>PoD 3</u> on your protocol sheet</p>
+                    <img src="{% static 'initial_screening/images/step-pod3.png' %}">
+                </section>
+                <section>
+                    <div>
+                        <p>Look at STEP 5, <u>PoD 3</u> on your protocol sheet</p>
+                        <img src="{% static 'initial_screening/images/step-pod3-first-rating.png' %}">
+                    </div>
+                    <div>
+                        <p>For PoD 3 - What was your first rating?<span>*</span></p>
+                        <select required>
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                        </select>
+                    </div>
+                </section>
+                <section>
+                    <div>
+                        <p>Look at STEP 5, <u>PoD 3</u> on your protocol sheet</p>
+                        <img src="{% static 'initial_screening/images/step-pod3-last-rating.png' %}">
+                    </div>
+                    <div>
+                        <p>For PoD 3 - What was your last rating?<span>*</span></p>
+                        <select required>
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                        </select>
+                    </div>
+                </section>
+                <section>
+                    <div>
+                        <p>Look at STEP 6 on your protocol sheet</p>
+                        <img src="{% static 'initial_screening/images/step6.png' %}">
+                    </div>
+                    <div>
+                        <p>What is your rating from 0 to 10?<span>*</span></p>
+                        <select required>
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section>
+                    <p>You may want to share your protocol sheet with your provider.</p>
+                    <p>If you are comfortable sharing the protocol sheet via this form, please use the upload area below to attach your protocol sheet.</p>
+                    <p>If you would prefer not to share via this form, leave it blank and select "submit form".</p>
+                </section>
+
+
+                <button type="submit">
+                    {{questionnaire_button_text}}
+                </button>
+
+                {% csrf_token %}
+            </form>
+        </div>
+    </body>
+</html>

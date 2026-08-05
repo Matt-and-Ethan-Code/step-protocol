@@ -80,6 +80,24 @@ def save_answer_response(option_id: str, question_id: int, new_response: Questio
             answer = matching_option.text
         )
 
+def step_together_feedback(request: HttpRequest):
+    """
+    Render the STEP together feedback form.
+    The form is really one questionnaire, but question blocks are hidden until the user clicks "next".
+    Question block descriptions contain images in their instructions.
+    """
+    # todo!
+
+    # find the questionnaire based on id
+    questionnaire = get_object_or_404(
+        Questionnaire.objects.prefetch_related('question_blocks__questions__options'),
+        id=5
+    )
+
+    questionnaire_count = Questionnaire.objects.count()
+
+    form = QuestionnaireForm(questionnaire, request.POST or None)
+    return render(request, 'initial_screening/step_together_feedback.html', {'form': form, 'questionnaire': questionnaire, 'questionnaire_count': questionnaire_count})
 
 def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int | None):
     """
@@ -99,9 +117,9 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
         id=questionnaire_id
     )
 
-
-
-    questionnaire_count = Questionnaire.objects.count()
+    # get the smallest questionnaire in the form
+    # relationships between forms and questionnaires are recorded in FormMembership
+    min_relationship = FormMembership.objects.filter(form_id = form_id).order_by('order').first()
 
     if request.method == 'POST':
         # the user must be submitting answers
@@ -120,15 +138,14 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
         #   we can use their unique identifier in the submission and tie it back to them
 
         client = None
+        clinician = None
 
-        # get the smallest questionnaire in the form
-        # relationships between forms and questionnaires are recorded in FormMembership
-        min_relationship = FormMembership.objects.filter(form_id = form_id).order_by('order').first()
         if min_relationship:
             min_questionnaire = min_relationship.questionnaire
             # compare the ID of the smallest questionnaire with the questionnaire ID received in the request path
             # in most forms, this would be questionnaire 3, "STEP Screening Forms"
             # this is a different page for the feedback questionnaire
+            print("this questionnaire is min relationship....", questionnaire_id, min_questionnaire.id, "form id: ", form_id)
             if questionnaire_id == min_questionnaire.id:
                 unique_provider_question = Question.objects.filter(
                     id__in=answers.keys(),
@@ -241,6 +258,10 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             if next_questionnaire:
                 return redirect('questionnaire_view', form_id=next_questionnaire.form.id, questionnaire_id=next_questionnaire.questionnaire.id)
             else:
+                if min_relationship and not questionnaire.omit_notifications and clinician:
+                    # if the form is complete, send an email to the clinician notifying them of completion
+                    notify_clinician(clinician)
+
                 # if not found, form must be complete
                 # send the user to the testing_complete screen.
                 return redirect('testing_complete')
@@ -248,7 +269,9 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
     # for requests other than POST:
     # just render the questionnaire in the request
     form = QuestionnaireForm(questionnaire, request.POST or None)
-    return render(request, 'initial_screening/questionnaire.html', {'form': form, 'questionnaire': questionnaire, 'questionnaire_count': questionnaire_count})
+    questionnaire_count = FormMembership.objects.filter(form_id = form_id).count()
+    questionnaire_button_text = "Submit" if min_relationship and min_relationship.questionnaire.id == questionnaire_id else "Next"
+    return render(request, 'initial_screening/questionnaire.html', {'form': form, 'questionnaire': questionnaire, 'questionnaire_button_text': questionnaire_button_text})
 
 # shown to the user after the last questionnaire in the form
 def testing_complete(request: HttpRequest):
