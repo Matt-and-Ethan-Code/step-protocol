@@ -1,0 +1,43 @@
+{% extends "step_solo/base.html" %}
+{% load static %}
+{% block title %}STEP Solo Introduction{% endblock %}
+{% block head %}
+<style>
+  video {
+      width: 90%;
+  }
+  main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+  p, li {
+      font-weight: 200;
+      line-height: 2rem;
+  }
+</style>
+{% endblock %}
+
+{% block header %}
+<h2 style="margin: 1rem;">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
+{% endblock %}
+
+{% block content %}
+<video src="{{ video_url }}" controls controlsList="nodownload" oncontextmenu="return false;"></video>
+<section style="width: 100%;">
+  <h1 style="font-size: 3rem;">STEP Solo Introduction</h1>
+  <br>
+  <p>Start by watching the 13-minute introduction video that explains: 
+    <ul>
+      <li>How stress affects your body</li>
+      <li>What Eye Movement Desensitization and Reprocessing (EMDR) Therapy is and how it helps</li>
+      <li>What tools and materials will you need</li>
+    </ul>
+  </p>
+
+
+  <p><em>If you have any questions after watching the video, please contact your STEP Intervention Provider.</em></p>
+  <br><br><br><br>
+  
+</section>
+{% endblock %}

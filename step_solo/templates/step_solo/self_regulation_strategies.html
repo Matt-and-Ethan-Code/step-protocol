@@ -1,0 +1,77 @@
+{% extends 'step_solo/base.html' %}
+{% load static %}
+
+{% block title %}
+Self-Regulation Strategies
+{% endblock %}
+
+{% block head %}
+<style>
+  #in-this-section {
+      display: flex;
+      line-height: 2;
+      color: rgb(36,40,46);
+      font-size: 1.5rem;
+      font-weight: 200;
+      grid-template-columns: 1fr 1fr;
+  }
+
+  #beach-image {
+      width: 50%;
+      height: 50%;
+      border-radius: 64px;
+      object-fit: cover;
+      object-position: center;
+  }
+
+  #more-info {
+      h3 {
+          font-size: 2rem;
+          font-weight: 500;
+      }
+      p {
+          font-weight: 200;
+      }
+  }
+  main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+</style>
+{% endblock %}
+
+{% block header %}
+<h2 style="margin: 1rem;">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
+<img style="width: 100%; margin: 0;"src={% static 'step_solo/4_elements.png' %}>
+{% endblock %}
+
+{% block content %}
+<section id="in-this-section">
+  <p>If you ever feel overwhelmed or need a moment to regain balance, this section offers guided self-regulation
+    techniques to help calm your mind and body. These strategies are here to support you throughout your journey.
+    Feel free to use them anytime you need a break or extra support</p>
+    <!--<img id="beach-image" src="{% static 'step_solo/sunset_beach.jpg' %}">-->
+</section>
+<section id="more-info">
+  <h3 class="blue">What is Self-Regulation?</h3>
+  <p>In therapy, self-regulation refers to the ability to manage our emotions, thoughts, and behaviours in a healthy and balanced way. It involves recognizing what we’re feeling, understanding how those feelings affect us, and using strategies—like deep breathing, mindfulness, or reframing thoughts—to stay grounded and respond thoughtfully, even in stressful situations.</p>
+  <h3 class="blue">Before You Begin: How to Stay Present and Grounded</h3>
+  <p>You may have things you do to help calm yourself, or have been working with your clinician to develop strategies to help you get back into your “zone” where you feel relaxed and present. Before you begin STEP Solo, we are going to discuss some ways you can calm your body and mind if you become overwhelmed or distressed at any point in the process.</p>
+  <p>You may want to have a glass of water or tea, some tissues, and something with a pleasant smell nearby, like an orange or some essential oils. Engaging our senses can help us to focus on the present moment and recognize when we are safe enough to feel safe. If you notice you are getting out of your zone, take a moment and notice how your body feels supported by the chair, smell your orange or another scent, take a sip of your drink, and breathe deeply – feeling your belly rise and fall with every breath. </p>
+<p>Breathing exercises you might use include square breathing, double breathing, kindness breathing, or any other breathing exercise you prefer. The PDF below includes an explanation of double breathing. </p>
+  <p>Strategies you may have developed with your mental health clinician could include the container, safe state, or 4 Elements exercises. We’ll be going through the 4 Elements exercise during STEP Solo. You may choose to use your safe state to calm your body and mind or your container to set anything distressing aside for now before we begin. Videos and audio to walk you through the container, 4 Elements, and other calming exercises are available to access at any time for a nominal fee through the Prepped 4 Learning video membership, which you can find here.</p>
+  <p>Getting outside and going for a walk with a friend can help calm us. As you walk, notice the sun and wind on your face, the ground beneath your feet, and any sounds or smells, like birds chirping or fresh-cut grass. Focus on the present moment.  </p>
+  <br>
+  <a class="blue-button" href={% static 'step_solo/self_regulation_strategies.pdf' %}>Download PDF</a>
+
+  <br><br><br><br>
+  <a class="blue-button" style="float: right;"href={% url 'solo_introduction' %}>Next Lesson</a>
+  <br><br>
+  <br><br>
+</section>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,51 @@
+:root {
+    --footer-colour: #24282d;
+    --bluish: hsla(186,43.69%,40.39%,1);
+}
+* {
+    font-family: Poppins;
+}
+html {
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+header {
+    
+}
+main {
+    width: 90%;
+}
+
+footer {
+    margin: 0;
+    width: 100%;
+    background-color: var(--footer-colour);
+    padding: 3rem;
+    box-sizing: border-box;
+}
+
+
+.blue {
+    color: var(--bluish);
+}
+
+
+.blue-button {
+    color: white;
+    padding: 1.5rem 2rem;
+    box-sizing: border-box;
+    text-decoration: none;
+    background-color: rgb(58,139,148);
+    &:hover {
+        opacity: 0.8;
+    }
+}
