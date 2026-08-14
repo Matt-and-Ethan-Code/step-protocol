@@ -16,14 +16,6 @@ Self-Regulation Strategies
       grid-template-columns: 1fr 1fr;
   }
 
-  #beach-image {
-      width: 50%;
-      height: 50%;
-      border-radius: 64px;
-      object-fit: cover;
-      object-position: center;
-  }
-
   #more-info {
       h3 {
           font-size: 2rem;
@@ -42,7 +34,9 @@ Self-Regulation Strategies
 {% endblock %}
 
 {% block header %}
-<h2 style="margin: 1rem;">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
+<h2 class="step-title-header">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
+<hr>
+<h1 class="page-title">Self-Regulation Strategies</h1>
 <img style="width: 100%; margin: 0;"src={% static 'step_solo/4_elements.png' %}>
 {% endblock %}
 
@@ -51,7 +45,7 @@ Self-Regulation Strategies
   <p>If you ever feel overwhelmed or need a moment to regain balance, this section offers guided self-regulation
     techniques to help calm your mind and body. These strategies are here to support you throughout your journey.
     Feel free to use them anytime you need a break or extra support</p>
-    <!--<img id="beach-image" src="{% static 'step_solo/sunset_beach.jpg' %}">-->
+    <img class="square-image" src="{% static 'step_solo/sunset_beach.jpg' %}">
 </section>
 <section id="more-info">
   <h3 class="blue">What is Self-Regulation?</h3>
@@ -63,12 +57,10 @@ Self-Regulation Strategies
   <p>Strategies you may have developed with your mental health clinician could include the container, safe state, or 4 Elements exercises. We’ll be going through the 4 Elements exercise during STEP Solo. You may choose to use your safe state to calm your body and mind or your container to set anything distressing aside for now before we begin. Videos and audio to walk you through the container, 4 Elements, and other calming exercises are available to access at any time for a nominal fee through the Prepped 4 Learning video membership, which you can find here.</p>
   <p>Getting outside and going for a walk with a friend can help calm us. As you walk, notice the sun and wind on your face, the ground beneath your feet, and any sounds or smells, like birds chirping or fresh-cut grass. Focus on the present moment.  </p>
   <br>
-  <a class="blue-button" href={% static 'step_solo/self_regulation_strategies.pdf' %}>Download PDF</a>
+  <div style="width:100%;display:flex;justify-content:center;">
+  <a class="blue-button" style="padding:2rem 6rem;"href={% static 'step_solo/self_regulation_strategies.pdf' %}>Download PDF</a></div>
 
-  <br><br><br><br>
-  <a class="blue-button" style="float: right;"href={% url 'solo_introduction' %}>Next Lesson</a>
-  <br><br>
-  <br><br>
+  <a class="blue-button" style="float:right;margin:2rem;"href={% url 'solo_getting_started' %}>Next Lesson</a>
 </section>
 
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends 'step_solo/base.html' %}
 {% load static %}
+{% block title %}What to Expect{% endblock %}
 {% block head %}
 <style>
   #welcome-banner {
@@ -10,7 +11,9 @@
 {% endblock %}
 
 {% block header %}
-<h2 style="margin: 1rem;">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
+<h2 class="step-title-header">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
+<hr>
+<h1 class="page-title">What to Expect</h1>
 <img id="welcome-banner" src="{% static 'step_solo/welcome_banner.webp' %}">
 {% endblock %}
 
@@ -71,5 +74,5 @@
   your overall well-being.</p>
 <br>
 <br>
-<a class="blue-button" style="float:right;"href="{% url 'solo_self_regulation_strategies' %}">Next Lesson</a>
+<a class="blue-button" style="float:right; margin:2rem;"href="{% url 'solo_self_regulation_strategies' %}">Next Lesson</a>
 {% endblock %}

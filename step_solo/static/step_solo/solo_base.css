@@ -49,3 +49,49 @@ footer {
         opacity: 0.8;
     }
 }
+
+p {
+    font-weight: 200;
+    line-height: 2;
+}
+p.larger {
+    font-size: 1.3rem;
+}
+
+.step-title-header {
+    margin: 1rem;
+    font-weight: 500;
+}
+
+.page-title {
+    margin: 1rem 2rem;
+    font-weight: 500;
+    font-size: 4rem;
+}
+
+.square-image {
+    width: 35%;
+    aspect-ratio: 1 / 1;
+    border-radius: 64px;
+    object-fit: cover;
+    object-position: center;
+    margin-left: 4rem;
+}
+
+h3 {
+    font-size: 2.5rem;
+    font-weight: 500;
+}
+
+li {
+    font-weight: 200;
+}
+
+ol {
+    line-height: 2.5;
+}
+
+a {
+    color: var(--bluish);
+    text-decoration: none;
+}
