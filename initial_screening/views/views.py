@@ -253,8 +253,10 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
                     # if the form is complete, send an email to the clinician notifying them of completion
                     notify_clinician(clinician)
 
-                # if not found, form must be complete
-                # send the user to the testing_complete screen.
+                # if the questionnaire is STEP Together Feedback form, redirect to STEP Anonymous feedback form
+                if form_id == 6:
+                    return redirect('questionnaire_view', form_id=7, questionnaire_id=27)
+                # otherwise, just redirect to the completion page.
                 return redirect('testing_complete')
 
     # for requests other than POST:

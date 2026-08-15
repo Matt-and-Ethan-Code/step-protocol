@@ -24,6 +24,8 @@ COPY . /code
 
 ENV SECRET_KEY "jtgPAmvU28zeqsYsMhE4FCaDan7rB0VtiRbzZbE23KVj8rhKVu"
 RUN python manage.py collectstatic --noinput
+RUN python manage.py migrate
+RUN python manage.py seed
 
 EXPOSE 8000
 

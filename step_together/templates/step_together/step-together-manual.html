@@ -1,0 +1,36 @@
+{% extends 'step_together/step-together-module-base.html' %} {% load static %}
+
+{% block title %} Manual {% endblock %} 
+{% block step-together-text %}
+    <h1 class="module-header">
+        Manual
+    </h1>    
+    <h2 class="module-subheader">
+        STEP Together Manual
+    </h2>
+    <div>
+        <p>
+            Please review the manual carefully before you begin planning your first STEP Together group. 
+        </p>
+        <p>
+            It provides essential details about the screening and evaluation procedures, inclusion criteria, safety measures, and the STEP Together group process.
+        </p>
+        <p class="orange-note">
+            It is available for download under the "Downloads" section on this page. 
+        </p>
+    </div>
+
+{% endblock %}
+
+{% block content-links %}
+    <div  class="module-download-link">
+        <img class="file-download-icon" src="{% static 'step_together/acrobat.png' %}">
+        <a> STEP_Manual_Updated_December_2025_.pdf </a>
+    </div>
+    <div class="module-download-link">
+        <img class="file-download-icon" src="{% static 'step_together/acrobat.png' %}">
+        <a>
+            STEP_Script.pdf
+        </a>
+    </div>
+{% endblock %}
