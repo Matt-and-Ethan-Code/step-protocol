@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import ForeignKey
+from django.db.models import ForeignKey, Q
 from clinician_overview.models import Client
 
 class Form(models.Model):
@@ -10,8 +10,14 @@ class Form(models.Model):
     Contains only the questionnaire data, not the responses associated (only the shape of the data.)
     """
     id: int
-    name = models.CharField(max_length=300, unique=True)
-    anonymous = models.BooleanField(default=False)
+    name = models.CharField(
+        max_length=300, 
+        unique=True, 
+        help_text="The name of the form. This is for internal use only and will not be shown to the user.")
+    anonymous = models.BooleanField(
+        default=False, 
+        help_text="If the form is anonymous, STEP will not display user answers to the clinician. There is no enforcement as to whether a question collecting user identity has been added."
+        )
 
 class Questionnaire(models.Model):
     """
@@ -26,6 +32,7 @@ class Questionnaire(models.Model):
     description = models.TextField(blank=True)
     question_blocks: models.Manager["QuestionBlock"]
     omit_notifications = models.BooleanField(null=True, blank=True)
+    hide_title = models.BooleanField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -107,7 +114,8 @@ class Question(models.Model):
         ('radio', "Multiple Choice (Single-select)"),
         ('checkbox', "Multiple Choice (Multi-select)"),
         ('dropdown', "Dropdown"),
-        ('date', "Date")
+        ('date', "Date"), 
+        ('file', 'File')
     ]
     options: models.Manager["AnswerOption"]
 
@@ -117,7 +125,7 @@ class Question(models.Model):
         on_delete=models.CASCADE
     )
 
-    text = models.TextField(max_length=1000)
+    text = models.TextField(max_length=1000, null=True, blank=True)
     question_type = models.CharField(
         max_length=30,
         choices=QUESTION_TYPES,
@@ -125,12 +133,20 @@ class Question(models.Model):
     )
     order = models.PositiveBigIntegerField(default=0)
     is_required = models.BooleanField(default=False)
+    image_url = models.TextField(blank=True, null=True, help_text="Optional URL for an image to display with the question.")
 
     class Meta:
         ordering = ['order']
+        constraints = [
+            models.CheckConstraint(
+                condition=Q(text__isnull=False) | Q(image_url__isnull=False), 
+                name='not_both_image_and_question_text_null'
+            )
+        ]
 
     def __str__(self):
-        displayText = self.text[:60] + "..." if len(self.text) > 60 else self.text
+        thisText = self.text if self.text else ""
+        displayText = thisText[:60] + "..." if len(thisText) > 60 else thisText
 
         return displayText
 
@@ -153,6 +169,10 @@ class AnswerOption(models.Model):
     def __str__(self):
         return self.text
 
+
+def document_upload_path(instance, filename):
+    return f'documents/{instance.pk}/{filename}'
+
 class ResponseItem(models.Model):
     """
     The response a user provides for an individual question. (For the full questionnaire, look at QuestionnaireResponse).
@@ -165,3 +185,4 @@ class ResponseItem(models.Model):
     question: ForeignKey[Question] = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.TextField()
     answerID = models.ForeignKey(AnswerOption, null=True, blank=True, on_delete=models.SET_NULL)
+    file = models.FileField(upload_to=document_upload_path, null=True, blank=True)

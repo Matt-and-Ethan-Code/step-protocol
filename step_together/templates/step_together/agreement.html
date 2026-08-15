@@ -1,0 +1,57 @@
+{% extends 'clinician_overview/clinician_base_layout.html' %} {% load static %}
+{% load static %}
+{% load form_extras %}
+
+{% block title %} Agreement For STEP Intervention Providers {% endblock %} 
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'step_together/agreement.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+    <div id="error-message">
+        There are errors in the form. Your agreement could not be submitted.
+    </div>
+{% endif %}
+<div class="page-white-background">
+    <h1 class="agreement-header">Self-Care Traumatic Episode Protocol (STEP) Agreement For STEP Intervention Providers</h1>
+
+    <form method="post" id="agreement-form">
+        {% csrf_token %}
+
+        {% for question in form.text_questions %}
+        {% text_question_field form question.id as field %}
+        <div class="django-form-input label-large">
+            {% render_question_number field %}
+            <span>
+                {% render_label field %}
+            </span>
+            {{ field  }}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+
+        <div id="agreement-conditions">
+            {% for condition in form.conditions %}
+            {% condition_field form condition.id as field %}
+            <div class="agreement-condition label-large">
+                {% render_question_number field %}
+                <p>{{ condition.condition_text | linebreaksbr }}</p>
+                <div class="django-form-input-checkbox">
+                    {{ field }}
+                    {% render_label field %}
+                </div>
+                <div class="django-form-input-checkbox">
+                    {{ field.errors }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" id="agreement-submit">Submit</button>
+    </form>
+</div>
+
+{% endblock %}
