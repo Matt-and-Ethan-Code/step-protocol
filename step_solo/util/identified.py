@@ -9,7 +9,7 @@ import clinician_overview.util.client
 
 SOLO_CLIENT_ID_COOKIE = 'solo_client_id'
 SOLO_PROVIDER_EMAIL_COOKIE = 'solo_provider_email'
-def require_identified(req: HttpRequest, check_db=True) -> tuple[str, str]:
+def require_identified(req: HttpRequest, check_db: bool = True) -> tuple[str, str]:
     """
     Returns the (client_id, provider email) tuple.
     """
