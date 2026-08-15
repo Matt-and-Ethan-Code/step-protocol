@@ -1,0 +1,91 @@
+{% extends 'step_solo/base.html' %}
+{% load static %}
+{% block title %}STEP Solo{% endblock %}
+{% block head %}
+<style>
+  #banner {
+      background-image: url({% static 'step_solo/footsteps_beach.jpg' %});
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+
+      height: 400px;
+  }
+  #step-logo {
+      width: 400px;
+      object-fit: cover;
+      object-fit: contain;
+  }
+  #intro {
+      text-align: center;
+      width: 80%;
+      font-weight: 300;
+      p {
+          font-size: 1.5rem;
+          line-height: 3rem;
+      }
+  }
+  main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+  .identify-form {
+      margin: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      
+      input[type="text"], input[type="email"] {
+          padding: 1rem;
+          font-size: 1.2rem;
+          min-width: 30ch;
+      }
+
+      input[type="submit"] {
+          font-size: 1.1rem;
+          width: fit-content;
+          border: none;
+      }
+  }
+</style>
+{% endblock %}
+
+{% block header %}
+<div id="banner">
+  <img id="step-logo" src={% static 'step_solo/step_logo_white.png' %}>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<section id="intro">
+  <h1 class="blue" style="font-weight: 500; font-size: 4rem;">Self Care Traumatic Episode<br> Protocol (STEP) Solo</h1>
+  <p><b style="font-weight: bold;">STEP Solo</b> is a self-guided tool designed to support your well-being. You can use it on your own for self-care, to work through challenging experiences, or as part of your ongoing wellness routine. Throughout the process, your STEP Intervention Provider will monitor key measures before, during, and after use to ensure you get the most out of it.</p>
+  <p>At times, you may be directed towards another intervention that might be a better fit for your needs. If this happens, your STEP Intervention Provider will reach out to provide support and discuss the next steps in your care.</p>
+  <p>Please note that the results of the STEP Solo intervention may not be continuously monitored. While the videos will guide you through the process, there may be times when support is not immediately available. If you ever feel distressed or overwhelmed, try using the self-regulation strategies provided to help you feel relaxed and aware. If you need additional support, please reach out to the individual who provided access to the protocol and the local resources they provided for immediate support.</p>
+</section>
+<form id="submit-form" class="identify-form" method="POST" action="{% url 'solo_index' %}">
+  {% csrf_token %}
+  <div>
+    <input type="text" name="client_id" placeholder="Enter your provided identifier" required minlength="2" value="{{ client_id }}">
+    <input type="email" name="provider_email" placeholder="Enter your provider's email" required minlength="2" value="{{ provider_email }}">
+  </div>
+  <input type="submit" class="blue-button" value="Begin STEP Solo">
+  {% if error == "not_found"%}
+  <p style="color: red;">The identifier or email you have entered does not match.</p>
+  {% elif error == "no_access" %}
+  <p style="color: red;">You do not currently have access to STEP Solo. Please contact your provider for more info.</p>
+  {% endif %}
+</form>
+<p>If you are STEP Intervention Provider, <a href="{% url 'account_login' %}">login or signup here</a></p>
+{% if error %}
+<script>
+  document.getElementById('submit-form').scrollIntoView({ block: 'start' });
+</script>
+{% endif %}
+<br><br>
+{% endblock %}

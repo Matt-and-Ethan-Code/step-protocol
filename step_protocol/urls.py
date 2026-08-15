@@ -25,9 +25,10 @@ urlpatterns: list[URLPattern | URLResolver] = [
     path('clinician/', include('clinician_overview.urls')),
     path('', include('initial_screening.urls')), 
     path("accounts/", include("allauth.urls")),
-    path('', include('provider_intake.urls')),
-    path('', include('step_together.urls')),
-    path("accounts/mfa/", include('allauth.mfa.urls'))
+    path('', include('provider_intake.urls')), 
+    path("accounts/mfa/", include('allauth.mfa.urls')),
+    path('solo/', include('step_solo.urls')),
+    path('', include('step_together.urls'))
 ]
 
 if settings.IS_PRODUCTION:

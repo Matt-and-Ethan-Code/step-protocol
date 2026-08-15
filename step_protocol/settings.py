@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from typing import Any
-from configparser import RawConfigParser, NoOptionError
+from configparser import RawConfigParser, NoSectionError
 import os
 
 config = RawConfigParser()
@@ -33,12 +33,22 @@ try:
 except:
     db_location = ""
 
-try:
-    # local version: look in base_dir
-    SECRET_KEY = config.get('section','DJANGO_SECRET_KEY')
-except:
-    # fly.io version: look in data
-    SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+def env_var(var_name: str):
+    """
+    Try to read from settings.ini (local)
+    If not found, try to read from environment variables (fly.io)
+    """
+    try:
+        return config.get('section', var_name)
+    except NoSectionError:
+        return os.environ.get(var_name)
+
+SECRET_KEY = env_var('DJANGO_SECRET_KEY')
+AWS_ACCESS_KEY_ID = env_var('AWS_ACCESS_KEY_ID')
+AWS_S3_ENDPOINT_URL = env_var('AWS_ENDPOINT_URL_S3')
+AWS_REGION = env_var('AWS_REGION')
+AWS_SECRET_ACCESS_KEY = env_var('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env_var('BUCKET_NAME')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 try:
@@ -46,15 +56,9 @@ try:
 except:
     DEBUG = False # assume production if it's not set
 
-AWS_ACCESS_KEY_ID = config.get('section', 'AWS_ACCESS_KEY_ID')
-AWS_S3_ENDPOINT_URL = config.get('section', 'AWS_ENDPOINT_URL_S3')
-AWS_REGION = config.get('section', 'AWS_REGION')
-AWS_SECRET_ACCESS_KEY = config.get('section', 'AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = config.get('section', 'BUCKET_NAME')
 AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = True
 AWS_QUERYSTRING_EXPIRE = 25 * 60 # seconds until the URL expires
-
 
 IS_PRODUCTION = not DEBUG
 
@@ -77,6 +81,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account', 
     'django.contrib.sites', 
+    'step_solo',
     'provider_intake', 
     'step_together',
     'allauth.mfa'

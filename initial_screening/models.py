@@ -186,3 +186,4 @@ class ResponseItem(models.Model):
     answer = models.TextField()
     answerID = models.ForeignKey(AnswerOption, null=True, blank=True, on_delete=models.SET_NULL)
     file = models.FileField(upload_to=document_upload_path, null=True, blank=True)
+

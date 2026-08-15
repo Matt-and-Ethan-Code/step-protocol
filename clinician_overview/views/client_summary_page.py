@@ -37,7 +37,7 @@ def client_summary_page(request: HttpRequest, client_id: str) -> HttpResponse:
   if not client:
     return render(request, 'clinician_overview/client_not_found.html', { "client_id": client_id })
 
-  access_grant = access.has_access(clinician, client)
+  access_grant = access.has_access(client)
   
   ctx = make_context(client, access_grant)
   return render(request, 'clinician_overview/client_summary_page.html', context=ctx)

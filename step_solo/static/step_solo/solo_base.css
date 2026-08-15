@@ -1,0 +1,105 @@
+:root {
+    --footer-colour: #24282d;
+    --bluish: hsla(186,43.69%,40.39%,1);
+}
+* {
+    font-family: Poppins;
+}
+html {
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+header {
+    
+}
+main {
+    width: 90%;
+}
+
+footer {
+    margin: 0;
+    width: 100%;
+    background-color: var(--footer-colour);
+    padding: 3rem;
+    box-sizing: border-box;
+}
+
+
+.blue {
+    color: var(--bluish);
+}
+
+
+.blue-button {
+    color: white;
+    padding: 1.5rem 2rem;
+    box-sizing: border-box;
+    text-decoration: none;
+    background-color: rgb(58,139,148);
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+p {
+    font-weight: 200;
+    line-height: 2;
+}
+p.larger {
+    font-size: 1.3rem;
+}
+
+.step-title-header {
+    margin: 1rem;
+    font-weight: 500;
+}
+
+.page-title {
+    margin: 1rem 2rem;
+    font-weight: 500;
+    font-size: 4rem;
+}
+
+.square-image {
+    width: 35%;
+    aspect-ratio: 1 / 1;
+    border-radius: 64px;
+    object-fit: cover;
+    object-position: center;
+    margin-left: 4rem;
+}
+
+h3 {
+    font-size: 2.5rem;
+    font-weight: 500;
+}
+
+li {
+    font-weight: 200;
+}
+
+ol {
+    line-height: 2.5;
+}
+
+a {
+    color: var(--bluish);
+    text-decoration: none;
+}
+.next-lesson {
+    float: right;
+    margin: 2rem;
+}
+
+video {
+    width: 90%;
+}

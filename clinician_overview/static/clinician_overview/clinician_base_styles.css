@@ -10,7 +10,6 @@
 
 #step-logo {
   height: 48px;
-  margin-top: 1rem;
 }
 
 main {
@@ -40,24 +39,6 @@ h1 {
     padding: 1rem;
     color: white;
 }
-nav ul li:hover {
-  background-color: color-mix(in srgb, var(--bluish) 90%, black 10%);
-}
-
-
-#nested-nav-links {
-    background-color: white;
-    margin-top: 8px;
-}
-
-#nested-nav-links > .nested-nav-link > a {
-    color: var(--brown);
-}
-
-#nested-nav-links > .nested-nav-link:hover {
-    background-color: color-mix(in srgb, var(--brown) 20%, white 80%);
-}
-
 
 @media (max-width: 768px) {
   .content-columns {
@@ -85,10 +66,6 @@ nav ul li:hover {
   .etable-container {
     overflow-x: auto;
   }
-
-  li.active > ul#nested-nav-links {
-    display: none;
-  }
 }
 @media (min-width: 769px) {
   .content-columns {
@@ -98,14 +75,6 @@ nav ul li:hover {
   #main {
     margin-left: 1rem; 
     width: 100%;
-  }
-
-  li.active:has(#nested-nav-links):hover {
-    background-color: var(--orangey);
-  }
-
-  li.active:has(#nested-nav-links) {
-      padding: 8px 0 0 0;
   }
 }
 
@@ -135,16 +104,6 @@ nav {
     a {
       color: white;
       text-decoration: none;
-    }
-
-    ul {
-      display: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    &.active ul {
-      display: block;
     }
   }
 }
@@ -279,4 +238,57 @@ select {
     display: inline-flex;
     cursor: pointer;
     margin-right: 5px;
+}
+
+.step-logo-and-account-circle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.account-button {
+    background: inherit;
+    border: none;
+    cursor: pointer;
+    margin-right: 2rem;
+}
+.account-circle {
+    font-size: 3rem;
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    color: #FAFAFA;
+    border-radius: 50%;
+    padding: 0px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+#account-popover {
+    position-area: bottom;
+    border: 2px solid #ABABAB;
+    border-radius: 6px;
+    margin-right: 1rem;
+
+    @media(width <= 768px) {
+        width: 100%;
+    }
+    
+    li {
+        text-align: center;
+        padding: 12px;
+        font-size: 1.2rem;
+    }
+    li:not(:last-child) {
+        border-bottom: 1px solid #ABABAB;
+    }
+
+    .logout-link {
+        background: none;
+        border: none;
+        padding: 0;
+        color: var(--orangey); /* or your link color */
+        text-decoration: underline;
+        cursor: pointer;
+        font: inherit;
+    }
 }

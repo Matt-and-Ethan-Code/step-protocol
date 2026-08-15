@@ -3,6 +3,8 @@ from clinician_overview.models import Client
 from django.contrib.auth.models import User
 from collections.abc import Iterable
 
+from clinician_overview.util import access
+
 ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
 DIGITS = '0123456789'
 LENGTH =7
@@ -42,6 +44,17 @@ def find(client_id: str, clinician: User | str) -> Client | None:
     return existing_client
   except Client.DoesNotExist:
     return None
+
+def find_active(client_id: str, clinician: User | str) -> Client | None:
+  client = find(client_id, clinician)
+  if client:
+    if not client.is_active:
+      return None
+    access_grant = access.has_access(client)
+    if access_grant is None:
+      return None
+    return client
+  return None
 
 def is_valid(maybe_client_id: str) -> bool:
   if len(maybe_client_id) != 7:

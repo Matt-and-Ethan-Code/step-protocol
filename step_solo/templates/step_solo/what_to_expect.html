@@ -1,0 +1,78 @@
+{% extends 'step_solo/base.html' %}
+{% load static %}
+{% block title %}What to Expect{% endblock %}
+{% block head %}
+<style>
+  #welcome-banner {
+      width: 100%;
+      margin: 0;
+  }
+</style>
+{% endblock %}
+
+{% block header %}
+<h2 class="step-title-header">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
+<hr>
+<h1 class="page-title">What to Expect</h1>
+<img id="welcome-banner" src="{% static 'step_solo/welcome_banner.webp' %}">
+{% endblock %}
+
+{% block content %}
+<h2 class="blue" style="font-size:4rem;">What to Expect in STEP Solo</h2>
+<p>STEP Solo is a guided self-care process that helps you work through a recent stressful or upsetting experience.
+  You'll go throug the steps independently, but your STEP Intervention Provider will support you before and after.</p>
+<h3 class="blue">What You Have Done So Far:</h3>
+<ol>
+  <li>
+    <h4>Consent and Screening</h4>
+    <p>You have reviewed information about the process, given consent, and completed some short forms.
+      These forms help your STEP Intervention Provider determine whether STEP Solo will be helpful for you.
+  </li>
+</ol>
+<h3 class="blue">What's coming up:</h3>
+<ol>
+  <li>
+    <h4>Learn Calming Tools</h4>
+    <p>You will review a document with simple ways to calm your body and mind. You can use these at any time during the process.
+      We will learn more techniques throughout the process to support you in this work.
+    </p>
+  </li>
+  <li>
+    <h4>Watch the Introduction video</h4>
+    <p>These videos explain how the process works and what materials you'll need. You'll also see how to do bilateral
+      stimulation (tapping and eye movement techniques)that support the intervention.
+    </p>
+  </li>
+  <li>
+    <h4>Grounding Exercise</h4>
+    <p>You will do the 4 Elements Excercise to feel relaxed and aware. Based on your response, you'll either continue
+      with STEP Solo or be connected with your STEP Intervention Provider to explore other supports that maybe
+    be more helpful for you at this time.</p>
+  </li>
+  <li>
+    <h4>Self-Care and Processing</h4>
+    <p>You will follow along with videos to:
+      <ul>
+        <li>identify a memory that still feels upsetting</li>
+        <li>use guided tapping to reduce stress</li>
+        <li>end with a positive thought and a calming reflection</li>
+      </ul>
+    </p>
+  </li>
+  <li>
+    <h4>Close and Follow-Up</h4>
+    <p>You will complete a final calming exercise and submit your results. Your STEP Intervention Provider will
+      check in with you afterward to see how you're doing and discuss the next steps.</p>
+  </li>
+</ol>
+<br/>
+<p><strong>The process should take approximately 90 minutes.</strong></p>
+<br>
+<p>If the information your provide suggests that other interventios may be a better fit for you at this time,
+  you may be guided toward other suports that may be better suited to your current needs. Your STEP Intervention
+  provider will follow up with you to discuss next steps and develop a personalized treatment plan that supports
+  your overall well-being.</p>
+<br>
+<br>
+<a class="blue-button next-lesson" href="{% url 'solo_self_regulation_strategies' %}">Next Lesson</a>
+{% endblock %}
