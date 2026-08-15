@@ -33,18 +33,33 @@ try:
 except:
     db_location = ""
 
-try:
-    # local version: look in base_dir
-    SECRET_KEY = config.get('section','DJANGO_SECRET_KEY')
-except:
-    # fly.io version: look in data
-    SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+def env_var(var_name: str):
+    """
+    Try to read from settings.ini (local)
+    If not found, try to read from environment variables (fly.io)
+    """
+    try:
+        return config.get('section', var_name)
+    except NoOptionError:
+        return os.environ.get(var_name)
+
+SECRET_KEY = env_var('DJANGO_SECRET_KEY')
+AWS_ACCESS_KEY_ID = env_var('AWS_ACCESS_KEY_ID')
+AWS_S3_ENDPOINT_URL = env_var('AWS_ENDPOINT_URL_S3')
+AWS_REGION = env_var('AWS_REGION')
+AWS_SECRET_ACCESS_KEY = env_var('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env_var('AWS_STORAGE_BUCKET_NAME')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 try:
     DEBUG =  ( os.environ.get('DEBUG') or config.get('section', 'DEBUG'))  == 'True'
 except:
     DEBUG = False # assume production if it's not set
+
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = True
+AWS_QUERYSTRING_EXPIRE = 25 * 60 # seconds until the URL expires
+
 
 IS_PRODUCTION = not DEBUG
 
