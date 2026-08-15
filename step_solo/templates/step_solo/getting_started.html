@@ -1,0 +1,54 @@
+{% extends "step_solo/base.html" %}
+{% load static %}
+{% block title %}Getting Started{% endblock %}
+{% block head %}
+
+{% endblock %}
+
+{% block header %}
+<h2 class="step-title-header">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
+<hr>
+<h1 class="page-title">Getting Started</h1>
+{% endblock %}
+{% block content %}
+<section style="display:flex;">
+  <p class="larger">In this section, you’ll find the tools and resources to begin the intervention process. Whether you’re using it for self-care, to process an experience, or as part of your wellness routine, everything you need is right here. Follow the steps to get started, and remember, support is available if you need it.</p>
+  <img class="square-image" src="{% static 'step_solo/coffee_desk.jpg' %}">
+</section>
+<hr>
+<section>
+  <h3 class="blue">List of what you need to get started</h3>
+  <ol>
+    <li>Worksheets (download below)</li>
+    <li>Pencils/Pens/Markers</li>
+    <li>Water</li>
+    <li>Tissues</li>
+    <li>Wristband, sticker, or sticky note to serve as a reminder of the 4 Elements exercise</li>
+    <li>Privacy</li>
+    <li>Anything else you will need to feel comfortable</li>
+  </ol>
+</section>
+<strong>Please print the worksheets on three separate pages, and have them available during the videos</strong>
+<br><br>
+<div style="display:flex;justify-content:center;">
+  <a class="blue-button" href="{% static 'step_solo/STEP+Worksheets.pdf' %}">Download Worksheets</a>
+</div>
+<section>
+  <h4 class="blue">What if I need help?</h4>
+  <p>Please be aware that this intervention is not monitored in real time, and depending on when you're completing STEP Solo, your STEP Intervention Provider may not be available to assist you.</p>
+  <p>If you are experiencing severe distress and need immediate support, the following options are available:</p>
+  <ul>
+    <li>Visit your nearest emergency department or call your local emergency line (in Canada, call 911)</li>
+    <li>
+      <p><strong>Contact a crisis support service</strong> &mdash; available 24/7 to provide urgent assistance</p>
+      <ul style="line-height: 2.5;">
+        <li>In Canada, you can <strong>call or text 988</strong> to reach the national <a href="https://988.ca/">Crisis helpline</a></li>
+        <li>Additional community resources specific to your province can be founrd <a href="https://988.ca/community-resources">here</a></li>
+      </ul>
+    </li>
+  </ul>
+  <p>During difficult times, it's important to take steps to care for your mental health. Please remember that there are resources available to provide the support you need, and reaching out can be an essential part of the process.</p>
+</section>
+<hr>
+<a class="blue-button" style="float:right; margin:2rem;"href="{% url 'solo_introduction' %}">Next Lesson</a>
+{% endblock %}

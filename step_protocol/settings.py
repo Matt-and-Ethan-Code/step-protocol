@@ -60,7 +60,6 @@ AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = True
 AWS_QUERYSTRING_EXPIRE = 25 * 60 # seconds until the URL expires
 
-
 IS_PRODUCTION = not DEBUG
 
 ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1', 'localhost', 'step-protocol-soft-cove-2004.fly.dev']
@@ -75,13 +74,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "initial_screening",
-    "clinician_overview",
+    'initial_screening',
+    'clinician_overview',
     'authentication', 
     'allauth',
     'allauth.account', 
     'django.contrib.sites', 
-    'provider_intake', 
+    'provider_intake',
+    'step_solo',
     'allauth.mfa'
 ]
 
@@ -102,6 +102,17 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend"
 ]
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",  # tigres
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    }
+}
+
+
 
 SITE_ID = 1
 
