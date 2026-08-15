@@ -95,3 +95,11 @@ a {
     color: var(--bluish);
     text-decoration: none;
 }
+.next-lesson {
+    float: right;
+    margin: 2rem;
+}
+
+video {
+    width: 90%;
+}
