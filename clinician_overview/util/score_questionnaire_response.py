@@ -77,7 +77,7 @@ def score_questionnaire_response(responseItems: BaseManager[ResponseItem], quest
         gseResponseForm: GSEForm = build_response_form(
         responseItems,
         range(1, 22),
-        lambda count: cast(GSEResponse, count),
+        lambda count: cast(GSEResponse, count + 1),
         lambda i: cast(GSEQuestion, i),
         )
         gse_score: GSEScore = scoring.gse_score(gseResponseForm)
