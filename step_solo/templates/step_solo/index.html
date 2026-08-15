@@ -32,6 +32,25 @@
       flex-direction: column;
       align-items: center;
   }
+  .identify-form {
+      margin: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      
+      input[type="text"], input[type="email"] {
+          padding: 1rem;
+          font-size: 1.2rem;
+          min-width: 30ch;
+      }
+
+      input[type="submit"] {
+          font-size: 1.1rem;
+          width: fit-content;
+          border: none;
+      }
+  }
 </style>
 {% endblock %}
 
@@ -49,6 +68,13 @@
   <p>At times, you may be directed towards another intervention that might be a better fit for your needs. If this happens, your STEP Intervention Provider will reach out to provide support and discuss the next steps in your care.</p>
   <p>Please note that the results of the STEP Solo intervention may not be continuously monitored. While the videos will guide you through the process, there may be times when support is not immediately available. If you ever feel distressed or overwhelmed, try using the self-regulation strategies provided to help you feel relaxed and aware. If you need additional support, please reach out to the individual who provided access to the protocol and the local resources they provided for immediate support.</p>
 </section>
-<a class="blue-button" href={% url 'solo_what_to_expect' %}>Continue Course</a>
+<form class="identify-form" method="POST" action="{% url 'solo_index' %}">
+  {% csrf_token %}
+  <div>
+    <input type="text" name="client_id" placeholder="Enter your provided identifier" required minlength="2">
+    <input type="email" name="provider_email" placeholder="Enter your provider's email" required minlength="2">
+  </div>
+  <input type="submit" class="blue-button" value="Begin STEP Solo">
+</form>
 <br><br>
 {% endblock %}
