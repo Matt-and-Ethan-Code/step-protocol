@@ -1,0 +1,51 @@
+.st-section-header {
+    background-color: color-mix(in srgb, var(--bluish) 80%, white 20%);
+    margin: 0;
+    padding: 1rem;
+    color: white;
+    font-weight: 300;
+}
+
+header {
+    margin-bottom: 0 !important;
+}
+
+.st-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+.st-card-description {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+.st-card {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.st-card img {
+    width: 125px;
+}
+
+.st-card-label {
+    margin: 0;
+    color: var(--brown);
+    font-weight: 600;
+    text-align: center;
+}
+
+.st-card-sublabel {
+    font-size: 0.875rem;
+    color: var(--brown);
+    opacity: 0.5;
+}
+
+@media (max-width:768px) {
+    .st-cards {
+        justify-content: center;
+    }
+}

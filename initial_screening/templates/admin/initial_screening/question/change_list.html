@@ -1,0 +1,20 @@
+{% extends "admin/change_list.html" %}
+
+{% block content %}
+<div class="module" style="margin-bottom: 15px; padding: 10px 15px;">
+  <p>
+    A single question within a Question Block.
+  </p>
+  <p>
+    Stores question text, format (e.g. text, dropdown), order.
+  </p>
+  <p>
+    Questions may be optional.
+  </p>
+  <p>
+    Order of questions in a Question Blockmust start at 1.
+  </p>
+</div>
+{{ block.super }}
+
+{% endblock %}

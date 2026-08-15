@@ -74,14 +74,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'initial_screening',
-    'clinician_overview',
+    'nested_admin',
+    "initial_screening",
+    "clinician_overview",
     'authentication', 
     'allauth',
     'allauth.account', 
     'django.contrib.sites', 
-    'provider_intake',
     'step_solo',
+    'provider_intake', 
+    'step_together',
     'allauth.mfa'
 ]
 
@@ -111,8 +113,6 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     }
 }
-
-
 
 SITE_ID = 1
 
@@ -236,3 +236,5 @@ if IS_PRODUCTION:  # in production
     SECURE_HSTS_PRELOAD = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
