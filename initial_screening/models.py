@@ -145,7 +145,7 @@ class AnswerOption(models.Model):
     question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)
     text = models.TextField()
     order = models.PositiveBigIntegerField(default=0)
-    internal_value = models.CharField(max_length=255,  null=True)
+    internal_value = models.CharField(max_length=255,  null=True, blank=True)
 
     class Meta:
         ordering = ['order']
