@@ -1,0 +1,100 @@
+
+body {
+    background-color: #f9f9f9;
+}
+
+.module-header {
+    color: var(--brown);
+    font-size: 30px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.module-subheader {
+    color: var(--bluish);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 3rem;
+}
+
+#step-together-text p.orange-note {
+    color: var(--orangey);
+}
+
+.next-module-button {
+    color: white;
+    background-color: var(--bluish);
+    border: none;
+    text-align: center;
+    width: 90%;
+    margin: 0 auto;
+    padding: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#step-together-text, #step-together-links {
+    background-color: white;
+    padding: 2rem;
+}
+
+#step-together-body-container {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    padding: 2rem;
+    gap: 2rem;
+}
+
+#step-together-body-container, #module-thumbnail {
+    max-width: 66%;
+    margin: auto;
+    margin-top: 2rem;
+    max-height: 30vh;
+}
+
+p {
+    color: #4b351c;
+}
+
+#step-together-text p {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 1.5rem;
+}
+
+#step-together-links {
+    min-width: 15%;
+}
+
+#downloads-header {
+    font-weight: 700;
+
+}
+
+.module-download-link {
+    word-break: break-word;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: var(--bluish);
+}
+
+.module-download-link a {
+    color: var(--bluish);
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.file-download-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+#module-thumbnail img {
+    width: 100%;
+}
