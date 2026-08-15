@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from typing import Any
-from configparser import RawConfigParser, NoOptionError
+from configparser import RawConfigParser, NoSectionError
 import os
 
 config = RawConfigParser()
@@ -40,7 +40,7 @@ def env_var(var_name: str):
     """
     try:
         return config.get('section', var_name)
-    except NoOptionError:
+    except NoSectionError:
         return os.environ.get(var_name)
 
 SECRET_KEY = env_var('DJANGO_SECRET_KEY')
