@@ -179,7 +179,7 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
                 return render(request, 'initial_screening/client_does_not_exist.html')
             elif client and not form_anonymous:
                 # check that the client has access now
-                client_can_access = access_module.has_access(clinician, client)
+                client_can_access = access_module.has_access(client)
                 if not client_can_access:
                     return render(request, 'initial_screening/client_does_not_have_permission.html')
 

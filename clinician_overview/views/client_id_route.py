@@ -50,7 +50,7 @@ def create_client_id(req: HttpRequest) -> HttpResponse:
   new_client_id.save()
 
   end_date = datetime.timedelta(days=duration_in_days) + timezone.now()
-  access_grant = new_grant_until(clinician=user, client=new_client_id, end_date=end_date)
+  access_grant = new_grant_until(client=new_client_id, end_date=end_date)
   access_grant.save()
 
   return redirect('/clinician/clients')
