@@ -81,6 +81,7 @@
   <p style="color: red;">You do not currently have access to STEP Solo. Please contact your provider for more info.</p>
   {% endif %}
 </form>
+<p>If you are STEP Intervention Provider, <a href="{% url 'account_login' %}">login or signup here</a></p>
 {% if error %}
 <script>
   document.getElementById('submit-form').scrollIntoView({ block: 'start' });
