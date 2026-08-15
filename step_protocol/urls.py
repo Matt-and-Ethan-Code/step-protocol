@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import URLPattern, URLResolver, path, include
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns: list[URLPattern | URLResolver] = [
     path('admin/', admin.site.urls),
@@ -27,3 +29,6 @@ urlpatterns: list[URLPattern | URLResolver] = [
     path('', include('step_together.urls')),
     path("accounts/mfa/", include('allauth.mfa.urls'))
 ]
+
+if settings.IS_PRODUCTION:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

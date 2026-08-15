@@ -46,6 +46,16 @@ try:
 except:
     DEBUG = False # assume production if it's not set
 
+AWS_ACCESS_KEY_ID = config.get('section', 'AWS_ACCESS_KEY_ID')
+AWS_S3_ENDPOINT_URL = config.get('section', 'AWS_ENDPOINT_URL_S3')
+AWS_REGION = config.get('section', 'AWS_REGION')
+AWS_SECRET_ACCESS_KEY = config.get('section', 'AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config.get('section', 'BUCKET_NAME')
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = True
+AWS_QUERYSTRING_EXPIRE = 25 * 60 # seconds until the URL expires
+
+
 IS_PRODUCTION = not DEBUG
 
 ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1', 'localhost', 'step-protocol-soft-cove-2004.fly.dev']
@@ -89,6 +99,15 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend"
 ]
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",  # tigres
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    }
+}
 
 SITE_ID = 1
 
@@ -212,3 +231,5 @@ if IS_PRODUCTION:  # in production
     SECURE_HSTS_PRELOAD = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

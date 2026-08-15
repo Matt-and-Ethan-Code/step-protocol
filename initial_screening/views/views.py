@@ -14,6 +14,10 @@ from dataclasses import dataclass
 from clinician_overview.models import Client
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.db.models import Max
+import json
+
+from initial_screening import models
 
 
 def notify_clinician(clinician:User):
@@ -61,43 +65,23 @@ def get_answer_text(question_id: int, form_value: str):
     except:
         return form_value
 
-def save_answer_response(option_id: str, question_id: int, new_response: QuestionnaireResponse):
-    answer_option_id = int(option_id)
-    matching_option = AnswerOption.objects.filter(question_id=question_id, id=answer_option_id).first()
+def save_answer_response(option_id_number: int, question_id: int, new_response: QuestionnaireResponse):
+    matching_option = AnswerOption.objects.filter(question_id=question_id, id=option_id_number).first()
 
     if matching_option and matching_option.internal_value:
         ResponseItem.objects.create(
             response = new_response, 
             question_id = question_id, 
-            answerID_id = answer_option_id, 
+            answerID_id = option_id_number, 
             answer = matching_option.internal_value
         )
     elif matching_option: 
         ResponseItem.objects.create(
             response = new_response, 
             question_id = question_id, 
-            answerID_id = answer_option_id,
+            answerID_id = option_id_number,
             answer = matching_option.text
         )
-
-def step_together_feedback(request: HttpRequest):
-    """
-    Render the STEP together feedback form.
-    The form is really one questionnaire, but question blocks are hidden until the user clicks "next".
-    Question block descriptions contain images in their instructions.
-    """
-    # todo!
-
-    # find the questionnaire based on id
-    questionnaire = get_object_or_404(
-        Questionnaire.objects.prefetch_related('question_blocks__questions__options'),
-        id=5
-    )
-
-    questionnaire_count = Questionnaire.objects.count()
-
-    form = QuestionnaireForm(questionnaire, request.POST or None)
-    return render(request, 'initial_screening/step_together_feedback.html', {'form': form, 'questionnaire': questionnaire, 'questionnaire_count': questionnaire_count})
 
 def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int | None):
     """
@@ -117,19 +101,16 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
         id=questionnaire_id
     )
 
-    # get the smallest questionnaire in the form
-    # relationships between forms and questionnaires are recorded in FormMembership
-    min_relationship = FormMembership.objects.filter(form_id = form_id).order_by('order').first()
-
     if request.method == 'POST':
         # the user must be submitting answers
 
         # get the answers as a dictionary
-        answers = request.POST.dict()
-
+        answers = request.POST
         # remove csrf token
         # for more information, see: https://docs.djangoproject.com/en/6.0/ref/csrf/ 
-        answers.pop('csrfmiddlewaretoken', None)
+        answer_ids = [k for k in answers.keys() if k != "csrfmiddlewaretoken"]
+        file_answers = [k for k in request.FILES.keys() if k != "csrfmiddlewaretoken"]
+        uploaded_files = request.FILES
 
         # check if this is the initial questionnaire asking the unique ID
         # if yes: it will need to be handled differently 
@@ -140,20 +121,23 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
         client = None
         clinician = None
 
+        # get the smallest questionnaire in the form
+        # relationships between forms and questionnaires are recorded in FormMembership
+        min_relationship = FormMembership.objects.filter(form_id = form_id).order_by('order').first()
+
         if min_relationship:
             min_questionnaire = min_relationship.questionnaire
             # compare the ID of the smallest questionnaire with the questionnaire ID received in the request path
             # in most forms, this would be questionnaire 3, "STEP Screening Forms"
             # this is a different page for the feedback questionnaire
-            print("this questionnaire is min relationship....", questionnaire_id, min_questionnaire.id, "form id: ", form_id)
             if questionnaire_id == min_questionnaire.id:
                 unique_provider_question = Question.objects.filter(
-                    id__in=answers.keys(),
+                    id__in=answer_ids,
                     text__icontains="Who is"
                 ).first()
 
                 user_unique_identifier_question = Question.objects.filter(
-                    id__in=answers.keys(),
+                    id__in=answer_ids,
                     text__icontains="unique identifier"
                 ).first()
 
@@ -209,25 +193,29 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
                 # so we can just use that field instead of having to re-query the database
             )
 
-            for answer in answers.keys():
+            print("new response: ", new_response, answer_ids)
+
+            for answer in answer_ids:
                 # go through each answer in the answers dictionary
                 # and store each response as a ResponseItem
                 question_id = int(answer)
                 matching_question = Question.objects.get(id=question_id)
                 question_type = matching_question.question_type
+                print("answer: ", answer, "___", answers[answer])
 
                 if question_type == "checkbox" or question_type == "radio" or question_type == "dropdown":
                     # examine responses on questions where multiple selections could be possible
-                    answer_responses: str | list[str] = answers[answer]
+                    answer_responses = json.loads(answers[answer])
                     # responses will come as a string (if one response) or an array of responses (if multiple responses)
                     # also, these questions may have answer options that contain internal values different from what the user 
                     # saw when selecting the answer (example: they saw the provider name, but selected the questionnaire)
                     # this extra logic is handled by save_answer_response
-                    if isinstance(answer_responses, str): 
-                        save_answer_response(answer_responses, question_id, new_response)
-                    else: 
+                    if isinstance(answer_responses, list):
                         for answer_response in answer_responses:
                             save_answer_response(answer_response, question_id, new_response)
+                    elif isinstance(answer_responses, int):
+                        save_answer_response(answer_responses, question_id, new_response)
+
                 else:
                     # create a response item just storing the data
                     ResponseItem.objects.create(
@@ -235,10 +223,13 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
                         question_id = question_id,
                         answer = answers[answer]
                     )  
-
-            # send email to clinician notifying them of submission
-            if not questionnaire.omit_notifications:
-                notify_clinician(clinician)           
+            for file_answer in file_answers:
+                question_id = int(file_answer)
+                this_file = uploaded_files.get(str(question_id))
+                print("this_file: ", this_file)
+                if this_file and this_file.name:
+                    this_response = ResponseItem.objects.create(response=new_response,question_id=question_id,answer='answer_uploaded')
+                    this_response.file.save(this_file.name,this_file)
 
         # query FormMembership for the order of current questionnaire.
         # note: in django, it's possible to filter a database using foreignkey_id=[id] syntax to filter on a foreign key column.
@@ -269,9 +260,11 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
     # for requests other than POST:
     # just render the questionnaire in the request
     form = QuestionnaireForm(questionnaire, request.POST or None)
-    questionnaire_count = FormMembership.objects.filter(form_id = form_id).count()
-    questionnaire_button_text = "Submit" if min_relationship and min_relationship.questionnaire.id == questionnaire_id else "Next"
-    return render(request, 'initial_screening/questionnaire.html', {'form': form, 'questionnaire': questionnaire, 'questionnaire_button_text': questionnaire_button_text})
+
+    max_relationship =     FormMembership.objects.filter(form_id=form_id).order_by('order').last()
+    questionnaire_button_text = "Submit" if max_relationship and max_relationship.questionnaire.id == questionnaire_id else "Next"
+    question_blocks_max_order = questionnaire.question_blocks.aggregate(max_order=Max('order'))['max_order']
+    return render(request, 'initial_screening/questionnaire.html', {'form': form, 'questionnaire': questionnaire, 'questionnaire_button_text': questionnaire_button_text, 'max_question_block': question_blocks_max_order})
 
 # shown to the user after the last questionnaire in the form
 def testing_complete(request: HttpRequest):
