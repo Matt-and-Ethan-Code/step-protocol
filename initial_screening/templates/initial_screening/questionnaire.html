@@ -14,10 +14,13 @@
     <body>
         {% load form_extras %}
         <div id="questionnaire-container">
-            <h1>{{ questionnaire.name }}</h1>
+            {% if not questionnaire.hide_title %}
+                <h1>{{ questionnaire.name }}</h1>
+            {% else %}
+                <h1></h1>
+            {% endif %} 
 
-
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
 
                 {% for block in questionnaire.question_blocks.all %}
                     <section>
@@ -28,6 +31,12 @@
 
                         {% for question in block.questions.all %}
                             <div class="question-container">
+                                {% if question.image_url %}
+                                    <div class="question-image-container">
+                                        <img src="{% static 'initial_screening/images/' %}{{ question.image_url }}" class="question-image">
+                                    </div>
+                                {% endif %}
+
                                 <div class="question-text-container">
                                     {% if question.is_required %}
                                         <p class="required-arrow">*</p>
@@ -73,6 +82,16 @@
                                             <br>
                                         {% endfor %}
                                     </div>
+                                {% elif question.question_type == 'file' %}
+                                    <input 
+                                        {% if question.is_required %}
+                                            required 
+                                        {% endif %} 
+                                        class="input-field" 
+                                        type="file" 
+                                        accept="image/*,.pdf"
+                                        name="{{ question.id }}"
+                                        >
                                 {% elif question.question_type == 'textarea' %}
                                     <textarea 
                                         {% if question.is_required %}
@@ -87,11 +106,9 @@
                             </div>
                         {% endfor %}
 
-                        {% with blocks_count=questionnaire.question_blocks.count %}
-                            {% if block.order != blocks_count %} 
-                                <hr>
-                            {% endif %}
-                        {% endwith %}
+                        {% if block.order < max_question_block_order %}
+                            <hr>
+                        {% endif %}
                     </section>
                 {% endfor %}
                 <div id="questionnaire-citation">
@@ -99,11 +116,7 @@
                 </div>
 
                 <button type="submit">
-                    {% if questionnaire.order == questionnaire_count %}
-                        Submit
-                    {% else %}
-                        Next 
-                    {% endif %}
+                    {{ questionnaire_button_text }}
                 </button>
 
                 {% csrf_token %}
