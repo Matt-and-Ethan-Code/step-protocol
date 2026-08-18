@@ -1,6 +1,10 @@
 {% extends 'step_together/step-together-module-base.html' %} {% load static %}
 
 {% block title %} Manual {% endblock %} 
+
+{% block step-together-header-image %}
+<img src="{% static 'step_together/module-thumbnails/manualjpeg.jpeg' %}">
+{% endblock %}
 {% block step-together-text %}
     <h1 class="module-header">
         Manual
@@ -25,11 +29,11 @@
 {% block content-links %}
     <div  class="module-download-link">
         <img class="file-download-icon" src="{% static 'step_together/acrobat.png' %}">
-        <a> STEP_Manual_Updated_December_2025_.pdf </a>
+        <a href="{% static 'clinician_overview/STEP_Manual.pdf' %}" download> STEP_Manual_Updated_December_2025_.pdf </a>
     </div>
     <div class="module-download-link">
         <img class="file-download-icon" src="{% static 'step_together/acrobat.png' %}">
-        <a>
+        <a href="{% static 'clinician_overview/STEP_Script.pdf' %}" download>
             STEP_Script.pdf
         </a>
     </div>

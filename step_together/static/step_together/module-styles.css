@@ -3,6 +3,32 @@ body {
     background-color: #f9f9f9;
 }
 
+footer {
+    background-color: var(--brown);
+    color: white;
+    width: 100vw;
+    height: 100px;
+    bottom: 0;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 15%;
+    box-sizing: border-box;
+}
+
+footer img {
+    height: 100px;
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+
+footer span {
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    text-transform: none;
+}
+
 .module-header {
     color: var(--brown);
     font-size: 30px;
@@ -52,7 +78,6 @@ body {
     max-width: 66%;
     margin: auto;
     margin-top: 2rem;
-    max-height: 30vh;
 }
 
 p {
@@ -68,6 +93,7 @@ p {
 
 #step-together-links {
     min-width: 15%;
+    height: fit-content;
 }
 
 #downloads-header {
@@ -89,12 +115,23 @@ p {
     font-weight: 400;
 }
 
+.module-download-link a:hover {
+    text-decoration: underline;
+}
+
 .file-download-icon {
     display: inline-block;
     width: 20px;
     height: 20px;
 }
 
+#module-thumbnail {
+    height: 400px;
+    overflow: hidden;
+}
+
 #module-thumbnail img {
+    object-fit: contain;
+    height: 100%;
     width: 100%;
 }
