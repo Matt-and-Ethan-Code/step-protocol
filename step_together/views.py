@@ -15,6 +15,11 @@ def step_together_manual(request: HttpRequest) -> HttpResponse:
         "nav_section": "step-together"
     })
 
+def step_together_pregroup_checklist(request: HttpRequest) -> HttpResponse:
+    return render(request, "step_together/step-together-pre-group-checklist.html", {
+        "nav_section": "step-together"
+    })
+
 
 def agreement_view(request: HttpRequest) -> HttpResponse:
     agreement = get_object_or_404(Agreement, current=True)

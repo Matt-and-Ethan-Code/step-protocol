@@ -39,7 +39,7 @@
                 <span>
                     After Group:
                 </span>
-                <div class="masures-pill blue-pill" style="cursor: pointer;">
+                <div data-url="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 6 %}" class="masures-pill blue-pill" style="cursor: pointer;">
                     Feedback Form
                 </div>
                 <div data-url="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 4 %}" class="masures-pill blue-pill" onclick="copyLink(this)" style="cursor: pointer;">

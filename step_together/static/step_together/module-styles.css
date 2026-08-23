@@ -44,8 +44,12 @@ footer span {
     margin-bottom: 3rem;
 }
 
-#step-together-text p.orange-note {
+#step-together-text .orange-note {
     color: var(--orangey);
+}
+
+#step-together-text .bold-note {
+    font-weight: bold;
 }
 
 .next-module-button {
@@ -80,11 +84,12 @@ footer span {
     margin-top: 2rem;
 }
 
-p {
+p, li {
     color: #4b351c;
+    line-height: 25px;
 }
 
-#step-together-text p {
+#step-together-text p, #step-together-text li {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size: 16px;
@@ -92,7 +97,7 @@ p {
 }
 
 #step-together-links {
-    min-width: 15%;
+    min-width: 30%;
     height: fit-content;
 }
 
