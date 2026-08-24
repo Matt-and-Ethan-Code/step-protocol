@@ -1,0 +1,34 @@
+{% extends 'step_together/step-together-module-base.html' %} {% load static %}
+
+{% block title %} Bilateral Tapping {% endblock %} 
+
+{% block step-together-header-image %}
+<video id="vid" predownload src="{{ video_url }}" controls controlsList="nodownload" oncontextmenu="return false;"></video>
+{% endblock %}
+{% block step-together-text %}
+    <h1 class="module-header">
+        Bilateral Tapping
+    </h1>    
+    <h2 class="module-subheader">
+        STEP Together Protocol
+    </h2>
+    <div>
+        <p class="bold-note">
+            Leaders - please read the text below to your participants. 
+        </p>
+
+        <p>
+            Next, is the Four Elements Video. The Four Elements is a self-care tool to reduce stress and anxiety. Verbal and written instructions guide the process while you focus on soothing music and bilateral beats. This video uses bilateral stimulation in the form of bilateral beats, so if you have a headset, you will notice the sound moving from one ear to the other. If you don’t have a headset, that is fine, too; you can tap on your body on one side and then the other when you hear the beeps or tap at your own pace. If you are wearing a headset and the tapping is bothersome, please feel free to remove your headset and continue the bilateral tapping in another way. The next 2-minute video will show a few ways that we can do bilateral tapping. We are going to use bilateral tapping for the 4 Elements exercise. Let’s watch the short video together.
+        </p>
+        <p class="blue-note bold-note">
+            <i>
+                Play Video. 
+            </i>
+        </p>
+    </div>
+
+{% endblock %}
+
+{% block step-together-next-button %}
+    Next Module
+{% endblock %}

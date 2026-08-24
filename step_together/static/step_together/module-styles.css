@@ -43,6 +43,13 @@ footer span {
     font-weight: 700;
     margin-bottom: 3rem;
 }
+#step-together-text .bright-orange-note {
+    color: var(--bright-orange);
+}
+
+#step-together-text .blue-note {
+    color: #16a085;
+}
 
 #step-together-text .orange-note {
     color: var(--orangey);
@@ -93,7 +100,7 @@ p, li {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size: 16px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 #step-together-links {
@@ -133,10 +140,15 @@ p, li {
 #module-thumbnail {
     height: 400px;
     overflow: hidden;
+    display: flex;
 }
 
 #module-thumbnail img {
     object-fit: contain;
     height: 100%;
     width: 100%;
+}
+
+video {
+    width: 90%;
 }
