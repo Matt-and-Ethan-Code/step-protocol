@@ -94,7 +94,7 @@ step_together_modules:list[ST_MODULE_CONTAINER] = [
                 title = "STEP Together Clinician Agreement", 
                 img_url = "step_together/images/step-together-agreement-thumbnail.jpeg",
                 description = "Self-Care Traumatic Episode Protocol (STEP) Agreement For STEP Intervention Providers", 
-                page_url=""
+                page_url="/agreement"
             )
         ]
     ), 
@@ -238,4 +238,5 @@ def agreement_view(request: HttpRequest) -> HttpResponse:
     return render(request, "step_together/agreement.html", {
         "form": form,
         "agreement": agreement,
+        'nav_section': 'step-together'
     })

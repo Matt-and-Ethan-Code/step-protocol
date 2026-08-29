@@ -223,3 +223,19 @@ p, li {
 .module-card:not(.selected):hover {
     background-color: rgb(50, 50, 50);
 }
+
+header#step-together-header {
+    background-color: white;
+    max-height: 3rem;
+    justify-content: start;
+    gap: 1rem;
+}
+
+header#step-together-header img {
+    height: 3rem;
+}
+
+#breadcrumb a {
+    color: #4b351c;
+    font-weight: bold;
+}
