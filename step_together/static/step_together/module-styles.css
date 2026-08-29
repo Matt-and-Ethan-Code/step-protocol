@@ -86,7 +86,7 @@ footer span {
 }
 
 #step-together-body-container, #module-thumbnail {
-    max-width: 66%;
+    max-width: 75%;
     margin: auto;
     margin-top: 2rem;
 }
@@ -141,14 +141,42 @@ p, li {
     height: 400px;
     overflow: hidden;
     display: flex;
+    background-color: rgb(42, 42, 42);
 }
 
-#module-thumbnail img {
+#module-thumbnail > img {
     object-fit: contain;
     height: 100%;
+}
+
+/* video {
+    margin: 0 auto;
+} */
+
+#module-scroller-container {
+    display: flex;
+    flex-direction: column;
     width: 100%;
 }
 
-video {
-    width: 90%;
+#module-scroller-header {
+    color: white;
+    display: flex;
+    justify-content: space-around;
+}
+
+.module-card {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+#module-scroller-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.module-scroller-thumbnail {
+    height: 50px;
 }

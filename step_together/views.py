@@ -38,6 +38,42 @@ def bilateral_tapping(request:HttpRequest) -> HttpResponse:
         'video_url': get_video_url('st_bilateral_tapping')
     })
 
+def four_elements_pt1(request:HttpRequest) -> HttpResponse: 
+    return render(request, 'step_together/four-elements-pt1.html', {
+        'nav_section': 'step-together',
+        'video_url': get_video_url('st_4_elements')
+    })
+
+def check_in(request:HttpRequest) -> HttpResponse: 
+    return render(request, 'step_together/check-in.html', {
+        'nav_section': 'step-together'
+    })
+
+def step_together_protocol_sheet(request:HttpRequest) -> HttpResponse:
+    return render(request, 'step_together/step-together-protocol-sheet.html', {
+        'nav_section': 'step-together', 
+        'video_url': get_video_url('st_protocol_sheet')
+    })
+
+def check_in2(request:HttpRequest) -> HttpResponse:
+    return render(request, 'step_together/check-in-2.html')
+
+def container(request:HttpRequest) -> HttpResponse:
+    return render(request, 'step_together/container.html', {
+        'nav_section': 'step-together',
+        'video_url': get_video_url('st_container')
+    })
+
+def four_elements_pt2(request:HttpRequest) -> HttpResponse:
+    return render(request, 'step_together/four-elements-pt2.html', {
+        'nav_section': 'step-together',
+        'video_url': get_video_url('st_4_elements_pt2')
+    })
+
+def ending(request:HttpRequest) -> HttpResponse:
+    return render(request, 'step_together/ending.html', {
+        'nav_section': 'step-together'
+    })
 
 def agreement_view(request: HttpRequest) -> HttpResponse:
     agreement = get_object_or_404(Agreement, current=True)
