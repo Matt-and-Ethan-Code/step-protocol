@@ -36,3 +36,12 @@ class Command(BaseCommand):
 
         call_command('loaddata', 'fixtures/agreement.json')
         self.stdout.write("Loaded STEP Together agreements.")
+
+        call_command('loaddata', 'fixtures/agreementcondition.json')
+        self.stdout.write("Loaded STEP Together agreement conditions.")
+
+        call_command('loaddata', 'fixtures/textquestion.json')
+        self.stdout.write("Loaded STEP Together agreement text questions.")
+
+        call_command('loaddata', 'fixtures/providerconfirmation.json')
+        self.stdout.write("Loaded STEP Together Provider confirmations.")
