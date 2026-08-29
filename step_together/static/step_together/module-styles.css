@@ -3,6 +3,32 @@ body {
     background-color: #f9f9f9;
 }
 
+footer {
+    background-color: var(--brown);
+    color: white;
+    width: 100vw;
+    height: 100px;
+    bottom: 0;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 15%;
+    box-sizing: border-box;
+}
+
+footer img {
+    height: 100px;
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+
+footer span {
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    text-transform: none;
+}
+
 .module-header {
     color: var(--brown);
     font-size: 30px;
@@ -17,9 +43,20 @@ body {
     font-weight: 700;
     margin-bottom: 3rem;
 }
+#step-together-text .bright-orange-note {
+    color: var(--bright-orange);
+}
 
-#step-together-text p.orange-note {
+#step-together-text .blue-note {
+    color: #16a085;
+}
+
+#step-together-text .orange-note {
     color: var(--orangey);
+}
+
+#step-together-text .bold-note {
+    font-weight: bold;
 }
 
 .next-module-button {
@@ -49,25 +86,26 @@ body {
 }
 
 #step-together-body-container, #module-thumbnail {
-    max-width: 66%;
+    max-width: 75%;
     margin: auto;
     margin-top: 2rem;
-    max-height: 30vh;
 }
 
-p {
+p, li {
     color: #4b351c;
+    line-height: 25px;
 }
 
-#step-together-text p {
+#step-together-text p, #step-together-text li {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size: 16px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 #step-together-links {
-    min-width: 15%;
+    min-width: 30%;
+    height: fit-content;
 }
 
 #downloads-header {
@@ -89,12 +127,56 @@ p {
     font-weight: 400;
 }
 
+.module-download-link a:hover {
+    text-decoration: underline;
+}
+
 .file-download-icon {
     display: inline-block;
     width: 20px;
     height: 20px;
 }
 
-#module-thumbnail img {
+#module-thumbnail {
+    height: 400px;
+    overflow: hidden;
+    display: flex;
+    background-color: rgb(42, 42, 42);
+}
+
+#module-thumbnail > img {
+    object-fit: contain;
+    height: 100%;
+}
+
+/* video {
+    margin: 0 auto;
+} */
+
+#module-scroller-container {
+    display: flex;
+    flex-direction: column;
     width: 100%;
+}
+
+#module-scroller-header {
+    color: white;
+    display: flex;
+    justify-content: space-around;
+}
+
+.module-card {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+#module-scroller-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.module-scroller-thumbnail {
+    height: 50px;
 }
