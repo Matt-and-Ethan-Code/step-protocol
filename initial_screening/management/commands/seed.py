@@ -33,3 +33,6 @@ class Command(BaseCommand):
 
         call_command('loaddata', 'fixtures/formmembership.json')
         self.stdout.write("Loaded form membership.")
+
+        call_command('loaddata', 'fixtures/agreement.json')
+        self.stdout.write("Loaded STEP Together agreements.")

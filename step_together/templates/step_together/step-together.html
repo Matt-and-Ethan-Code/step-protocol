@@ -14,129 +14,22 @@
     <h1 class="tab-header">Self Care Traumatic Episode Protocol (STEP) Together</h1>
   </header>
 
-  <section class="st-section">
-    <h2 class="st-section-header">STEP Together Clinician Agreement</h2>
-    <div class="st-cards">
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-agreement-thumbnail.jpeg' %}">
-        <p class="st-card-label">Self-Care Traumatic Episode Protocol (STEP) Agreement For STEP Intervention Providers</p>
-      </div>
-    </div>
-  </section>
+  {% for module in modules %}
+      <section class="st-section">
+        <h2 class="st-section-header">{{ module.title }}</h2>
+        <div class="st-cards">
+          {% for section in module.modules %}
+            <div class="st-card">
+              <img class="st-card-image" src="{% static section.img_url %}">
+              <div class="st-card-description">
+                  <p class="st-card-label"><a href={{section.page_url}}>{{section.title}}</a></p>
+                  <p class="st-card-sublabel">{{section.description}}</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
 
-  <section class="st-section">
-    <h2 class="st-section-header">STEP Together Manual</h2>
-    <div class="st-cards">
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-manual-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label"><a href="/step-together/manual">Manual</a></p>
-            <p class="st-card-sublabel">Please review the manual carefully before you begin planning your first STEP Together group. It ...</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="st-section">
-    <h2 class="st-section-header">Before the Group</h2>
-    <div class="st-cards">
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-checklist-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label"><a href="/step-together/pregroup-checklist">STEP Together Pre-Group Checklist, Materials & Forms</a></p>
-            <p class="st-card-sublabel">Below, you will find everything you will need before beginning your first STEP Together group. Pl...</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="st-section">
-    <h2 class="st-section-header">STEP Together Protocol</h2>
-    <div class="st-cards">
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-welcome-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label"><a href="/step-together/welcome-to-step-together">Welcome to STEP Together</a></p>
-            <p class="st-card-sublabel">⭐Refer to the script for detailed guidance throughout the protocol. Key points will be brief...</p>
-        </div>
-      </div>
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-introduction-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label"><a href="/step-together/self-care-introduction">STEP Self-Care Introduction</a></p>
-            <p class="st-card-sublabel">Leaders - please read the text below to your participants. Let's watch the first video with a sh...</p>
-        </div>
-      </div>
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-bilateral-tapping-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label"><a href="/step-together/bilateral-tapping">Bilateral Tapping</a></p>
-            <p class="st-card-sublabel">Leaders - please read the text below to your participants. Next, is the Four Elements Video. The...</p>
-        </div>
-      </div>
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-4-elements-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label"><a href="/step-together/4-elements">4 Elements</a></p>
-            <p class="st-card-sublabel">Leaders - please read the text below to your participants. Ensure you are in a comfortable locat...</p>
-        </div>
-      </div>
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-check-in-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label"><a href="/step-together/check-in">Check-In</a></p>
-            <p class="st-card-sublabel">Leaders - please read the text below to your participants. Please send us your 0 to 10 ratings B...</p>
-        </div>
-      </div>
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-protocol-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label"><a href="/step-together/protocol-sheet">STEP Together Protocol Sheet</a></p>
-            <p class="st-card-sublabel">⭐Re-introduce your team, conduct a technology check, and ensure participants have all the needed...</p>
-        </div>
-      </div>
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-check-in-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label"><a href="/step-together/check-in-pt-2">Check-In</a></p>
-            <p class="st-card-sublabel">Leaders - please read the text below to your participants. What are you taking with you from the...</p>
-        </div>
-      </div>
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-container-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label"><a href="/step-together/container">The Container</a></p>
-            <p class="st-card-sublabel">Leaders - please read the text below to your participants. Let's do the container activity toget...</p>
-        </div>
-      </div>
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-4-elements-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label"><a href="/step-together/4-elements-pt-2">4 Elements</a></p>
-            <p class="st-card-sublabel">Leaders - please read the text below to your participants. Let's take 10 minutes now before we e...</p>
-        </div>
-      </div>
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-ending-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label"><a href="/step-together/ending">Ending</a></p>
-            <p class="st-card-sublabel">Leaders - please read the text below to your participants. We would like you to take a moment aft...</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="st-section">
-    <h2 class="st-section-header">After the Group</h2>
-    <div class="st-cards">
-      <div class="st-card">
-        <img class="st-card-image" src="{% static 'step_together/images/step-together-checklist-thumbnail.jpeg' %}">
-        <div class="st-card-description">
-            <p class="st-card-label">After the Group</p>
-            <p class="st-card-sublabel">After the group, please remember to: Pre-and-Past-Data Forms: Those eligible for the STEP Toget...</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  {% endfor %}
 </div>
 {% endblock %}

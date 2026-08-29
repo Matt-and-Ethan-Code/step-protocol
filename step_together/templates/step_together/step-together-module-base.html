@@ -21,6 +21,12 @@
     <link rel="stylesheet" href="{% static 'clinician_overview/clinician_base_styles.css' %}">
   </head>
   <body>
+    <!-- <header id="step-together-header">
+        <img src="{% static 'step_together/step-logo-color.jpg' %}">
+        <div id="breadcrumb">
+            <a href="/step-together/">Home</a> 
+        </div>
+    </header> -->
     {% block content %}
         <div id="step-together-video-container">
             {% block step-together-video %}
@@ -28,32 +34,32 @@
             <div id="module-thumbnail">
                 {% block step-together-header-image %}
                 {% endblock %}
-                <div id="module-scroller-container">
-                    <div id="module-scroller-header">
-                        <span>
-                            STEP Together Protocol
-                        </span>
-                        <span>
-                            10 Modules
-                        </span>
-                    </div>
-                    <div id="module-scroller-cards-container">
-                        <div class="module-card">
-                            <span>
-                                1
+                {% if scrollbar %}
+                    <div id="module-scroller-container">
+                        <div id="module-scroller-header">
+                            <span id="module-scroller-title">
+                                STEP Together Protocol
                             </span>
-                            <div>                                
-                                <img class="module-scroller-thumbnail" src="{% static 'step_together/images/step-together-bilateral-tapping-thumbnail.jpeg' %}">
-                                <span>
-                                    STEP Self-Care Introduction
-                                </span>
-                            </div>
+                            <span id="module-scroller-module-counter">
+                                {{scrollbar.modules|length}} Module{% if scrollbar.modules|length != 1 %}s{% endif %}
+                            </span>
                         </div>
-                        <div class="module-card">
-                            2
+                        <div id="module-scroller-cards-container">
+                            {% for card in scrollbar.modules %}
+                                <div class="module-card {% if forloop.counter0 == this_content_index %} selected {% endif %}">
+                                    <span>
+                                        {{forloop.counter}}
+                                    </span>                             
+                                    <img class="module-scroller-thumbnail" src="{% static card.img_url %}">
+                                    <a class="module-scroller-url" href={{card.page_url}}>
+                                        {{card.title}}
+                                    </a>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
-                </div>
+                {% endif %}
+
             </div>
 
         </div>
