@@ -1,5 +1,6 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from initial_screening.decorators.clinician_decorator import clinician_required
 from step_solo.util.get_video_url import get_video_url
 from dataclasses import dataclass
 from typing import Literal
@@ -134,19 +135,22 @@ step_together_modules:list[ST_MODULE_CONTAINER] = [
     )
 ]
 
-
+@clinician_required
 def step_together_portal_view(request: HttpRequest) -> HttpResponse:
     return render(request, "step_together/step-together.html", {
         "nav_section": "step-together", 
         "modules": step_together_modules
     })
 
+@clinician_required
 def step_together_manual(request: HttpRequest) -> HttpResponse:
     return render(request, "step_together/step-together-manual.html")
 
+@clinician_required
 def step_together_pregroup_checklist(request: HttpRequest) -> HttpResponse:
     return render(request, "step_together/step-together-pre-group-checklist.html")
 
+@clinician_required
 def welcome_to_step_together(request: HttpRequest) -> HttpResponse:
     return render(request, "step_together/welcome-to-step-together.html", {
         "nav_section": "step-together", 
@@ -154,6 +158,7 @@ def welcome_to_step_together(request: HttpRequest) -> HttpResponse:
         'this_content_index': 0
     })
 
+@clinician_required
 def self_care_introduction(request:HttpRequest) -> HttpResponse:
     return render(request, "step_together/self-care-introduction.html", {
         "video_url": get_video_url('st_self_care_introduction'), 
@@ -161,6 +166,7 @@ def self_care_introduction(request:HttpRequest) -> HttpResponse:
         'this_content_index': 1
     })
 
+@clinician_required
 def bilateral_tapping(request:HttpRequest) -> HttpResponse: 
     return render(request, 'step_together/bilateral-tapping.html', {
         'video_url': get_video_url('st_bilateral_tapping'), 
@@ -168,6 +174,7 @@ def bilateral_tapping(request:HttpRequest) -> HttpResponse:
         'this_content_index': 2
     })
 
+@clinician_required
 def four_elements_pt1(request:HttpRequest) -> HttpResponse: 
     return render(request, 'step_together/four-elements-pt1.html', {
         'video_url': get_video_url('st_4_elements'), 
@@ -175,12 +182,14 @@ def four_elements_pt1(request:HttpRequest) -> HttpResponse:
         'this_content_index': 3
     })
 
+@clinician_required
 def check_in(request:HttpRequest) -> HttpResponse: 
     return render(request, 'step_together/check-in.html', {
         "scrollbar": step_together_content_modules, 
         'this_content_index': 4
     })
 
+@clinician_required
 def step_together_protocol_sheet(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/step-together-protocol-sheet.html', {
         'video_url': get_video_url('st_protocol_sheet'), 
@@ -188,12 +197,14 @@ def step_together_protocol_sheet(request:HttpRequest) -> HttpResponse:
         'this_content_index': 5
     })
 
+@clinician_required
 def check_in2(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/check-in-2.html', {
         'scrollbar': step_together_content_modules, 
         'this_content_index': 6
     })
 
+@clinician_required
 def container(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/container.html', {
         'video_url': get_video_url('st_container'), 
@@ -201,6 +212,7 @@ def container(request:HttpRequest) -> HttpResponse:
         'this_content_index': 7
     })
 
+@clinician_required
 def four_elements_pt2(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/four-elements-pt2.html', {
         'video_url': get_video_url('st_4_elements_pt2'), 
@@ -208,12 +220,14 @@ def four_elements_pt2(request:HttpRequest) -> HttpResponse:
         'this_content_index': 8
     })
 
+@clinician_required
 def ending(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/ending.html', {
         'scrollbar': step_together_content_modules, 
         'this_content_index': 9
     })
 
+@clinician_required
 def agreement_view(request: HttpRequest) -> HttpResponse:
     agreement = get_object_or_404(Agreement, current=True)
 
