@@ -83,7 +83,7 @@ def make_context(client: Client, access_grant: AccessGrant | None) -> dict[str, 
 
     initial_screening_questionnaire_id = 3
 
-    submissions: BaseManager[QuestionnaireResponse] = QuestionnaireResponse.objects.filter(user_identifier = client).exclude( questionnaire_id=initial_screening_questionnaire_id)
+    submissions = QuestionnaireResponse.objects.filter(user_identifier = client, form__in=[3, 4, 1])#.exclude( questionnaire_id=initial_screening_questionnaire_id)
 
     formatted_submissions: list[SubmissionSummary] = []
     for sub in submissions:
