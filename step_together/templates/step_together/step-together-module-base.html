@@ -73,10 +73,17 @@
                     {% endblock %}
                 </div>
             </div>
-            <div id="step-together-links">
-                {% block content-links %}
-                {% endblock %}
-            </div>
+            {% if content_links|length > 0 %}
+                <div id="step-together-links">
+                    <p id="downloads-header">Downloads</p>
+                    {% for link in content_links %}
+                        <div  class="module-download-link">
+                            <img class="file-download-icon" src="{% static link.icon %}">
+                            <a href="{% static link.url %}" download> {{link.name}} </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
     {% endblock %}
 

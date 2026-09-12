@@ -144,18 +144,78 @@ def step_together_portal_view(request: HttpRequest) -> HttpResponse:
 
 @clinician_required
 def step_together_manual(request: HttpRequest) -> HttpResponse:
-    return render(request, "step_together/step-together-manual.html")
+    return render(request, "step_together/step-together-manual.html", 
+        {"content_links": [
+            {"icon": "step_together/acrobat.png", 
+             "url": 'clinician_overview/STEP_Manual.pdf', 
+             "name": "STEP_Manual_Updated_December_2025_.pdf"}, 
+             {"icon": 'step_together/acrobat.png', 
+              "url": 'clinician_overview/STEP_Script.pdf', 
+              "name": "STEP_Script.pdf"
+             }
+             ]})
 
 @clinician_required
 def step_together_pregroup_checklist(request: HttpRequest) -> HttpResponse:
-    return render(request, "step_together/step-together-pre-group-checklist.html")
+    return render(request, "step_together/step-together-pre-group-checklist.html", 
+                  {
+                      "content_links": [
+                          {
+                              "icon": 'step_together/acrobat.png', 
+                              "url": 'clinician_overview/STEP_Checklist_with_Space_for_Recording_Scores.pdf', 
+                              "name": "STEP_Checklist_with_Space_for_Recording_Scores.pdf"
+                          }, 
+                          {
+                              "icon": 'step_together/acrobat.png', 
+                              "url": 'clinician_overview/STEP_Cheat_Sheet_for_Video_Conferencing_Platforms.pdf', 
+                              "name": "STEP_Cheat_Sheet_for_Video_Conferencing_Platforms.pdf"
+                          }, 
+                          {
+                              "icon": 'step_together/word.png', 
+                              "url": 'clinician_overview/STEP_Sample_Emails.docx', 
+                              "name": "STEP_Emails.docx"
+                          }, 
+                          {
+                              "icon": 'step_together/acrobat.png', 
+                              "url": 'clinician_overview/STEP_Info_Letter.pdf', 
+                              "name": "STEP_Info_Letter.pdf"
+                          }, 
+                          {
+                              "icon": 'step_together/acrobat.png', 
+                              "url": 'clinician_overview/STEP_Contact_Info.pdf', 
+                              "name": "STEP_Contact_Info.pdf"
+                          }, 
+                          {
+                              "icon": 'step_together/acrobat.png', 
+                              "url": 'clinician_overview/STEP_Sample_Consent.pdf', 
+                              "name": "STEP_Consent.pdf"
+                          }, 
+                          {
+                              "icon": 'step_together/acrobat.png', 
+                              "url": 'clinician_overview/STEP_Checklist.pdf', 
+                              "name": "STEP_Checklist.pdf"
+                          }, 
+                          {
+                              "icon": "'step_together/acrobat.png'", 
+                              "url": 'clinician_overview/STEP_Protocol_Sheets.pdf', 
+                              "name": "STEP_Protocol_Sheets.pdf"
+                          }
+                      ]
+                  })
 
 @clinician_required
 def welcome_to_step_together(request: HttpRequest) -> HttpResponse:
     return render(request, "step_together/welcome-to-step-together.html", {
         "nav_section": "step-together", 
         "scrollbar": step_together_content_modules,
-        'this_content_index': 0
+        'this_content_index': 0, 
+        "content_links": [
+            {
+                "icon": 'step_together/acrobat.png', 
+                "url": 'clinician_overview/STEP_Script.pdf', 
+                "name": "STEP_Script.pdf"
+            }
+        ]
     })
 
 @clinician_required
