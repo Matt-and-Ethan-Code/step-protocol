@@ -87,8 +87,6 @@ footer span {
 }
 
 #step-together-body-container, #module-thumbnail {
-    max-width: 75%;
-    margin: auto;
     margin-top: 2rem;
 }
 
@@ -239,4 +237,39 @@ header#step-together-header img {
 #breadcrumb a {
     color: #4b351c;
     font-weight: bold;
+}
+
+#step-together-video-container {
+    margin-top: 2rem;
+}
+
+#step-together-body-container, #module-thumbnail, #module-navigation-buttons {
+    max-width: 75%;
+    margin: auto;
+}
+
+.module-navigation-btn {
+    color: white;
+    background-color: var(--bluish);
+    padding: 0.5rem 1rem;
+    margin: 15px 0;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+#module-navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+}
+
+@media (max-width: 1000px) {
+    #module-scroller-container {
+        display: none;
+    }
+
+    #module-thumbnail:has(#module-scroller-container) {
+        grid-template-columns: 1fr;
+    }
 }

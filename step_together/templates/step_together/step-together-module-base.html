@@ -59,8 +59,23 @@
                         </div>
                     </div>
                 {% endif %}
-
             </div>
+            {% if scrollbar %}
+                <div id="module-navigation-buttons">
+                    <a class="module-navigation-btn">
+                        <span class="material-symbols-outlined">
+                            chevron_left
+                        </span> 
+                        Back
+                    </a>
+                    <a class="module-navigation-btn">
+                        Next
+                        <span class="material-symbols-outlined">
+                            chevron_right
+                        </span> 
+                    </a>
+                </div>
+            {% endif %}
 
         </div>
         <div id="step-together-body-container">
