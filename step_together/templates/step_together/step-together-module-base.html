@@ -62,18 +62,22 @@
             </div>
             {% if scrollbar %}
                 <div id="module-navigation-buttons">
-                    <a class="module-navigation-btn">
-                        <span class="material-symbols-outlined">
-                            chevron_left
-                        </span> 
-                        Back
-                    </a>
-                    <a class="module-navigation-btn">
-                        Next
-                        <span class="material-symbols-outlined">
-                            chevron_right
-                        </span> 
-                    </a>
+                    {% if prev_link %}
+                        <a class="module-navigation-btn" href={{prev_link}}>
+                            <span class="material-symbols-outlined">
+                                chevron_left
+                            </span> 
+                            Back
+                        </a>
+                    {% endif %}
+                    {% if next_link %} 
+                        <a class="module-navigation-btn" href={{next_link}}>
+                            Next
+                            <span class="material-symbols-outlined">
+                                chevron_right
+                            </span> 
+                        </a>
+                    {% endif %}
                 </div>
             {% endif %}
 
@@ -82,11 +86,15 @@
             <div id="step-together-text">
                 {% block step-together-text %}
                 {% endblock %}
-                <div class="next-module-button">
-                    {% block step-together-next-button %}
-                        Next
-                    {% endblock %}
-                </div>
+                {% if next_link %}
+                    <div class="next-module-button">
+                        <a href={{next_link}}>
+                            {% block step-together-next-button %}
+                                Next
+                            {% endblock %}
+                        </a>
+                    </div>
+                {% endif %}
             </div>
             {% if content_links|length > 0 %}
                 <div id="step-together-links">

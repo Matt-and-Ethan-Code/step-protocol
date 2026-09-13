@@ -59,7 +59,7 @@ footer span {
     font-weight: bold;
 }
 
-.next-module-button {
+.next-module-button, .next-module-button a {
     color: white;
     background-color: var(--bluish);
     border: none;
@@ -70,6 +70,7 @@ footer span {
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     font-weight: 700;
+    text-decoration: none;
 }
 
 #step-together-text, #step-together-links {
