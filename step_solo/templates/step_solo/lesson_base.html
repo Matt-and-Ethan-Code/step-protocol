@@ -1,0 +1,25 @@
+{% extends 'step_solo/base.html' %}
+{% load static %}
+
+{% block head %}
+<style>
+  main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+</style>
+{% endblock %}
+
+{% block header %}
+<h2 class="step-title-header">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
+<hr>
+{% endblock %}
+
+{% block content %}
+{% block lesson_content %}{% endblock %}
+<div class="button-row">
+  <a class="blue-button next-lesson" href="{% url previous_url %}">Previous</a>
+  <a class="blue-button next-lesson" href="{% url next_url %}">Next</a>
+</div>
+{% endblock %}

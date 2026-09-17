@@ -1,0 +1,20 @@
+{% extends "step_solo/lesson_base.html" %}
+{% load static %}
+{% block head %}
+<style>
+  main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+</style>
+{% endblock %}}
+
+{% block lesson_content %}
+<h1 class="page-title">{{title}}</h1>
+
+  <p>Please look at your protocol sheet to answer the following questions</p>
+  <img src="{% static 'step_solo/worksheets_screenshot.jpg' %}">
+  <p><strong>Reminder:</strong> You must complete the full intervention, including submitting the final form, to ensure your data is sent to your STEP Intervention Provider. If the form is not submitted, your clinician will not receive your responses and will be unable to follow up or support you based on the results.</p>
+
+{% endblock %}

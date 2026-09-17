@@ -1,0 +1,10 @@
+{% extends 'step_solo/lesson_base.html' %}
+{% load static %}
+{% block lesson_content %}
+<h2 class="page-title">{{title}}</h2>
+<video predownload src="{{video_url}}" controls controlsList="nowdownload" oncontextmenu="return false;"></video>
+<section>
+  <p>Let’s continue working with PoD 2. We’ll now process this second Point of Disturbance together.</p>
+</section>
+
+{% endblock %}

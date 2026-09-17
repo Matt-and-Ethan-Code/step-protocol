@@ -1,6 +1,5 @@
-{% extends "step_solo/base.html" %}
+{% extends "step_solo/lesson_base.html" %}
 {% load static %}
-{% block title %}Getting Started{% endblock %}
 {% block head %}
 
 {% endblock %}
@@ -8,9 +7,9 @@
 {% block header %}
 <h2 class="step-title-header">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
 <hr>
-<h1 class="page-title">Getting Started</h1>
+<h1 class="page-title">{{title}}</h1>
 {% endblock %}
-{% block content %}
+{% block lesson_content %}
 <section style="display:flex;">
   <p class="larger">In this section, you’ll find the tools and resources to begin the intervention process. Whether you’re using it for self-care, to process an experience, or as part of your wellness routine, everything you need is right here. Follow the steps to get started, and remember, support is available if you need it.</p>
   <img class="square-image" src="{% static 'step_solo/coffee_desk.jpg' %}">
@@ -50,5 +49,4 @@
   <p>During difficult times, it's important to take steps to care for your mental health. Please remember that there are resources available to provide the support you need, and reaching out can be an essential part of the process.</p>
 </section>
 <hr>
-<a class="blue-button" style="float:right; margin:2rem;"href="{% url 'solo_introduction' %}">Next Lesson</a>
 {% endblock %}

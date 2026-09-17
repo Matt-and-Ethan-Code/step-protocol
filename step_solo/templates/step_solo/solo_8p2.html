@@ -1,0 +1,11 @@
+{% extends 'step_solo/lesson_base.html' %}
+{% load static %}
+{% block lesson_content %}
+<h2 class="page-title">{{title}}</h2>
+<video predownload src="{{video_url}}" controls controlsList="nowdownload" oncontextmenu="return false;"></video>
+<section>
+  <p>Now, we’ll scan for any remaining disturbance. Take your time as you continue tapping back and forth on your worksheet. When another PoD comes to mind, write or draw it in the <strong>PoD 3</strong> box.</p>
+<p>If no remaining disturbance is present and no additional PoDs came to mind, continue to the <strong>STEP 6</strong> video.</p>
+</section>
+
+{% endblock %}

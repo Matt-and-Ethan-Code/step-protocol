@@ -1,0 +1,7 @@
+{% extends 'step_solo/lesson_base.html' %}
+
+{% block lesson_content %}
+<h2 class="page-title">{{title}}</h2>
+<p style="width:80%;">Please ensure you have all three pages of the protocol sheets before you begin the next video. If you need to draw your worksheets, watch this video for guidance on how to do it. If you already have a printed copy or have finished drawing your worksheets, you can skip ahead to the next video.</p>
+<video predownload src="{{video_url}}" controls controlsList="nowdownload" oncontextmenu="return false;"></video>
+{% endblock %}

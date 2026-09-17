@@ -1,0 +1,11 @@
+{% extends 'step_solo/lesson_base.html' %}
+{% load static %}
+{% block lesson_content %}
+<h2 class="page-title">{{title}}</h2>
+<video predownload src="{{video_url}}" controls controlsList="nowdownload" oncontextmenu="return false;"></video>
+<section>
+<p>Now, let’s complete the <strong>Container Exercise</strong>. This exercise will help you set aside any remaining thoughts, feelings, or disturbances so you can move forward feeling more grounded and present.</p>
+<p>Once you have completed the Container Exercise, you can continue to the next video for the <strong>4 Elements Exercise</strong>.</p>
+</section>
+
+{% endblock %}

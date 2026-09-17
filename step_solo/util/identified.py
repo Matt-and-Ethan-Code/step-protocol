@@ -6,6 +6,9 @@ They are identified with a provided client id + provider.
 from django.http import HttpRequest
 from django.core.exceptions import PermissionDenied
 import clinician_overview.util.client
+from functools import wraps
+from django.shortcuts import redirect
+
 
 SOLO_CLIENT_ID_COOKIE = 'solo_client_id'
 SOLO_PROVIDER_EMAIL_COOKIE = 'solo_provider_email'
@@ -37,3 +40,15 @@ def set_identity(req: HttpRequest, client_id: str, provider_email: str) -> None:
     req.session[SOLO_PROVIDER_EMAIL_COOKIE] = provider_email
     
     
+def solo_session_required():
+    def decorator(view_function):
+        @wraps(view_function)
+        def _wrapped_view(request: HttpRequest, *args, **kwargs):
+            try:
+                (_client_id, _provider_email) = require_identified(request, check_db=True)
+            except PermissionDenied as e:
+                return redirect('solo_index')
+            return view_function(request, *args, **kwargs)
+        return _wrapped_view
+    return decorator
+                

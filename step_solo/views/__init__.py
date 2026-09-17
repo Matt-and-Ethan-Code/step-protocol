@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from .index import index as index
 from .what_to_expect import what_to_expect as what_to_expect
 from .self_regulation_strategies import self_regulation_strategies as self_regulation_strategies
@@ -7,3 +5,19 @@ from .step_solo_introduction import step_solo_introduction as step_solo_introduc
 from .getting_started import getting_started as getting_started
 from .bilateral_tapping import bilateral_tapping as bilateral_tapping
 from .pre_check_in import pre_check_in as pre_check_in
+from .four_elements import four_elements as four_elements
+from .stress_before_four_elements import stress_before_four_elements as stress_before_four_elements
+from .stress_after_four_elements import stress_after_four_elements as stress_after_four_elements
+from .solo_1 import solo_1 as solo_1
+from .drawing_guide import drawing_guide as drawing_guide
+from .solo_2 import solo_2 as solo_2
+from .solo_n import solo_n as solo_n
+from .solo_8p1 import solo_8p1 as solo_8p1
+from .solo_8p2 import solo_8p2 as solo_8p2
+from .solo_12 import solo_12 as solo_12
+from .sheet_review import sheet_review as sheet_review
+from .step_2 import step_2 as step_2
+from .step_5_pod_1 import step_5_pod_1 as step_5_pod_1
+from .step_5_pod_1_form import step_5_pod_1_form as step_5_pod_1_form
+from .step_5_pod_1_last_form import step_5_pod_1_last_form as step_5_pod_1_last_form
+from .container import container as container

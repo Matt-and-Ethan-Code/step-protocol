@@ -1,0 +1,23 @@
+{% extends 'step_solo/lesson_base.html' %}
+{% load static %}
+{% block lesson_content %}
+<h2 class="page-title">{{title}}</h2>
+<p style="width:80%;text-align:center;text-decoration:underline;"><strong>Before you begin, make sure you have at least one hour set aside to complete the remainder of the process.</strong></p>
+<video predownload src="{{video_url}}" controls controlsList="nowdownload" oncontextmenu="return false;"></video>
+<section>
+<p>Do you have all the worksheets and everything you need to get started?</p>
+<ol>
+<li>Worksheets (download below)</li>
+<li>Pencils/Pens/Markers</li>
+<li>Water</li>
+<li>Tissues</li>
+<li>Wristband, sticker, or sticky note to serve as a reminder of the 4 Elements exercise</li>
+<li>Privacy</li>
+<li>Anything else you will need to feel comfortable</li>
+<p>
+If you don’t have a printed copy of the worksheets, you can draw them on three sheets of letter or A4-size paper. Continue to the next video for step-by-step instructions on how to draw the worksheets.</p>
+</ol>
+<a>
+</section>
+<a class="blue-button" href="{% static 'step_solo/STEP+Worksheets.pdf' %}">Download Worksheets</a>
+{% endblock %}
