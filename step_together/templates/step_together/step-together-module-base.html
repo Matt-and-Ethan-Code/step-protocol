@@ -21,14 +21,45 @@
     <link rel="stylesheet" href="{% static 'clinician_overview/clinician_base_styles.css' %}">
   </head>
   <body>
+    <!-- <header id="step-together-header">
+        <img src="{% static 'step_together/step-logo-color.jpg' %}">
+        <div id="breadcrumb">
+            <a href="/step-together/">Home</a> 
+        </div>
+    </header> -->
     {% block content %}
         <div id="step-together-video-container">
             {% block step-together-video %}
             {% endblock %}
             <div id="module-thumbnail">
                 {% block step-together-header-image %}
-                <img src="{% static 'step_together/module-thumbnails/manualjpeg.jpeg' %}">
                 {% endblock %}
+                {% if scrollbar %}
+                    <div id="module-scroller-container">
+                        <div id="module-scroller-header">
+                            <span id="module-scroller-title">
+                                STEP Together Protocol
+                            </span>
+                            <span id="module-scroller-module-counter">
+                                {{scrollbar.modules|length}} Module{% if scrollbar.modules|length != 1 %}s{% endif %}
+                            </span>
+                        </div>
+                        <div id="module-scroller-cards-container">
+                            {% for card in scrollbar.modules %}
+                                <div class="module-card {% if forloop.counter0 == this_content_index %} selected {% endif %}">
+                                    <span>
+                                        {{forloop.counter}}
+                                    </span>                             
+                                    <img class="module-scroller-thumbnail" src="{% static card.img_url %}">
+                                    <a class="module-scroller-url" href={{card.page_url}}>
+                                        {{card.title}}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
             </div>
 
         </div>
@@ -37,16 +68,24 @@
                 {% block step-together-text %}
                 {% endblock %}
                 <div class="next-module-button">
-                    Next
+                    {% block step-together-next-button %}
+                        Next
+                    {% endblock %}
                 </div>
             </div>
             <div id="step-together-links">
-                <p id="downloads-header">Downloads</p>
                 {% block content-links %}
                 {% endblock %}
             </div>
         </div>
     {% endblock %}
+
+    <footer>
+        <img src="{% static 'clinician_overview/STEP Logo_White.png' %}" id="footer-logo">
+        <span>
+            © 2026 Prepped 4 Learning
+        </span>
+    </footer>
 
   </body>
 

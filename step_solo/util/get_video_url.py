@@ -40,6 +40,12 @@ type VideoName = Literal[
     "solo_11",
     "solo_12",
     "drawing_guide",
+    'st_self_care_introduction', 
+    'st_protocol_sheet', 
+    'st_container', 
+    'st_bilateral_tapping',
+    'st_4_elements',
+    'st_4_elements_pt2'
 ]
 
 # the path to the resource in the Tigris bucket
@@ -63,6 +69,12 @@ object_key_from_video_name: dict[VideoName, str] = {
     'solo_11': 'solo/solo_11.mp4',
     'solo_12': 'solo/solo_12.mp4',
     'drawing_guide': 'solo/drawing_guide.mp4',
+    'st_self_care_introduction': 'together/Self_Care_Introduction.mp4',
+    'st_protocol_sheet': 'together/STEP_Protocol_Sheet.mp4', 
+    'st_container': 'together/Container.mp4',
+    'st_bilateral_tapping': 'together/Bilateral_Tapping.mp4', 
+    'st_4_elements': 'together/4_Elements.mp4', 
+    'st_4_elements_pt2': 'together/4_Elements_2.mp4'
 }
 
 

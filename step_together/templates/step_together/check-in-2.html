@@ -1,0 +1,35 @@
+{% extends 'step_together/step-together-module-base.html' %} {% load static %}
+
+{% block title %} Check-In {% endblock %} 
+
+{% block step-together-header-image %}
+<img src="{% static 'step_together/module-thumbnails/checkin.jpeg' %}">
+{% endblock %}
+{% block step-together-text %}
+    <h1 class="module-header">
+        Check-In
+    </h1>    
+    <h2 class="module-subheader">
+        STEP Together Protocol
+    </h2>
+    <div>
+        <p class="bold-note">
+            Leaders - please read the text below to your participants. 
+        </p>
+        <p>
+            What are you taking with you from the work that you have done today? We would like to hear your thoughts.
+        </p>
+        <p class="blue-note bold-note">
+            <i>
+                Lead a short discussion.
+            </i>
+        </p>
+        <p class="orange-note bold-note">
+            <i>
+                ⭐ In the STEP intervention, we do not discuss the disturbing events. Instead, we focus on take-home messages and key learnings for participants.
+            </i>
+        </p>
+
+    </div>
+
+{% endblock %}

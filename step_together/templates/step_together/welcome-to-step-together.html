@@ -1,0 +1,106 @@
+{% extends 'step_together/step-together-module-base.html' %} {% load static %}
+
+{% block title %} Welcome to STEP Together {% endblock %} 
+
+{% block step-together-header-image %}
+<img src="{% static 'step_together/module-thumbnails/welcome-to-step-together.jpeg' %}">
+{% endblock %}
+{% block step-together-text %}
+    <h1 class="module-header">
+        Welcome to STEP Together
+    </h1>    
+    <h2 class="module-subheader">
+        STEP Together Protocol
+    </h2>
+    <div>
+        <p class="bright-orange-note bold-note">
+            <i>
+            ⭐ Refer to the script for detailed guidance throughout the protocol. Key points will be briefly noted below the videos, but for more in-depth information, consult the STEP Manual.
+            </i>
+        </p>
+        <p class="bright-orange-note bold-note">
+            <i>
+            ⭐ Note for Facilitators:
+            </i>
+        </p>
+        <ul>
+            <li class="bright-orange-note bold-note">
+                <i>
+                Each facilitator should be assigned specific group members to contact if they leave the session or require additional support.
+                </i>
+            </li>
+            <li class="bright-orange-note bold-note">
+                <i>
+                Please ensure you have access to the 4 Elements audio and graphic materials. These resources can be sent to participants who experience connectivity issues to help them regulate and re-engage with the protocol if needed.
+                </i>
+            </li>
+        </ul>
+        <p class="bright-orange-note bold-note">
+            <i>
+            🖥️ This icon indicates portions of the script that you might include for using STEP Together online.  
+            </i>
+        </p>
+        <br>
+        <p class="bold-note">
+            Leaders - please read the text below to your participants.
+        </p>
+        <p>
+            You have all had disturbing experiences recently, which may have affected you in different ways. The work that we will do here can help you feel calmer and stronger and regain your balance. My name is ______, and I will be leading the group. I’d also like you to meet (name other team members).
+        </p>
+        <p>
+            🖥️ First, let’s ensure that our technology is functioning smoothly. Facilitators: Can you see all the group members? Participants: If you experience internet issues and are disconnected during today’s meeting, please take a moment to practice deep breathing and attempt to reconnect.
+        </p>
+        <p>
+            🖥️ If you are unable to reconnect, one of our facilitators will reach out to you using the contact information you provided before the group. 
+        </p>
+        <p>
+            We would like to take some time to have each of you introduce yourself and tell us something about yourself. We will be reviewing what has happened, but not quite yet. Let’s first just get to know each other a bit. Maybe you want to share something you enjoy doing or a hobby that you have, just a little something about yourself. We will not be discussing what happened with the group, but we will be working through it individually. We will tell you more about that as we move forward. For now, let’s meet the group members. I’ll begin...
+        </p>
+        <br>
+        <p class="bold-note blue-note">
+            <i>
+            Introduce yourself and facilitate the introductions of the group members. 
+            </i>
+        </p>
+        <br>
+        <p>
+            Thank you for introducing yourselves. Please give me a thumbs up when you have:
+        </p>
+        <ul>
+            <li>
+                printed documents on the table in front of you. Today you will need only one of the three pages (the one with STEP 1 on the bottom of the page).
+            </li>
+            <li>
+                tissue
+            </li>
+            <li>
+                water
+            </li>
+            <li>
+                wristband or sticker or sticky note
+            </li>
+            <li>
+                privacy
+            </li>
+            <li>
+                anything else you will need while we work together
+            </li>
+        </ul>
+        <p class="bold-note blue-note">
+            <i>
+            Wait for thumbs up from all group members before proceeding. 
+            </i>
+        </p>
+    </div>
+
+{% endblock %}
+
+{% block content-links %}
+    <p id="downloads-header">Downloads</p>
+    <div class="module-download-link">
+        <img class="file-download-icon" src="{% static 'step_together/acrobat.png' %}">
+        <a href="{% static 'clinician_overview/STEP_Script.pdf' %}" download>
+            STEP_Script.pdf
+        </a>
+    </div>
+{% endblock %}

@@ -112,57 +112,48 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
         file_answers = [k for k in request.FILES.keys() if k != "csrfmiddlewaretoken"]
         uploaded_files = request.FILES
 
-        # check if this is the initial questionnaire asking the unique ID
-        # if yes: it will need to be handled differently 
-        #   we will need to store the client ID
-        #   that way, when the user submits the next questionnaires in the form (on subsequent pages)
-        #   we can use their unique identifier in the submission and tie it back to them
-
+        print("answer_ids: ", answer_ids, "file answers: ", file_answers)
+    
         client = None
         clinician = None
+        min_relationship = None
+        # only store and process a questionnaire if it actually has answers
+        if (answer_ids and len(answer_ids) > 0) or (file_answers and len(file_answers) > 0):
 
-        # get the smallest questionnaire in the form
-        # relationships between forms and questionnaires are recorded in FormMembership
-        min_relationship = FormMembership.objects.filter(form_id = form_id).order_by('order').first()
+            # check if this is the initial questionnaire asking the unique ID
+            # if yes: it will need to be handled differently 
+            #   we will need to store the client ID
+            #   that way, when the user submits the next questionnaires in the form (on subsequent pages)
+            #   we can use their unique identifier in the submission and tie it back to them
 
-        if min_relationship:
-            min_questionnaire = min_relationship.questionnaire
-            # compare the ID of the smallest questionnaire with the questionnaire ID received in the request path
-            # in most forms, this would be questionnaire 3, "STEP Screening Forms"
-            # this is a different page for the feedback questionnaire
-            if questionnaire_id == min_questionnaire.id:
-                unique_provider_question = Question.objects.filter(
-                    id__in=answer_ids,
-                    text__icontains="Who is"
-                ).first()
+            unique_provider_question = Question.objects.filter(
+                id__in=answer_ids,
+                text__icontains="Who is"
+            ).first()
 
-                user_unique_identifier_question = Question.objects.filter(
-                    id__in=answer_ids,
-                    text__icontains="unique identifier"
-                ).first()
+            user_unique_identifier_question = Question.objects.filter(
+                id__in=answer_ids,
+                text__icontains="unique identifier"
+            ).first()
 
-                # the question asking the ID will be question 29
-                unique_identifier = "" if user_unique_identifier_question is None else  answers[str(user_unique_identifier_question.id)]
-                # the question asking the email of the provider will be question 30
-                selected_provider_string = "" if unique_provider_question is None else answers[str(unique_provider_question.id)]
-                if isinstance(selected_provider_string, str):
-                    selected_provider_option = AnswerOption.objects.filter(question_id=30 if unique_provider_question is None else unique_provider_question.id, id=int(selected_provider_string)).first()
-                    print("selected provider option: ", selected_provider_option)
-                    if selected_provider_option:
+            # the question asking the ID will be question 29
+            unique_identifier = request.session['unique_identifier'] if user_unique_identifier_question is None else  answers[str(user_unique_identifier_question.id)]
+            # the question asking the email of the provider will be question 30
+            selected_provider_string = "" if unique_provider_question is None else answers[str(unique_provider_question.id)]
+            # get the smallest questionnaire in the form
+            # relationships between forms and questionnaires are recorded in FormMembership
+            selected_provider_option = AnswerOption.objects.filter(question_id=30 if unique_provider_question is None else unique_provider_question.id, id=int(selected_provider_string)).first()
+            print("selected provider option: ", selected_provider_option)
+            if selected_provider_option:
 
-                        clinician_email = selected_provider_option.internal_value
-                        print("clinician email: ", clinician_email)
-                        request.session['clinician_email'] = clinician_email
+                clinician_email = selected_provider_option.internal_value
+                print("clinician email: ", clinician_email)
+                request.session['clinician_email'] = clinician_email
 
+            # store the unique identifier in a session variable
+            request.session['unique_identifier'] = unique_identifier
 
-                # store the unique identifier in a session variable
-                request.session['unique_identifier'] = unique_identifier
-
-
-            # get the user identifier -- at this point it should exist
-            user_identifier = request.session.get('unique_identifier')
             clinician_email = request.session.get('clinician_email')
-
 
             if not clinician_email:
                 # if they are in the dropdown list, they should exist as a user in the db
@@ -171,7 +162,8 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             if not clinician:
                 return HttpResponseServerError("Clinician not found!")
 
-            client: Client | None = clientm.find(str(user_identifier), clinician)
+
+            client: Client | None = clientm.find(str(unique_identifier), clinician)
             matching_form = Form.objects.get(id=form_id)
             form_anonymous = matching_form.anonymous
 
@@ -188,7 +180,7 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             new_response = QuestionnaireResponse.objects.create(
                 questionnaire=questionnaire,
                 user_identifier=client, 
-                form=min_relationship.form 
+                form=matching_form
                 # we previously already received an instance of formmembership, where the form is one of the fields
                 # so we can just use that field instead of having to re-query the database
             )

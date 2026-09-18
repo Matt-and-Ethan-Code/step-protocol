@@ -1,0 +1,34 @@
+{% extends 'step_together/step-together-module-base.html' %} {% load static %}
+
+{% block title %} STEP Self-Care Introduction {% endblock %} 
+
+{% block step-together-header-image %}
+<video id="vid" predownload src="{{ video_url }}" controls controlsList="nodownload" oncontextmenu="return false;"></video>
+{% endblock %}
+{% block step-together-text %}
+    <h1 class="module-header">
+        STEP Self-Care Introduction
+    </h1>    
+    <h2 class="module-subheader">
+        STEP Together Protocol
+    </h2>
+    <div>
+        <p class="bold-note">
+            Leaders - please read the text below to your participants. 
+        </p>
+
+        <p>
+            Let’s watch the first video with a short introduction video explaining the process. This video is about eight minutes long.
+        </p>
+        <p class="blue-note bold-note">
+            <i>
+                Play Video. 
+            </i>
+        </p>
+    </div>
+
+{% endblock %}
+
+{% block step-together-next-button %}
+    Next Module
+{% endblock %}
