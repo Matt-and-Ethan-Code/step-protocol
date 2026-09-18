@@ -32,5 +32,18 @@ urlpatterns: list[URLPattern | URLResolver] = [
     path('step-5pod1', views.step_5_pod_1, name='solo_step_5_pod_1'),
     path('step-5pod1-form', views.step_5_pod_1_form, name='solo_step_5_pod_1_form'),
     path('step-5pod1-last-form', views.step_5_pod_1_last_form, name='solo_step_5_pod_1_last_form'),
+    path('step-5pod2', views.step_5_pod_2, name='solo_step_5_pod_2'),
+    path('step-5pod2-form', views.step_5_pod_2_form, name='solo_step_5_pod_2_form'),
+    path('step-5pod2-last-form', views.step_5_pod_2_last_form, name='solo_step_5_pod_2_last_form'),
+    path('step-5pod3', views.step_5_pod_3, name='solo_step_5_pod_3'),
+    path('step-5pod3-form', views.step_5_pod_3_form, name='solo_step_5_pod_3_form'),
+    path('step-5pod3-last-form', views.step_5_pod_3_last_form, name='solo_step_5_pod_3_last_form'),
+    path('step-6', views.step_6, name='solo_step_6'),
+    path('step-6-form', views.step_6_form, name='solo_step_6_form'),
+    path('worksheet-upload', views.worksheet_upload, name='solo_worksheet_upload'),
     path('container', views.container, name='solo_container'),
+    path('four-elements-after', views.four_elements_after, name='solo_four_elements_after'),
+    path('complete', views.complete, name='solo_complete'),
 ]
+
+NUM_SOLO_VIDS = len(urlpatterns) - 1  # exclude the inbdex page

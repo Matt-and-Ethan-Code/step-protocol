@@ -1,9 +1,8 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from step_solo.util.identified import solo_session_required
+from step_solo.util.form_tokens import STRESS_BEFORE_TOKEN
 
-
-STRESS_BEFORE_TOKEN = 'solo_stress_before'  # stored as an int
 @solo_session_required()
 def stress_before_four_elements(request: HttpRequest) -> HttpResponse:
     if request.POST:

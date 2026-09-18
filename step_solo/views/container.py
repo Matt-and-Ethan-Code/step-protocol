@@ -9,6 +9,6 @@ def container(request: HttpRequest) -> HttpResponse:
         "title": "Container",
         "video_url": get_video_url('container_video'),
         "previous_url": "solo_12",
-        "next_url": "solo_index",
+        "next_url": "solo_four_elements_after",
     }
     return render(request, "step_solo/container.html", context=ctx)

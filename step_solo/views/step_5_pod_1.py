@@ -6,7 +6,7 @@ from step_solo.util.identified import solo_session_required
 @solo_session_required()
 def step_5_pod_1(request: HttpRequest) -> HttpResponse:
     ctx = {
-        "title": "STEP 5 - POD 1",
+        "title": "STEP 5 - PoD 1",
         "previous_url": "solo_step_2",
         "next_url": "solo_step_5_pod_1_form"
     }
