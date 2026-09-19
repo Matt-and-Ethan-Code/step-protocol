@@ -20,27 +20,48 @@
             <li>
                 <span class="bold-note">STEP Emails:</span> 
                 Please review the STEP Emails document for guidance on what emails to send at each point in the process. These emails serve as a guide and may be adapted to be appropriate for the demographics and needs of your clients. Flow charts are included in this document to provide a visual overview of the process. 
-                <span class="orange-note">
-                (Available for download under the "Downloads" section - STEP Emails).
-                </span>
+                <ul class="resources-list">
+                    <li class="bluish-note">
+                        <img class="file-download-icon" src="{% static 'step_together/word.png' %}" >
+                        <a class="bluish-link" download href="{% static 'clinician_overview/STEP_Emails.docx' %}">
+                            STEP_Emails.docx
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <span class="bold-note">Group Participants Form: </span>
                 Please complete the Group Participants Contact Information form to ensure you have all the information you need from your group members in case you are disconnected or an individual is experiencing severe distress. 
-                <span class="orange-note">
-                (Available for download under the "Downloads" section - STEP Contact Info).   
-                </span>
+                <ul class="resources-list">
+                    <li class="bluish-note">
+                        <img class="file-download-icon" src="{% static 'step_together/acrobat.png' %}" >
+                        <a class="bluish-link" download href="{% static 'clinician_overview/STEP_Contact_Info.pdf' %}">
+                            STEP_Contact_Info.pdf
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <span class="bold-note">Participant Consent Form: </span>
                 Please send consent forms to your participants for completion and an information letter for them to review. We have included a sample consent form and information letter that you may use. If you are conducting your own research, you will need to provide your group participants with your own research letter, consent forms, and any demographic information needed for your study. 
-                <span class="orange-note">
-                (Available for download under the "Downloads" section - STEP Consent and STEP Info Letter).  
-                </span> 
+                <ul class="resources-list">
+                    <li class="bluish-note">
+                        <img class="file-download-icon" src="{% static 'step_together/acrobat.png' %}" >
+                        <a class="bluish-link" download href="{% static 'clinician_overview/STEP_Sample_Consent.pdf' %}">
+                            STEP_Consent.pdf
+                        </a>
+                    </li>
+                    <li class="bluish-note">
+                        <img class="file-download-icon" src="{% static 'step_together/acrobat.png' %}" >
+                        <a class="bluish-link" download href="{% static 'clinician_overview/STEP_Info_Letter.pdf' %}">
+                            STEP_Info_Letter.pdf
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <span class="bold-note">Assign Clients a Unique Identifier:</span>
-                To maintain client confidentiality when using the Screening and Pre-and-Post Data Forms, assign each client a unique identifier. Clients will use this identifier instead of their names when completing the forms. The responses will be emailed to you, and the unique identifier will allow you to match each response to the corresponding client. It is crucial to keep a secure record of each client’s unique identifier and their corresponding identity. Store this information in a safe location to maintain confidentiality and protect client privacy.
+                To maintain client confidentiality when using the Screening and Pre-and-Post Data Forms, assign each client a unique identifier. Clients will use this identifier instead of their names when completing the forms. The responses will be emailed to you, and the unique identifier will allow you to match each response to the corresponding client. It is crucial to keep a secure record of each client's unique identifier and their corresponding identity. Store this information in a safe location to maintain confidentiality and protect client privacy.
                 <br>
                 <br>
                 You may use any system that suits your workflow. For example, you could generate a random string of characters like 7fG8Hk9J as a unique identifier. Ensure each identifier is unique to avoid confusion or difficulty in distinguishing client responses. Additionally, be careful not to assign the same identifier to multiple clients. 
@@ -51,7 +72,7 @@
             <li>
                 <span class="bold-note">Screening Forms:</span>
                 Please send the link to the ITQ and the DES-T to your clients for the initial screening before the STEP Assessment Forms. As a reminder, if they are experiencing complex PTSD or severe dissociation, they should receive a one-to-one intervention rather than STEP Together. More information about the inclusion criteria for STEP Together groups is available in the manual. 
-                <a href="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 1 %}">
+                <a class="bluish-link" href="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 1 %}">
                     {{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 1 %}
                 </a>.
         
@@ -62,7 +83,7 @@
             <li>
                 <span class="bold-note">Pre-and-Post-Data Forms: </span>
                 Those eligible for the STEP Together group will complete the Pre-and-Post-Data forms using the link below. These measures will need to be completed by the group participants at least one week before the intervention group and again one week after the group. Please send the link via email to each group member and ensure they are submitted before beginning the group. 
-                <a href="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 2 %}">
+                <a class="bluish-link" href="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 2 %}">
                     {{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 2 %}
                 </a>.
                 <span class="bold-note">
@@ -76,16 +97,33 @@
             <li>
                 <span class="bold-note">Participant Checklist Form: </span>
                 Complete a Participant Checklist Form for each group member. This will help you keep track of each participant and what they have completed before you begin your STEP Together group. 
-                <span class="orange-note">
-                (Two versions available for download under the "Downloads" section - STEP Checklist and STEP Checklist with Space for Recording Scores).  
-                </span>
+                <ul class="resources-list">
+                    <li class="bluish-note">
+                        <img class="file-download-icon" src="{% static 'step_together/acrobat.png' %}" >
+                        <a class="bluish-link" download href="{% static 'clinician_overview/STEP_Checklist.pdf' %}">
+                            STEP_Checklist.pdf
+                        </a>
+                    </li>
+                    <li class="bluish-note">
+                        <img class="file-download-icon" src="{% static 'step_together/acrobat.png' %}" >
+                        <a class="bluish-link" download href="{% static 'clinician_overview/STEP_Checklist_with_Space_for_Recording_Scores.pdf' %}">
+                            STEP_Checklist_with_Space_for_Recording_Scores.pdf
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <span class="bold-note">STEP Worksheets: </span>
                 When you receive the measures from each group member (see #6), download the worksheets from the "Downloads" section. Send the worksheets to your clients before the beginning of the group so participants can have them printed and ready to go before the beginning of the group. 
-                <span class="orange-note">
-                (Available for download under the "Downloads" section - STEP Protocol Sheets). 
-                </span>  
+
+                <ul class="resources-list">
+                    <li class="bluish-note">
+                        <img class="file-download-icon" src="{% static 'step_together/acrobat.png' %}" >
+                        <a class="bluish-link" download href="{% static 'clinician_overview/STEP_Protocol_Sheets.pdf' %}">
+                            STEP_Protocol_Sheets.pdf
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <span class="bold-note">4 Elements: </span>
@@ -94,9 +132,14 @@
             <li>
                 <span class="bold-note">Practice Using Your Video Conferencing Platform: </span>
                 Some technology tips for using common features on Zoom or Doxy.me are available in our STEP Cheat Sheet for Video Conferencing Platforms. Ensure that the platform you choose aligns with relevant privacy legislation and that you are comfortable using the features you will need, like screen sharing. Check that noise suppression settings are not enabled or are set to "low" to avoid interference with the music that plays in the background of the videos. Please note, the information contained in this document was current as of December 2025 and may change as your video conferencing platform is updated. 
-                <span class="orange-note">
-                (Available for download under the "Downloads" section - STEP Cheat Sheet for Video Conferencing Platforms).   
-                </span>
+                <ul class="resources-list">
+                    <li class="bluish-note">
+                        <img class="file-download-icon" src="{% static 'step_together/acrobat.png' %}" >
+                        <a class="bluish-link" download href="{% static 'clinician_overview/STEP_Cheat_Sheet_for_Video_Conferencing_Platforms.pdf' %}">
+                            STEP_Cheat_Sheet_for_Video_Conferencing_Platforms.pdf
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ol>
         <p class="bold-note">
@@ -106,7 +149,7 @@
             <li>Updating the participant checklist </li>
             <li>Sending the feedback form: 
                 
-                <a href="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 6 %}">
+                <a class="bluish-link" href="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 6 %}">
                     {{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 6 %}
                 </a>.
             </li>

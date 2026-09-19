@@ -1,0 +1,72 @@
+{% extends 'step_together/step-together-module-base.html' %} {% load static %}
+
+{% block title %} Post-Group Checklist {% endblock %} 
+
+{% block step-together-header-image %}
+<img src="{% static 'step_together/module-thumbnails/checklist.jpeg' %}">
+{% endblock %}
+{% block step-together-text %}
+    <h1 class="module-header">
+        STEP Together Post-Group Checklist
+    </h1>    
+    <h2 class="module-subheader">
+        After the Group
+    </h2>
+    <div>
+        <p class="bold-note">
+            After the group, please remember to:
+        </p>
+        <ol>
+            <li>
+                <span class="bold-note">Pre-and-Post-Data Forms:</span> 
+                Those eligible for the STEP Together group will complete the Pre-and-Post-Data forms using the link below. These measures will need to be completed by the group participants at least one week <u><b>before</b></u> the intervention group and again one week <u><b>after</b></u> the group. Please send the link via email to each group member one week after the group and ensure they are completed. This information will be used to assist in treatment planning.   
+                <ul class="resources-list">
+                    <li class="bluish-note">
+                        <span>Pre-Intervention Measures:</span>
+                        <a class="bluish-link" href="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 3 %}">{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 3 %}</a>
+                    </li>
+                    <li class="bluish-note">
+                        <span>Post-Intervention Measures:</span>
+                        <a class="bluish-link" href="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 4 %}">{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 4 %}</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <span class="bold-note">Feedback Form: </span>
+                Send Participants the link to complete the feedback form. There are two components to the feedback form. The first is a record of their SUDs throughout the worksheet for your records and to inform follow up discussions with your clients. The second portion of the feedback form is anonymous, and allows participants to provide feedback to help us with the development and improvement of the protocol. Participants will be asked to complete the feedback form at the end of the group.  
+                <ul class="resources-list">
+                    <li class="bluish-note">
+                        Feedback form: <a class="bluish-link" href="{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 6 %}" target="_blank">{{ request.scheme }}://{{ request.get_host }}{% url 'start_testing' 6 %}</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <span class="bold-note">Participant Checklist Form: </span>
+                Complete the Participant Checklist Form for each group member.
+                <ul class="resources-list">
+                    <li class="bluish-note">
+                        <img class="file-download-icon" src="{% static 'step_together/word.png' %}" >
+                        <a class="bluish-link" download href="{% static 'step_together/STEP_Together_Participant_Checklist_Form.docx' %}">
+                            STEP_Together_Participant_Checklist_Form.docx
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <span class="bold-note">Follow Up:</span>
+                To maintain client confidentiality when using the Screening and Pre-and-Post Data Forms, assign each client a unique identifier. Clients will use this identifier instead of their names when completing the forms. The responses will be emailed to you, and the unique identifier will allow you to match each response to the corresponding client. It is crucial to keep a secure record of each client's unique identifier and their corresponding identity. Store this information in a safe location to maintain confidentiality and protect client privacy.
+                <ul class="resources-list">
+                    <li class="bluish-note">
+                        <img class="file-download-icon" src="{% static 'step_together/word.png' %}" >
+                        <a class="bluish-link" download href="{% static 'clinician_overview/STEP_Emails.docx' %}">
+                            STEP_Emails.docx
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ol>
+
+    </div>
+
+{% endblock %}

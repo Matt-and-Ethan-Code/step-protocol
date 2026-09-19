@@ -43,12 +43,35 @@ footer span {
     font-weight: 700;
     margin-bottom: 3rem;
 }
+#step-together-text {
+    margin: auto;
+    width: 100%;
+}
+
 #step-together-text .bright-orange-note {
     color: var(--bright-orange);
 }
 
 #step-together-text .blue-note {
     color: #16a085;
+}
+
+#step-together-text .bluish-note, #step-together-text .bluish-link {
+    color: var(--bluish);
+}
+
+.bluish-link {
+    text-decoration: none;
+    font-size: 16px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.bluish-link:hover {
+    text-decoration: underline;
+}
+
+.resources-list {
+    margin-top: 0.5rem;
 }
 
 #step-together-text .orange-note {
@@ -71,6 +94,7 @@ footer span {
     font-size: 16px;
     font-weight: 700;
     text-decoration: none;
+    margin-top: 2rem;
 }
 
 #step-together-text, #step-together-links {
@@ -246,6 +270,7 @@ header#step-together-header img {
 
 #step-together-body-container, #module-thumbnail, #module-navigation-buttons {
     max-width: 75%;
+    min-width: 75%;
     margin: auto;
 }
 

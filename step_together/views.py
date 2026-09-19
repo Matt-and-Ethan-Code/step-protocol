@@ -129,7 +129,7 @@ step_together_modules:list[ST_MODULE_CONTAINER] = [
                 title="After the Group", 
                 img_url="step_together/images/step-together-checklist-thumbnail.jpeg", 
                 description="After the group, please remember to: Pre-and-Past-Data Forms: Those eligible for the STEP Toget...", 
-                page_url=""
+                page_url="/step-together/post-group-checklist"
             )
         ]
     )
@@ -161,48 +161,6 @@ def step_together_manual(request: HttpRequest) -> HttpResponse:
 def step_together_pregroup_checklist(request: HttpRequest) -> HttpResponse:
     return render(request, "step_together/step-together-pre-group-checklist.html", 
                   {
-                      "content_links": [
-                          {
-                              "icon": 'step_together/acrobat.png', 
-                              "url": 'clinician_overview/STEP_Checklist_with_Space_for_Recording_Scores.pdf', 
-                              "name": "STEP_Checklist_with_Space_for_Recording_Scores.pdf"
-                          }, 
-                          {
-                              "icon": 'step_together/acrobat.png', 
-                              "url": 'clinician_overview/STEP_Cheat_Sheet_for_Video_Conferencing_Platforms.pdf', 
-                              "name": "STEP_Cheat_Sheet_for_Video_Conferencing_Platforms.pdf"
-                          }, 
-                          {
-                              "icon": 'step_together/word.png', 
-                              "url": 'clinician_overview/STEP_Sample_Emails.docx', 
-                              "name": "STEP_Emails.docx"
-                          }, 
-                          {
-                              "icon": 'step_together/acrobat.png', 
-                              "url": 'clinician_overview/STEP_Info_Letter.pdf', 
-                              "name": "STEP_Info_Letter.pdf"
-                          }, 
-                          {
-                              "icon": 'step_together/acrobat.png', 
-                              "url": 'clinician_overview/STEP_Contact_Info.pdf', 
-                              "name": "STEP_Contact_Info.pdf"
-                          }, 
-                          {
-                              "icon": 'step_together/acrobat.png', 
-                              "url": 'clinician_overview/STEP_Sample_Consent.pdf', 
-                              "name": "STEP_Consent.pdf"
-                          }, 
-                          {
-                              "icon": 'step_together/acrobat.png', 
-                              "url": 'clinician_overview/STEP_Checklist.pdf', 
-                              "name": "STEP_Checklist.pdf"
-                          }, 
-                          {
-                              "icon": "'step_together/acrobat.png'", 
-                              "url": 'clinician_overview/STEP_Protocol_Sheets.pdf', 
-                              "name": "STEP_Protocol_Sheets.pdf"
-                          }
-                      ], 
                       "next_link": '/step-together/welcome-to-step-together/', 
                       "prev_link": '/step-together/manual/'
                   })
@@ -309,6 +267,10 @@ def ending(request:HttpRequest) -> HttpResponse:
         'this_content_index': 9, 
         'prev_link': '/step-together/4-elements-pt-2' 
     })
+
+@clinician_required
+def post_group_checklist(request:HttpRequest) -> HttpResponse:
+    return render(request, 'step_together/step-together-post-group-checklist.html')
 
 @clinician_required
 def agreement_view(request: HttpRequest) -> HttpResponse:

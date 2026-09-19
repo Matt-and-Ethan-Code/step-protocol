@@ -15,5 +15,6 @@ urlpatterns: list[URLPattern] = [
     path('step-together/check-in-pt-2', views.check_in2, name='check-in-pt-2'), 
     path('step-together/container', views.container, name='container'), 
     path('step-together/4-elements-pt-2', views.four_elements_pt2, name='four-elements-part-2'), 
-    path('step-together/ending', views.ending, name='ending')
+    path('step-together/ending', views.ending, name='ending'),
+    path('step-together/post-group-checklist', views.post_group_checklist, name='post-group-checklist')
 ]
