@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # represents an instance of provider having filled out an agreement form.
 # stores the two text fields that they entered (name & organization)
@@ -6,6 +7,7 @@ from django.db import models
 # check the Agreement model for the content of those terms
 # use the agreement date to find the correct version
 class ProviderConfirmation(models.Model):
+    provider = models.ForeignKey(User, on_delete=models.CASCADE)  # type: ignore[type-arg]
     provider_name = models.CharField(max_length=100)
     provider_organization = models.CharField(max_length=100)
     agreement_date = models.DateTimeField(auto_now_add=True)

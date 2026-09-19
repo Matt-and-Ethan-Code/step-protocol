@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Literal
 
 from .forms import AgreementForm
-from .models import Agreement, ProviderConfirmation
+from .models import Agreement, AgreementCondition, ProviderConfirmation
 
 @dataclass
 class ST_MODULE:
@@ -95,7 +95,7 @@ step_together_modules:list[ST_MODULE_CONTAINER] = [
                 title = "STEP Together Clinician Agreement", 
                 img_url = "step_together/images/step-together-agreement-thumbnail.jpeg",
                 description = "Self-Care Traumatic Episode Protocol (STEP) Agreement For STEP Intervention Providers", 
-                page_url="/agreement"
+                page_url="/step-together/past-agreement/"
             )
         ]
     ), 
@@ -106,7 +106,7 @@ step_together_modules:list[ST_MODULE_CONTAINER] = [
                 title = "Manual", 
                 img_url = "step_together/images/step-together-manual-thumbnail.jpeg", 
                 description = "Please review the manual carefully before you begin planning your first STEP Together group. It ...", 
-                page_url="/step-together/manual"
+                page_url="/clinician/resources"
             )
         ]
     ), 
@@ -273,6 +273,18 @@ def post_group_checklist(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/step-together-post-group-checklist.html')
 
 @clinician_required
+def past_agreement_view(request: HttpRequest) -> HttpResponse:
+    confirmation = get_object_or_404(ProviderConfirmation, provider=request.user)
+    agreement = get_object_or_404(Agreement, id=confirmation.agreement.id)
+    agreement_conditions = AgreementCondition.objects.filter(agreement=agreement)
+    print("condition: ", agreement_conditions)
+    return render(request, "step_together/past-agreement.html", {
+        'confirmation': confirmation,
+        "conditions": agreement_conditions,
+        'nav_section': 'step-together'
+    })
+
+@clinician_required
 def agreement_view(request: HttpRequest) -> HttpResponse:
     agreement = get_object_or_404(Agreement, current=True)
 
@@ -286,6 +298,7 @@ def agreement_view(request: HttpRequest) -> HttpResponse:
             provider_organization = answers[1] if len(answers) > 1 else ""
 
             ProviderConfirmation.objects.create(
+                provider=request.user,
                 provider_name=provider_name,
                 provider_organization=provider_organization,
                 agreement=agreement,

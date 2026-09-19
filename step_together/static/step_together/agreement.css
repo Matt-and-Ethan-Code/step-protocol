@@ -1,3 +1,16 @@
+#past-conditions-container {
+    margin: 2rem;
+}
+
+#agreement-text-fields {
+    margin-bottom: 2rem;
+}
+
+.agreement-condition-confirmation {
+    margin-top: 1rem;
+}
+
+
 h1.agreement-header {
     color: rgb(36, 40, 46);
     font-weight: 400;
