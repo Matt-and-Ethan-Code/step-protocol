@@ -16,6 +16,7 @@ import clinician_overview.util.access as access
 from clinician_overview.util.score_questionnaire_response import score_questionnaire_response
 from initial_screening.decorators.clinician_decorator import clinician_required
 from initial_screening.models import QuestionnaireResponse, FormMembership, ResponseItem
+from step_solo.models import SoloResponse
 import calendar
 from django.contrib.auth.decorators import login_required
 

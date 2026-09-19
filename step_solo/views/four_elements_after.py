@@ -4,7 +4,8 @@ from django.urls import reverse
 from step_solo.util.identified import solo_session_required
 from step_solo.util import form_tokens as tok
 from step_solo.util.get_video_url import get_video_url
-from step_solo.util.solo_questionnaire import SoloQuestionnaire
+from step_solo.models import SoloResponse
+import clinician_overview.util.client as clientm
 from typing import Literal
 
 import urllib.parse
@@ -23,6 +24,10 @@ def four_elements_after_get(request: HttpRequest) -> HttpResponse:
     "next_url": "solo_complete",
   }
   return render(request, "step_solo/four_elements_after.html", context=ctx)
+
+def nonnull[T](thing: T | None) -> T:
+    assert not (thing is None)
+    return thing
 
 def four_elements_after_post(request: HttpRequest) -> HttpResponse:
   errors = []
@@ -45,7 +50,7 @@ def four_elements_after_post(request: HttpRequest) -> HttpResponse:
   if step_5pod1last is None: err("STEP 5 - PoD 1 Last")
   step_5pod2first = expect_0to10(request, tok.STEP_5_POD_2_TOKEN)
   if step_5pod2first is None: err("STEP 5 - PoD 2 First")
-  step_5pod2last = expect_0to10(request, tok.STEP_5_POD_1_TOKEN)
+  step_5pod2last = expect_0to10(request, tok.STEP_5_POD_2_LAST_TOKEN)
   if step_5pod2last is None: err("STEP 5 - PoD 2 Last")
   step_5pod3first = expect_0to10(request, tok.STEP_5_POD_3_TOKEN)
   if step_5pod3first is None: err("STEP 5 - PoD 3 First")
@@ -61,13 +66,11 @@ def four_elements_after_post(request: HttpRequest) -> HttpResponse:
     query_string = urllib.parse.urlencode(query_params, doseq=True)
     return redirect(f"{base_url}?{query_string}")
 
-  def nonnull[T](thing: T | None) -> T:
-    assert not (thing is None)
-    return thing
-
-  response = SoloQuestionnaire(
-    client_id=nonnull(client_id),
-    provider_email=nonnull(provider_email),
+  # should exist 100% since the @solo_session_required() guard would catch it otherwise
+  client = nonnull(clientm.find(nonnull(client_id), nonnull(provider_email)))
+  
+  response = SoloResponse(
+    client=client,
     stress_before_elements=nonnull(stress_before_elements),
     stress_after_elements=nonnull(stress_after_elements),
     step_2=nonnull(step_2),
@@ -79,6 +82,8 @@ def four_elements_after_post(request: HttpRequest) -> HttpResponse:
     step_5pod3_last=nonnull(step_5pod3last),
     step_6=nonnull(step_6)
   )
+  response.save()
+
   return redirect("solo_complete")
 
 def expect_str(req: HttpRequest, token: str) -> str | None:
