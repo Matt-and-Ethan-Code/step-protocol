@@ -43,12 +43,35 @@ footer span {
     font-weight: 700;
     margin-bottom: 3rem;
 }
+#step-together-text {
+    margin: auto;
+    width: 100%;
+}
+
 #step-together-text .bright-orange-note {
     color: var(--bright-orange);
 }
 
 #step-together-text .blue-note {
     color: #16a085;
+}
+
+#step-together-text .bluish-note, #step-together-text .bluish-link {
+    color: var(--bluish);
+}
+
+.bluish-link {
+    text-decoration: none;
+    font-size: 16px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.bluish-link:hover {
+    text-decoration: underline;
+}
+
+.resources-list {
+    margin-top: 0.5rem;
 }
 
 #step-together-text .orange-note {
@@ -59,7 +82,7 @@ footer span {
     font-weight: bold;
 }
 
-.next-module-button {
+.next-module-button, .next-module-button a {
     color: white;
     background-color: var(--bluish);
     border: none;
@@ -70,12 +93,15 @@ footer span {
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     font-weight: 700;
+    text-decoration: none;
+    margin-top: 2rem;
 }
 
 #step-together-text, #step-together-links {
     background-color: white;
     padding: 2rem;
 }
+
 
 #step-together-body-container {
     display: flex;
@@ -86,8 +112,6 @@ footer span {
 }
 
 #step-together-body-container, #module-thumbnail {
-    max-width: 75%;
-    margin: auto;
     margin-top: 2rem;
 }
 
@@ -238,4 +262,40 @@ header#step-together-header img {
 #breadcrumb a {
     color: #4b351c;
     font-weight: bold;
+}
+
+#step-together-video-container {
+    margin-top: 2rem;
+}
+
+#step-together-body-container, #module-thumbnail, #module-navigation-buttons {
+    max-width: 75%;
+    min-width: 75%;
+    margin: auto;
+}
+
+.module-navigation-btn {
+    color: white;
+    background-color: var(--bluish);
+    padding: 0.5rem 1rem;
+    margin: 15px 0;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+#module-navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+}
+
+@media (max-width: 1000px) {
+    #module-scroller-container {
+        display: none;
+    }
+
+    #module-thumbnail:has(#module-scroller-container) {
+        grid-template-columns: 1fr;
+    }
 }

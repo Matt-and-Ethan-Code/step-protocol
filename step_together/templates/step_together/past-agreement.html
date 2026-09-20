@@ -1,0 +1,59 @@
+{% extends 'clinician_overview/clinician_base_layout.html' %} {% load static %}
+{% load static %}
+{% load form_extras %}
+
+{% block title %} STEP Agreement {% endblock %} 
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'step_together/agreement.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-white-background">
+    <h1 class="agreement-header">Self-Care Traumatic Episode Protocol (STEP) Agreement For STEP Intervention Providers</h1>
+    <div id="past-conditions-container">
+        <div id="agreement-text-fields">
+            <div>
+                <b>
+                    Agreement Date: 
+                </b>
+                {{ confirmation.agreement_date }}
+            </div>
+
+            <div>
+                <b>
+                    What is your full name?
+                </b>
+                {{ confirmation.provider_name }}
+            </div>
+
+            <div>
+                <b>
+                    What is the name of the organization you are representing?
+                </b>
+                {{ confirmation.provider_organization }}
+            </div>
+        </div>
+
+        <div id="agreement-conditions">
+            {% for condition in conditions %}
+                <div class="agreement-condition">
+                    <div class="condition-text">
+                        {{ condition.condition_text | linebreaksbr }}
+                    </div>
+                    <div class="agreement-condition-confirmation">
+                        <input type="checkbox" checked disabled>
+                        <span class="confirmation-text">
+                            {{ condition.confirmation_checkbox_text | linebreaksbr }}
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

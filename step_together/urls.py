@@ -2,6 +2,7 @@ from django.urls import URLPattern, path
 import step_together.views as views
 
 urlpatterns: list[URLPattern] = [
+    path('step-together/past-agreement/', views.past_agreement_view, name='past-agreement'),
     path('agreement/', views.agreement_view, name='agreement'), 
     path('step-together/', views.step_together_portal_view, name='step-together'),
     path('step-together/manual/', views.step_together_manual, name='step-together-manual'), 
@@ -15,5 +16,6 @@ urlpatterns: list[URLPattern] = [
     path('step-together/check-in-pt-2', views.check_in2, name='check-in-pt-2'), 
     path('step-together/container', views.container, name='container'), 
     path('step-together/4-elements-pt-2', views.four_elements_pt2, name='four-elements-part-2'), 
-    path('step-together/ending', views.ending, name='ending')
+    path('step-together/ending', views.ending, name='ending'),
+    path('step-together/post-group-checklist', views.post_group_checklist, name='post-group-checklist')
 ]

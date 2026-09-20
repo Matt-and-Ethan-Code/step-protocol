@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Literal
 
 from .forms import AgreementForm
-from .models import Agreement, ProviderConfirmation
+from .models import Agreement, AgreementCondition, ProviderConfirmation
 
 @dataclass
 class ST_MODULE:
@@ -95,7 +95,7 @@ step_together_modules:list[ST_MODULE_CONTAINER] = [
                 title = "STEP Together Clinician Agreement", 
                 img_url = "step_together/images/step-together-agreement-thumbnail.jpeg",
                 description = "Self-Care Traumatic Episode Protocol (STEP) Agreement For STEP Intervention Providers", 
-                page_url="/agreement"
+                page_url="/step-together/past-agreement/"
             )
         ]
     ), 
@@ -106,7 +106,7 @@ step_together_modules:list[ST_MODULE_CONTAINER] = [
                 title = "Manual", 
                 img_url = "step_together/images/step-together-manual-thumbnail.jpeg", 
                 description = "Please review the manual carefully before you begin planning your first STEP Together group. It ...", 
-                page_url="/step-together/manual"
+                page_url="/clinician/resources"
             )
         ]
     ), 
@@ -129,7 +129,7 @@ step_together_modules:list[ST_MODULE_CONTAINER] = [
                 title="After the Group", 
                 img_url="step_together/images/step-together-checklist-thumbnail.jpeg", 
                 description="After the group, please remember to: Pre-and-Past-Data Forms: Those eligible for the STEP Toget...", 
-                page_url=""
+                page_url="/step-together/post-group-checklist"
             )
         ]
     )
@@ -144,18 +144,42 @@ def step_together_portal_view(request: HttpRequest) -> HttpResponse:
 
 @clinician_required
 def step_together_manual(request: HttpRequest) -> HttpResponse:
-    return render(request, "step_together/step-together-manual.html")
+    return render(request, "step_together/step-together-manual.html", 
+        {"content_links": [
+            {"icon": "step_together/acrobat.png", 
+             "url": 'clinician_overview/STEP_Manual.pdf', 
+             "name": "STEP_Manual_Updated_December_2025_.pdf"}, 
+             {"icon": 'step_together/acrobat.png', 
+              "url": 'clinician_overview/STEP_Script.pdf', 
+              "name": "STEP_Script.pdf"
+             }
+             ], 
+            "next_link": "/step-together/pregroup-checklist"
+            })
 
 @clinician_required
 def step_together_pregroup_checklist(request: HttpRequest) -> HttpResponse:
-    return render(request, "step_together/step-together-pre-group-checklist.html")
+    return render(request, "step_together/step-together-pre-group-checklist.html", 
+                  {
+                      "next_link": '/step-together/welcome-to-step-together/', 
+                      "prev_link": '/step-together/manual/'
+                  })
 
 @clinician_required
 def welcome_to_step_together(request: HttpRequest) -> HttpResponse:
     return render(request, "step_together/welcome-to-step-together.html", {
         "nav_section": "step-together", 
         "scrollbar": step_together_content_modules,
-        'this_content_index': 0
+        'this_content_index': 0, 
+        "content_links": [
+            {
+                "icon": 'step_together/acrobat.png', 
+                "url": 'clinician_overview/STEP_Script.pdf', 
+                "name": "STEP_Script.pdf"
+            }
+        ], 
+        "next_link": '/step-together/self-care-introduction/',
+        "prev_link": '/step-together/pregroup-checklist/'
     })
 
 @clinician_required
@@ -163,7 +187,9 @@ def self_care_introduction(request:HttpRequest) -> HttpResponse:
     return render(request, "step_together/self-care-introduction.html", {
         "video_url": get_video_url('st_self_care_introduction'), 
         "scrollbar": step_together_content_modules, 
-        'this_content_index': 1
+        'this_content_index': 1,
+        "next_link": '/step-together/bilateral-tapping/',
+        "prev_link": '/step-together/welcome-to-step-together/'
     })
 
 @clinician_required
@@ -171,7 +197,9 @@ def bilateral_tapping(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/bilateral-tapping.html', {
         'video_url': get_video_url('st_bilateral_tapping'), 
         "scrollbar": step_together_content_modules, 
-        'this_content_index': 2
+        'this_content_index': 2, 
+        "next_link": '/step-together/4-elements/', 
+        'prev_link': '/step-together/self-care-introduction/'
     })
 
 @clinician_required
@@ -179,14 +207,18 @@ def four_elements_pt1(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/four-elements-pt1.html', {
         'video_url': get_video_url('st_4_elements'), 
         "scrollbar": step_together_content_modules, 
-        'this_content_index': 3
+        'this_content_index': 3, 
+        'next_link': '/step-together/check-in/', 
+        'prev_link': '/step-together/bilateral-tapping/'
     })
 
 @clinician_required
 def check_in(request:HttpRequest) -> HttpResponse: 
     return render(request, 'step_together/check-in.html', {
         "scrollbar": step_together_content_modules, 
-        'this_content_index': 4
+        'this_content_index': 4, 
+        'next_link': '/step-together/protocol-sheet/', 
+        'prev_link': '/step-together/4-elements/'
     })
 
 @clinician_required
@@ -194,14 +226,18 @@ def step_together_protocol_sheet(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/step-together-protocol-sheet.html', {
         'video_url': get_video_url('st_protocol_sheet'), 
         "scrollbar": step_together_content_modules, 
-        'this_content_index': 5
+        'this_content_index': 5, 
+        'next_link': '/step-together/check-in-pt-2', 
+        'prev_link': '/step-together/check-in/'
     })
 
 @clinician_required
 def check_in2(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/check-in-2.html', {
         'scrollbar': step_together_content_modules, 
-        'this_content_index': 6
+        'this_content_index': 6, 
+        'next_link': '/step-together/container', 
+        'prev_link': '/step-together/protocol-sheet/'
     })
 
 @clinician_required
@@ -209,7 +245,9 @@ def container(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/container.html', {
         'video_url': get_video_url('st_container'), 
         'scrollbar': step_together_content_modules, 
-        'this_content_index': 7
+        'this_content_index': 7, 
+        'next_link': '/step-together/4-elements-pt-2', 
+        'prev_link': '/step-together/check-in-pt-2'
     })
 
 @clinician_required
@@ -217,14 +255,33 @@ def four_elements_pt2(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/four-elements-pt2.html', {
         'video_url': get_video_url('st_4_elements_pt2'), 
         'scrollbar': step_together_content_modules, 
-        'this_content_index': 8
+        'this_content_index': 8, 
+        'next_link': '/step-together/ending', 
+        'prev_link': '/step-together/container'
     })
 
 @clinician_required
 def ending(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/ending.html', {
         'scrollbar': step_together_content_modules, 
-        'this_content_index': 9
+        'this_content_index': 9, 
+        'prev_link': '/step-together/4-elements-pt-2' 
+    })
+
+@clinician_required
+def post_group_checklist(request:HttpRequest) -> HttpResponse:
+    return render(request, 'step_together/step-together-post-group-checklist.html')
+
+@clinician_required
+def past_agreement_view(request: HttpRequest) -> HttpResponse:
+    confirmation = get_object_or_404(ProviderConfirmation, provider=request.user)
+    agreement = get_object_or_404(Agreement, id=confirmation.agreement.id)
+    agreement_conditions = AgreementCondition.objects.filter(agreement=agreement)
+    print("condition: ", agreement_conditions)
+    return render(request, "step_together/past-agreement.html", {
+        'confirmation': confirmation,
+        "conditions": agreement_conditions,
+        'nav_section': 'step-together'
     })
 
 @clinician_required
@@ -241,6 +298,7 @@ def agreement_view(request: HttpRequest) -> HttpResponse:
             provider_organization = answers[1] if len(answers) > 1 else ""
 
             ProviderConfirmation.objects.create(
+                provider=request.user,
                 provider_name=provider_name,
                 provider_organization=provider_organization,
                 agreement=agreement,
