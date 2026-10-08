@@ -6,11 +6,13 @@ register = template.Library()
 
 @register.simple_tag
 def render_question_number(field: forms.BoundField):
+    print("field: ", field)
     number = field.form.field_numbers[field.name]  # type: ignore[attr-defined]
     return mark_safe(f'<div class="question-number">Question {number}</div>')
 
 @register.simple_tag
 def render_label(field: forms.BoundField):
+    print("field: ", field, field.form)
     number = field.form.field_numbers[field.name]  # type: ignore[attr-defined]
     html = f'<label for="{field.id_for_label}">{field.label}</label>'
     return mark_safe(html)
