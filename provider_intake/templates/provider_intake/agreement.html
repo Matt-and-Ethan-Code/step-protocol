@@ -1,0 +1,73 @@
+{% load static %}
+{% load form_extras %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=keyboard_arrow_down,keyboard_arrow_up" />
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+        <link rel="stylesheet" href="{% static 'step_together/agreement.css' %}">
+        <link rel="stylesheet" href="{% static 'provider_intake/provider_intake_form.css' %}">
+        <link rel="stylesheet" href="{% static 'clinician_overview/clinician_base_styles.css' %}">        
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Karla:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Mono+One&display=swap" rel="stylesheet">
+        <title>Agreement For STEP Intervention Providers</title>
+    </head>
+    <body>
+        <div id="thank-you-container">
+            <img id="step-logo-large" src="{% static 'initial_screening/images/STEP+Logo_White.png' %}" alt="STEP Logo">
+            <h1>Apply for STEP</h1>
+        </div>
+
+        {% if form.errors %}
+            <div id="error-message">
+                There are errors in the form. Your agreement could not be submitted.
+            </div>
+        {% endif %}
+        <div class="page-white-background">
+            <h1 class="agreement-header">Self-Care Traumatic Episode Protocol (STEP) Agreement For STEP Intervention Providers</h1>
+
+            <form method="post" id="agreement-form">
+                {% csrf_token %}
+
+                {% for question in form.text_questions %}
+                {% text_question_field form question.id as field %}
+                <div class="django-form-input label-large">
+                    {% render_question_number field %}
+                    <span>
+                        {% render_label field %}
+                    </span>
+                    {{ field  }}
+                    {{ field.errors }}
+                </div>
+                {% endfor %}
+
+                <div id="agreement-conditions">
+                    {% for condition in form.conditions %}
+                    {% condition_field form condition.id as field %}
+                    <div class="agreement-condition label-large">
+                        {% render_question_number field %}
+                        <p>{{ condition.condition_text | linebreaksbr }}</p>
+                        <div class="django-form-input-checkbox">
+                            {{ field }}
+                            {% render_label field %}
+                        </div>
+                        <div class="django-form-input-checkbox">
+                            {{ field.errors }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" id="provider-info-submit">Submit</button>
+            </form>
+        </div>
+
+    </body>
+
+
+</html>

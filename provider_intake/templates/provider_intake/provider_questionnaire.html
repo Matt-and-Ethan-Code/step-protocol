@@ -1,5 +1,5 @@
 {% load static %}
-{% load form_extras %}
+{% load provider_info_form_extras %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -16,7 +16,7 @@
     </head>
     <body>
         <div id="thank-you-container">
-            <img id="step-logo" src="{% static 'initial_screening/images/STEP+Logo_White.png' %}" alt="STEP Logo">
+            <img id="step-logo-large" src="{% static 'initial_screening/images/STEP+Logo_White.png' %}" alt="STEP Logo">
             <h1>Apply for STEP</h1>
         </div>
         <div id="bottom-text">
@@ -213,7 +213,7 @@
                     {{form.message.errors}}
                 </div>
 
-                <button type="submit" id="provider-info-submit">Submit</button>
+                <button type="submit" id="provider-info-submit">Next</button>
             </form>
         </div>
 
@@ -503,7 +503,7 @@
             margin-bottom: 5em;
         }
         
-        #step-logo {
+        #step-logo-large {
             width: 300px;
         }
 

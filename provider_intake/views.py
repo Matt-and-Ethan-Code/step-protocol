@@ -1,6 +1,9 @@
 from xmlrpc.client import boolean
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpRequest, HttpResponse
+
+from step_together.forms import AgreementForm
+from step_together.models import Agreement, ProviderConfirmation
 from .models import Provider
 from django.contrib.auth.decorators import login_required
 from typing import cast
@@ -57,7 +60,7 @@ def provider_intake(request: HttpRequest):
                 provider.save()
 
             add_provider_answer_option(form)
-            return redirect("provider_success")
+            return redirect("agreement_view")
         
         return render(request, "provider_intake/provider_questionnaire.html", {
                 "form": form
@@ -72,3 +75,31 @@ def provider_intake(request: HttpRequest):
                 "user_email": user_email
             })
     
+@login_required
+def agreement_view(request: HttpRequest) -> HttpResponse:
+    agreement = get_object_or_404(Agreement, current=True)
+
+    if request.method == "POST":
+        form = AgreementForm(request.POST, agreement=agreement)
+        if form.is_valid():
+            # by convention the first text question is the provider's name
+            # and the second is their organization (see ProviderConfirmation)
+            answers = form.get_text_answers()
+            provider_name = answers[0] if len(answers) > 0 else ""
+            provider_organization = answers[1] if len(answers) > 1 else ""
+
+            ProviderConfirmation.objects.create(
+                provider=request.user,
+                provider_name=provider_name,
+                provider_organization=provider_organization,
+                agreement=agreement,
+            )
+            return redirect("provider_success")  
+    else:
+        form = AgreementForm(agreement=agreement)
+
+    return render(request, "provider_intake/agreement.html", {
+        "form": form,
+        "agreement": agreement,
+        'nav_section': 'step-together'
+    })

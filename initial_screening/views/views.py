@@ -180,8 +180,6 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
                 # so we can just use that field instead of having to re-query the database
             )
 
-            print("new response: ", new_response, answer_ids)
-
             for answer in answer_ids:
                 # go through each answer in the answers dictionary
                 # and store each response as a ResponseItem
