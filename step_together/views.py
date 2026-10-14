@@ -274,13 +274,15 @@ def post_group_checklist(request:HttpRequest) -> HttpResponse:
 
 @clinician_required
 def past_agreement_view(request: HttpRequest) -> HttpResponse:
-    confirmation = get_object_or_404(ProviderConfirmation, provider=request.user)
-    agreement = get_object_or_404(Agreement, id=confirmation.agreement.id)
-    agreement_conditions = AgreementCondition.objects.filter(agreement=agreement)
-    print("condition: ", agreement_conditions)
-    return render(request, "step_together/past-agreement.html", {
-        'confirmation': confirmation,
-        "conditions": agreement_conditions,
-        'nav_section': 'step-together'
-    })
+    confirmation = ProviderConfirmation.objects.select_related("agreement").filter(provider=request.user).first()
+    if confirmation:
+        agreement = get_object_or_404(Agreement, id=confirmation.agreement.id)
+        agreement_conditions = AgreementCondition.objects.filter(agreement=agreement)
+        return render(request, "step_together/past-agreement.html", {
+            'confirmation': confirmation,
+            "conditions": agreement_conditions,
+            'nav_section': 'step-together'
+        })
+    else:
+        return redirect('/provider-intake/agreement')
 
