@@ -101,6 +101,8 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
         id=questionnaire_id
     )
 
+    matching_form = Form.objects.get(id=form_id)
+
     if request.method == 'POST':
         # the user must be submitting answers
 
@@ -112,13 +114,10 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
         file_answers = [k for k in request.FILES.keys() if k != "csrfmiddlewaretoken"]
         uploaded_files = request.FILES
 
-        print("answer_ids: ", answer_ids, "file answers: ", file_answers)
-    
         client = None
         clinician = None
         min_relationship = None
-        # only store and process a questionnaire if it actually has answers
-        if (answer_ids and len(answer_ids) > 0) or (file_answers and len(file_answers) > 0):
+        if not matching_form.anonymous:
 
             # check if this is the initial questionnaire asking the unique ID
             # if yes: it will need to be handled differently 
@@ -137,17 +136,15 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             ).first()
 
             # the question asking the ID will be question 29
-            unique_identifier = request.session['unique_identifier'] if user_unique_identifier_question is None else  answers[str(user_unique_identifier_question.id)]
+            unique_identifier = request.session['unique_identifier'] if user_unique_identifier_question is None else answers[str(user_unique_identifier_question.id)]
             # the question asking the email of the provider will be question 30
-            selected_provider_string = "" if unique_provider_question is None else answers[str(unique_provider_question.id)]
+            selected_provider_string = request.session['clinician_email'] if unique_provider_question is None else answers[str(unique_provider_question.id)]
             # get the smallest questionnaire in the form
             # relationships between forms and questionnaires are recorded in FormMembership
-            selected_provider_option = AnswerOption.objects.filter(question_id=30 if unique_provider_question is None else unique_provider_question.id, id=int(selected_provider_string)).first()
-            print("selected provider option: ", selected_provider_option)
+            selected_provider_option = None if unique_provider_question is None else AnswerOption.objects.filter(question_id=30 if unique_provider_question is None else unique_provider_question.id, id=int(selected_provider_string)).first()
             if selected_provider_option:
 
                 clinician_email = selected_provider_option.internal_value
-                print("clinician email: ", clinician_email)
                 request.session['clinician_email'] = clinician_email
 
             # store the unique identifier in a session variable
@@ -162,13 +159,15 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
             if not clinician:
                 return HttpResponseServerError("Clinician not found!")
 
-
+ 
             client: Client | None = clientm.find(str(unique_identifier), clinician)
-            matching_form = Form.objects.get(id=form_id)
-            form_anonymous = matching_form.anonymous
 
-            if not client and not form_anonymous: # quit early if it doesnt exist
+            if not client: # quit early if it doesnt exist
                 return render(request, 'initial_screening/client_does_not_exist.html')
+
+
+        # only store and process a questionnaire if it actually has answers
+        if (answer_ids and len(answer_ids) > 0) or (file_answers and len(file_answers) > 0):
 
             # store the QuestionnaireResponse
             # this will not contain any answers, but just the record that the user responded to the questionnaire.
@@ -186,7 +185,6 @@ def questionnaire_view(request: HttpRequest, form_id:int, questionnaire_id: int 
                 question_id = int(answer)
                 matching_question = Question.objects.get(id=question_id)
                 question_type = matching_question.question_type
-                print("answer: ", answer, "___", answers[answer])
 
                 if question_type == "checkbox" or question_type == "radio" or question_type == "dropdown":
                     # examine responses on questions where multiple selections could be possible

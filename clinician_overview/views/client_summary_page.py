@@ -98,13 +98,14 @@ def make_context(client: Client, access_grant: AccessGrant | None) -> dict[str, 
       responses = ResponseItem.objects.filter(response=sub)
       score: DesTScore | ItqDichotomousScore | Pcl5Score | Dass21Score | GSEScore | None = score_questionnaire_response(responses, sub.questionnaire.name)
 
-      formatted_submissions.append({
-        "id": sub.pk,
-        "form": form_name, 
-        "submission_date": sub.submitted_at, 
-        "results": create_questionnaire_result_string(score) if score else "",
-        "scheduled_deletion": sub.submitted_at.replace(year = deletion_year, month=deletion_month, day=deletion_day)
-      })
+      if not sub.questionnaire.omit_notifications:
+        formatted_submissions.append({
+          "id": sub.pk,
+          "form": form_name, 
+          "submission_date": sub.submitted_at, 
+          "results": create_questionnaire_result_string(score) if score else "",
+          "scheduled_deletion": sub.submitted_at.replace(year = deletion_year, month=deletion_month, day=deletion_day)
+        })
 
       for sub in formatted_submissions:
         if sub['form'] not in unique_form_names:
