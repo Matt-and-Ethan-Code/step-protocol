@@ -20,7 +20,12 @@
                 <h1></h1>
             {% endif %} 
 
+
             <form method="POST" enctype="multipart/form-data">
+
+                <div class="questionnaire-description">
+                    {{questionnaire.description|linebreaks}}
+                </div>
 
                 {% for block in questionnaire.question_blocks.all %}
                     <section>

@@ -46,8 +46,9 @@ body {
     flex-direction: row;
 }
 
-.question-text, .required-arrow {
-    line-height: 1.8em;
+.question-text, .questionnaire-description, .required-arrow {
+    line-height: 1.8rem;
+    font-size: 16px;
 }
 
 
@@ -147,8 +148,8 @@ section {
     padding: 20px 0;
 }
 
-.question-block-title, .question-block-description {
-    font-size: 18px;
+.question-block-title, .question-block-description, .questionnaire-description {
+    font-size: 16px;
     margin: 2px 0;
 }
 
