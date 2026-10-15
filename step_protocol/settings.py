@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     'step_solo',
     'provider_intake', 
     'step_together',
+    'core',
     'allauth.mfa'
 ]
 
@@ -208,7 +209,7 @@ EMAIL_SUBJECT_PREFIX = "[STEP] "
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/clinician"
 LOGOUT_REDIRECT_URL = "/"
 
 ACCOUNT_LOGIN_METHODS = {"email"}

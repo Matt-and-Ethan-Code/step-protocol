@@ -1,0 +1,44 @@
+{% extends "step_solo/base.html" %}
+{% load static %}
+{% block head %}
+<style>
+  main {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #drop-zone {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 4px dashed black;
+    border-radius: 8px;
+  }
+</style>
+{% endblock %}
+{% block header %}
+<h2 class="step-title-header">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
+<hr>
+<h2 class="page-title" style="text-align:center;">STEP Worksheets</h2>
+{% endblock %}
+{% block content %}
+<p>You may want to share your protocol sheet with your mental health clinician.</p>
+<br>
+<p>If you are comfortable sharing the protocol sheet via this form, please use the upload area below to attach your protocol sheet.</p>
+<br>
+<p>If you would prefer not to share via this form, leave it blank and continue to the next question.</p>
+<br>
+<form method="POST" action="" enctype="multipart/form-data" style="width:100%;">
+  <label id="drop-zone">
+    <p>Drag and drop files here</p>
+    <input type="file" accept="image/*" capture="environment" />
+    <p>Max file size: 10 MB</p>
+  </label>
+  
+</form>
+<div class="button-row">
+    <a class="blue-button next-lesson" href="{% url previous_url %}">Previous</a>
+    <a class="blue-button next-lesson" href="{% url next_url %}">Next</a>
+  </div>
+{% endblock content %}

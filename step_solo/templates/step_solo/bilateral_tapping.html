@@ -1,5 +1,4 @@
-{% extends "step_solo/base.html" %}
-{% block title %}Bilateral Tapping{% endblock %}
+{% extends "step_solo/lesson_base.html" %}
 {% block head %}
 <style>
   main {
@@ -15,13 +14,13 @@
 <hr>
 {% endblock %}
 
-{% block content %}
+{% block lesson_content %}
+
 <video id="vid" predownload src="{{ video_url }}" controls controlsList="nodownload" oncontextmenu="return false;"></video>
-<h1 class="page-title">Bilateral Tapping</h1>
+<h1 class="page-title">{{title}}</h1>
 <section>
   <p>Bilateral tapping is a technique used to help calm the nervous system and support emotional processing. It involves gently tapping on the left and right sides of the body in an alternating rhythm, such as tapping your knees, feet, or using the Butterfly Hug. This back-and-forth pattern helps the brain feel more balanced and grounded, and is commonly used in EMDR Therapy to reduce distress and support healing.</p>
   <p>This one-minute video will guide you through how to use bilateral tapping and the different bilateral tapping options you can use during STEP Solo.</p>
-  <a class="blue-button next-lesson" href="{% url 'solo_pre_check_in' %}">Next Lesson</a>
 </section>
 
 {% endblock %}

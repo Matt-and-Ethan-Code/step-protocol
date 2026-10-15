@@ -1,15 +1,14 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-import boto3
-
-from step_solo.util.identified import require_identified
+from step_solo.util.identified import solo_session_required
 
 
-
+@solo_session_required()
 def what_to_expect(req: HttpRequest) -> HttpResponse:
-    (client_id, provider_email) = require_identified(req)
     ctx = {
-        "title": "What to Expect"
+        "title": "What to Expect",
+        "previous_url": "solo_index",
+        "next_url": "solo_self_regulation_strategies",
     }
     
     return render(req, 'step_solo/what_to_expect.html', context=ctx)

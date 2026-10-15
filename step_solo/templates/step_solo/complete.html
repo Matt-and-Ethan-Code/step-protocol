@@ -1,0 +1,30 @@
+{% extends "step_solo/base.html" %}
+
+{% block head %}
+<style>
+section {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align: center;
+}
+.checkmark {
+  margin: 10px 0;
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201000%201000%22%3E%3Cpath%20fill%3D%22%234b351c%22%20d%3D%22M500%2C0C223.9%2C0%2C0%2C223.9%2C0%2C500c0%2C276.1%2C223.9%2C500%2C500%2C500s500-223.9%2C500-500C1000%2C223.9%2C776.1%2C0%2C500%2C0z%20M749.4%2C423%09L495.6%2C676.8c-27.6%2C27.6-72.2%2C27.6-99.8%2C0L274.7%2C555.6c-27.6-27.6-27.6-72.2%2C0-99.8c27.6-27.6%2C72.2-27.6%2C99.8%2C0l71.3%2C71.3%09l203.9-203.9c27.6-27.6%2C72.2-27.6%2C99.8%2C0C777%2C350.8%2C777%2C395.5%2C749.4%2C423z%22%2F%3E%3C%2Fsvg%3E")
+}
+</style>
+{% endblock %}
+{% block header %}
+<h2 class="step-title-header">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
+<hr>
+{% endblock%}
+
+{% block content %}
+<section>
+  <div class="checkmark"></div>
+  <p>Thank you for taking the time to engage in this self-care process.</p>
+  <p><strong>You’ve completed the STEP Solo, and your responses have been successfully submitted to your STEP Intervention Provider.</strong></p>
+  <p>Please note that your provider may not monitor the results in real-time. They will reach out to discuss your experience and any next steps with you.</p>
+  <p>If you’d like to revisit the Container or 4 Elements videos outside of STEP, you can access them anytime through the unlimited video membership at <a href="https://prepped4learning.com">prepped4learning.com.</a></p>
+</section>
+{% endblock %}

@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.decorators import login_required
 from clinician_overview.models import Client
 from initial_screening.models import FormMembership, QuestionnaireResponse
+from step_solo.models import SoloResponse
 #from initial_screening.models import QuestionnaireResponse
 
 @dataclass
@@ -39,6 +40,17 @@ def get_submissions(user: AbstractBaseUser) -> list[ViewNotification]:
       # only create a notification for this response if the questionnaire is the final questionnaire
       if (last_questionnaire_in_form and response.questionnaire.id == last_questionnaire_in_form.questionnaire.id):
         notifications.append(ViewNotification(client.client_id, "Submitted " + response.form.name, response.submitted_at))
+
+    most_recent_solo_response = SoloResponse.objects.filter(client=client).order_by("created_at").last()
+    if most_recent_solo_response is not None:
+      notifications.append(ViewNotification(
+        client_id=client.client_id,
+        message="STEP Solo",
+        submitted_at=most_recent_solo_response.created_at
+      ))
+      
+
+    
   return notifications
 
 def make_context(notifications: list[ViewNotification]) -> dict[str, list[ViewNotification] | str]:

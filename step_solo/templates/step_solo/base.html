@@ -1,7 +1,7 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-  <title>{% block title %}{% endblock %}</title>
+  <title>{% block title %}{{title}}{% endblock %}</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -12,6 +12,7 @@
         rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'step_solo/solo_base.css' %}">
   <script defer type="text/javascript" src="{% static 'step_solo/predownload.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'step_solo/predownload.css' %}" />
   {% block head %} {% endblock %}
   <body>
     <header style="width: 100%;">

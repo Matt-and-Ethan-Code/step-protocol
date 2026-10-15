@@ -1,6 +1,6 @@
-{% extends 'step_solo/base.html' %}
+{% extends 'step_solo/lesson_base.html' %}
 {% load static %}
-{% block title %}What to Expect{% endblock %}
+
 {% block head %}
 <style>
   #welcome-banner {
@@ -13,11 +13,11 @@
 {% block header %}
 <h2 class="step-title-header">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
 <hr>
-<h1 class="page-title">What to Expect</h1>
+<h1 class="page-title">{{title}}</h1>
 <img id="welcome-banner" src="{% static 'step_solo/welcome_banner.webp' %}">
 {% endblock %}
 
-{% block content %}
+{% block lesson_content %}
 <h2 class="blue" style="font-size:4rem;">What to Expect in STEP Solo</h2>
 <p>STEP Solo is a guided self-care process that helps you work through a recent stressful or upsetting experience.
   You'll go throug the steps independently, but your STEP Intervention Provider will support you before and after.</p>
@@ -74,5 +74,4 @@
   your overall well-being.</p>
 <br>
 <br>
-<a class="blue-button next-lesson" href="{% url 'solo_self_regulation_strategies' %}">Next Lesson</a>
 {% endblock %}

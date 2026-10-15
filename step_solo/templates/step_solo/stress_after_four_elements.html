@@ -1,0 +1,39 @@
+{% extends "step_solo/base.html" %}
+{% load static %}
+{% block head %}
+<style>
+  main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+</style>
+{% endblock %}
+
+{% block header %}
+<h2 class="step-title-header">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
+<hr>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Stress After 4 Elements</h1>
+<section>
+  <h2>Look at the STEP 1 (Yellow) box to answer the following question:</h2>
+  <img src="{% static 'step_solo/stress_after.png' %}">
+  <form method="POST" action="" style="display:flex; flex-direction:column; align-items:center;">
+    {% csrf_token %}
+    <p>Stress Level AFTER doing the 4 Elements Exercise:</p>
+    <div>
+    {% for stress_level in stress_levels %}
+    <input id="{{ stress_level }}" type="radio" name="solo_stress_after" value="{{ stress_level }}" {% if preselected_stress_level == stress_level %}checked {% endif %}>
+    <label style="margin-right:4px;" for="{{ stress_level }}">{{stress_level}}</label>
+    {% endfor %}
+    </div>
+    <div style="width:100%; display:flex;justify-content:space-between;">
+    <a class="blue-button next-lesson" href="{% url previous_url %}">Previous</a>
+    <button class="blue-button next-lesson" href="{% url next_url %}">Next</button>
+    </div>
+  </form>
+</section>
+
+{% endblock %}

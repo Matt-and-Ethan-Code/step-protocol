@@ -1,6 +1,5 @@
-{% extends "step_solo/base.html" %}
+{% extends "step_solo/lesson_base.html" %}
 {% load static %}
-{% block title %}STEP Solo Introduction{% endblock %}
 {% block head %}
 <style>
   main {
@@ -16,9 +15,9 @@
 <hr>
 {% endblock %}
 
-{% block content %}
+{% block lesson_content %}
 <video src="{{ video_url }}" controls controlsList="nodownload" oncontextmenu="return false;"></video>
-<h1 class="page-title">STEP Solo Introduction</h1>
+<h1 class="page-title">{{title}}</h1>
 <section style="width: 100%;">
   <br>
   <p>Start by watching the 13-minute introduction video that explains: 
@@ -30,6 +29,5 @@
   </p>
 
   <p><em>If you have any questions after watching the video, please contact your STEP Intervention Provider.</em></p>
-  <a class="blue-button next-lesson" href="{% url 'solo_bilateral_tapping' %}">Next Lesson</a>
 </section>
 {% endblock %}

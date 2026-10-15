@@ -1,0 +1,9 @@
+{% extends 'step_solo/lesson_base.html' %}
+{% load static %}
+{% block lesson_content %}
+<video predownload src="{{video_url}}" controls controlsList="nowdownload" oncontextmenu="return false;"></video>
+<section>
+  <p>You have already completed STEP 1. Continue with the remaining sections of the worksheet by following the instructions in this video.</p>
+</section>
+
+{% endblock %}

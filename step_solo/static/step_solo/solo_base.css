@@ -22,7 +22,7 @@ header {
     
 }
 main {
-    width: 90%;
+    width: 80%;
 }
 
 footer {
@@ -98,8 +98,19 @@ a {
 .next-lesson {
     float: right;
     margin: 2rem;
+    border: none;
+    font-size: inherit;
 }
 
 video {
-    width: 90%;
+    width: 75%;
 }
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    a {
+        margin: 1rem 0;
+    }
+}
+

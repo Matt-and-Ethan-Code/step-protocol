@@ -1,9 +1,5 @@
-{% extends 'step_solo/base.html' %}
+{% extends 'step_solo/lesson_base.html' %}
 {% load static %}
-
-{% block title %}
-Self-Regulation Strategies
-{% endblock %}
 
 {% block head %}
 <style>
@@ -36,11 +32,11 @@ Self-Regulation Strategies
 {% block header %}
 <h2 class="step-title-header">Self Care Traumatic Episode Protocol (STEP) Solo</h2>
 <hr>
-<h1 class="page-title">Self-Regulation Strategies</h1>
+<h1 class="page-title">{{title}}</h1>
 <img style="width: 100%; margin: 0;"src={% static 'step_solo/4_elements.png' %}>
 {% endblock %}
 
-{% block content %}
+{% block lesson_content %}
 <section id="in-this-section">
   <p>If you ever feel overwhelmed or need a moment to regain balance, this section offers guided self-regulation
     techniques to help calm your mind and body. These strategies are here to support you throughout your journey.
@@ -60,7 +56,6 @@ Self-Regulation Strategies
   <div style="width:100%;display:flex;justify-content:center;">
   <a class="blue-button" style="padding:2rem 6rem;"href={% static 'step_solo/self_regulation_strategies.pdf' %}>Download PDF</a></div>
 
-  <a class="blue-button" style="float:right;margin:2rem;"href={% url 'solo_getting_started' %}>Next Lesson</a>
 </section>
 
 {% endblock %}

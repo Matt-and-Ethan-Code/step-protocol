@@ -1,0 +1,26 @@
+
+{% extends 'step_solo/base.html' %}
+
+{% block header %}
+<h2 class="step-title-header">
+  Self Care Traumatic Episode Protocol (STEP) Solo
+</h2>
+<hr>
+<h2 class="page-title" style="text-align:center;">{{title}}</h2>
+{% endblock %}
+
+{% block content %}
+<video predownload src="{{video_url}}" controls controlsList="nodownload" oncontextmenu="return false;"></video>
+<section>
+<p>If you are still feeling stressed or your body is still activated, here is another version of the 4 Elements for stress reduction.</p>
+<p style="color:rgb(243,121,52);"><strong>Important Reminder:</strong> You must complete the full intervention, including submitting the final form, to ensure your data is sent to your STEP Intervention Provider. If the form is not submitted, your provider will not receive your responses and will be unable to follow up or support you based on the results.</p>
+</section>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <div class="button-row">
+    <a class="blue-button next-lesson" style="margin:1rem 0;"href="{% url previous_url %}">Previous</a>
+    <button class="blue-button next-lesson">Submit</button>
+  </div>
+</form>
+{% endblock %}
