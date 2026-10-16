@@ -62,8 +62,8 @@ AWS_QUERYSTRING_EXPIRE = 25 * 60 # seconds until the URL expires
 
 IS_PRODUCTION = not DEBUG
 
-ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1', 'localhost', 'step-protocol-soft-cove-2004.fly.dev']
-CSRF_TRUSTED_ORIGINS = ['https://step-protocol-soft-cove-2004.fly.dev', 'http://step-protocol-soft-cove-2004.fly.dev']
+ALLOWED_HOSTS = ['step-protocol.onrender.com', '127.0.0.1', 'localhost', 'step-protocol-soft-cove-2004.fly.dev', "stepintervention.ca", "stepintervention.com", "stepintervention.net",]
+CSRF_TRUSTED_ORIGINS = ['https://step-protocol-soft-cove-2004.fly.dev', 'http://step-protocol-soft-cove-2004.fly.dev', "https://stepintervention.ca", "https://stepintervention.com", "https://stepintervention.net"]
 
 # Application definition
 
