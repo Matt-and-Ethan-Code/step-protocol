@@ -3,3 +3,72 @@
     word-break: break-word;
     text-align: left;
 }
+
+.title-and-download-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+#download-link {
+    color: white;
+    background-color: var(--orangey);
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+@media print {
+    #download-link {
+        display: none;
+    }
+
+    h2 {
+        font-size: 3rem !important;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    p, td, .etable-cell, i, * {
+        font-size: 1.5rem !important;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .etable-cell, .etable-header-cell {
+        white-space: wrap;
+        word-break: break-word;
+        text-align: left;
+        border-color: black !important;
+        border-width: 1px !important;
+    }
+
+    li {
+        white-space: wrap !important;
+        word-break: break-word !important;
+        text-align: left !important;
+        text-wrap: wrap !important;
+        color: green !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    br {
+        display: none;
+    }
+
+    ul {
+        margin: 0 !important;
+        margin-top: 0 !important;
+        padding: 0 !important;
+        padding-top: 0 !important;
+        border: 1px solid red;
+    }
+
+
+}

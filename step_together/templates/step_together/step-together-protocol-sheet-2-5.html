@@ -1,0 +1,33 @@
+{% extends 'step_together/step-together-module-base.html' %} {% load static %}
+
+{% block title %} STEP Together Protocol Sheet {% endblock %} 
+
+{% block step-together-header-image %}
+<video id="vid" predownload src="{{ video_url }}" controls controlsList="nodownload" oncontextmenu="return false;"></video>
+{% endblock %}
+{% block step-together-text %}
+    <h1 class="module-header">
+        STEP Together Protocol Sheet
+    </h1>    
+    <h2 class="module-subheader">
+        STEP Together Protocol - Part {{ part_number}}
+    </h2>
+    <div>
+        <p class="blue-note bold-note">
+            <i>
+                Play Video.
+            </i>
+        </p>
+
+        <p class="orange-note bold-note">
+            <i>
+                ⭐ Pause the video when prompted or whenever the group needs more time.  
+            </i>
+        </p>
+    </div>
+
+{% endblock %}
+
+{% block step-together-next-button %}
+    Next Module
+{% endblock %}

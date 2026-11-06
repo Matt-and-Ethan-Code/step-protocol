@@ -111,7 +111,7 @@ footer span {
     gap: 2rem;
 }
 
-#step-together-body-container, #module-thumbnail {
+#step-together-body-container {
     margin-top: 2rem;
 }
 
@@ -259,19 +259,21 @@ header#step-together-header img {
     height: 3rem;
 }
 
+#breadcrumb {
+    margin-top: 2rem;
+}
+
 #breadcrumb a {
     color: #4b351c;
     font-weight: bold;
 }
 
-#step-together-video-container {
-    margin-top: 2rem;
-}
-
-#step-together-body-container, #module-thumbnail, #module-navigation-buttons {
+#step-together-body-container, #module-thumbnail, #module-navigation-buttons, #breadcrumb {
+    width: 75%;
     max-width: 75%;
     min-width: 75%;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .module-navigation-btn {

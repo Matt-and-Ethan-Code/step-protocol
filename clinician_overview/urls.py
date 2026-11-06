@@ -1,5 +1,6 @@
 from django.urls import path
 from django.http import HttpRequest, HttpResponse
+from clinician_overview.views import print_questionnaire_response
 from clinician_overview.views import resources_page, delete_clients_route, delete_responses_route, client_responses_page, save_tags_route, measures_page, questionnaire_response_page, not_clinician_page, notifications_page, clients_page, client_summary_page, client_id_route, export_csv_route, revoke_access, extend_access
 from django.shortcuts import redirect
 
@@ -24,4 +25,6 @@ urlpatterns = [
   path('revoke-access', revoke_access),
   path('extend-access', extend_access),
   path('<str:client_id>', client_responses_page),
+  path('print-questionnaire-response/<str:client_id>/<str:questionnaire_response_id>', print_questionnaire_response, name='print_questionnaire_response'),
+  path('answers-table/<str:client_id>/<str:questionnaire_response_id>', client_responses_page, name='answers-table'),
 ]

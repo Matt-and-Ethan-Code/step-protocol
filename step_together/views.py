@@ -1,7 +1,7 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from initial_screening.decorators.clinician_decorator import clinician_required
-from step_solo.util.get_video_url import get_video_url
+from step_solo.util.get_video_url import get_video_url, is_video_name
 from dataclasses import dataclass
 from typing import Literal
 
@@ -14,6 +14,7 @@ class ST_MODULE:
     img_url: str
     description: str
     page_url: str
+    hide_on_home_page: bool = False
 
 @dataclass
 class ST_MODULE_CONTAINER:
@@ -58,7 +59,35 @@ step_together_content_modules = ST_MODULE_CONTAINER(
                 title="STEP Together Protocol Sheet", 
                 img_url="step_together/images/step-together-protocol-thumbnail.jpeg", 
                 description="⭐Re-introduce your team, conduct a technology check, and ensure participants have all the needed...", 
-                page_url="/step-together/protocol-sheet"
+                page_url="/step-together/protocol-sheet-1"
+            ), 
+            ST_MODULE(
+                title="STEP Together Protocol Sheet - Part 2", 
+                img_url="step_together/images/step-together-protocol-thumbnail.jpeg", 
+                description="⭐Re-introduce your team, conduct a technology check, and ensure participants have all the needed...", 
+                page_url="/step-together/protocol-sheet-2", 
+                hide_on_home_page=True
+            ), 
+            ST_MODULE(
+                title="STEP Together Protocol Sheet - Part 3", 
+                img_url="step_together/images/step-together-protocol-thumbnail.jpeg", 
+                description="⭐Re-introduce your team, conduct a technology check, and ensure participants have all the needed...", 
+                page_url="/step-together/protocol-sheet-3", 
+                hide_on_home_page=True
+            ), 
+            ST_MODULE(
+                title="STEP Together Protocol Sheet - Part 4", 
+                img_url="step_together/images/step-together-protocol-thumbnail.jpeg", 
+                description="⭐Re-introduce your team, conduct a technology check, and ensure participants have all the needed...", 
+                page_url="/step-together/protocol-sheet-4", 
+                hide_on_home_page=True
+            ),             
+            ST_MODULE(
+                title="STEP Together Protocol Sheet - Part 5", 
+                img_url="step_together/images/step-together-protocol-thumbnail.jpeg", 
+                description="⭐Re-introduce your team, conduct a technology check, and ensure participants have all the needed...", 
+                page_url="/step-together/protocol-sheet-5",
+                hide_on_home_page=True
             ), 
             ST_MODULE(
                 title="Check-In", 
@@ -217,27 +246,49 @@ def check_in(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/check-in.html', {
         "scrollbar": step_together_content_modules, 
         'this_content_index': 4, 
-        'next_link': '/step-together/protocol-sheet/', 
+        'next_link': '/step-together/protocol-sheet-1/', 
         'prev_link': '/step-together/4-elements/'
     })
 
 @clinician_required
 def step_together_protocol_sheet(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/step-together-protocol-sheet.html', {
-        'video_url': get_video_url('st_protocol_sheet'), 
+        'video_url': get_video_url('st_protocol_sheet_1'), 
         "scrollbar": step_together_content_modules, 
-        'this_content_index': 5, 
+        'this_content_index': 10, 
         'next_link': '/step-together/check-in-pt-2', 
         'prev_link': '/step-together/check-in/'
+    })
+
+@clinician_required
+def step_together_protocol_sheet_split(request:HttpRequest, part: int) -> HttpResponse:
+    render_url = 'step_together/step-together-protocol-sheet.html' if part == 1 else 'step_together/step-together-protocol-sheet-2-5.html'
+
+    file_name = f'st_protocol_sheet_{part}'
+
+    previous_link = '/step-together/check-in/' if part == 1 else f'/step-together/protocol-sheet-{part-1}/'
+    next_link = '/step-together/check-in-pt-2' if part == 5 else f'/step-together/protocol-sheet-{part+1}/'
+
+    print("file name: ", file_name)
+    if not is_video_name(file_name):
+        return HttpResponse("Invalid part number", status=400)
+
+    return render(request, render_url, {
+        'video_url': get_video_url(file_name), 
+        "scrollbar": step_together_content_modules, 
+        'this_content_index': 4 + part, 
+        'next_link': next_link, 
+        'prev_link': previous_link, 
+        'part_number': part
     })
 
 @clinician_required
 def check_in2(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/check-in-2.html', {
         'scrollbar': step_together_content_modules, 
-        'this_content_index': 6, 
+        'this_content_index': 10, 
         'next_link': '/step-together/container', 
-        'prev_link': '/step-together/protocol-sheet/'
+        'prev_link': '/step-together/protocol-sheet-5/'
     })
 
 @clinician_required
@@ -245,7 +296,7 @@ def container(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/container.html', {
         'video_url': get_video_url('st_container'), 
         'scrollbar': step_together_content_modules, 
-        'this_content_index': 7, 
+        'this_content_index': 11, 
         'next_link': '/step-together/4-elements-pt-2', 
         'prev_link': '/step-together/check-in-pt-2'
     })
@@ -255,7 +306,7 @@ def four_elements_pt2(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/four-elements-pt2.html', {
         'video_url': get_video_url('st_4_elements_pt2'), 
         'scrollbar': step_together_content_modules, 
-        'this_content_index': 8, 
+        'this_content_index': 12, 
         'next_link': '/step-together/ending', 
         'prev_link': '/step-together/container'
     })
@@ -264,7 +315,7 @@ def four_elements_pt2(request:HttpRequest) -> HttpResponse:
 def ending(request:HttpRequest) -> HttpResponse:
     return render(request, 'step_together/ending.html', {
         'scrollbar': step_together_content_modules, 
-        'this_content_index': 9, 
+        'this_content_index': 13, 
         'prev_link': '/step-together/4-elements-pt-2' 
     })
 

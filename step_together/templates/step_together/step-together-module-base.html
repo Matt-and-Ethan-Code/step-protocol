@@ -23,12 +23,14 @@
   <body>
     <!-- <header id="step-together-header">
         <img src="{% static 'step_together/step-logo-color.jpg' %}">
-        <div id="breadcrumb">
-            <a href="/step-together/">Home</a> 
-        </div>
+
     </header> -->
     {% block content %}
+        <div id="breadcrumb">
+            <a href="/step-together/">< Home</a> 
+        </div>
         <div id="step-together-video-container">
+
             {% block step-together-video %}
             {% endblock %}
             <div id="module-thumbnail">
@@ -82,6 +84,7 @@
             {% endif %}
 
         </div>
+
         <div id="step-together-body-container">
             <div id="step-together-text">
                 {% block step-together-text %}

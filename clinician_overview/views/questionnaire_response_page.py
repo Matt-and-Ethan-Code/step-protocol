@@ -1,13 +1,25 @@
+from django.db.models import QuerySet
 from django.db.models.manager import BaseManager
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from typing import Any
 from clinician_overview.util import score_questionnaire_response
+from clinician_overview.util.print import render_to_pdf
 from clinician_overview.views import metrics_display_string
 from initial_screening.models import QuestionnaireResponse, ResponseItem
 from initial_screening.decorators import clinician_required
 from clinician_overview.scoring import *
 from django.contrib.auth.decorators import login_required
+
+@clinician_required
+def print_questionnaire_response(request: HttpRequest, client_id:str, questionnaire_response_id: str) -> HttpResponse:
+  questionnaire_response = get_object_or_404(QuestionnaireResponse, id=questionnaire_response_id)
+  try:
+    context = questionnaire_response_page_context(client_id, questionnaire_response)
+    return render_to_pdf(request, 'clinician_overview/client_responses_table.html', context=context, filename=f"{client_id}_{questionnaire_response_id}.pdf")
+  finally:
+    questionnaire_response.view_count += 1
+    questionnaire_response.save()
 
 
 @clinician_required
@@ -25,7 +37,7 @@ def questionnaire_response_page_context(client_id: str, questionnaire_response: 
   submitted_date = questionnaire_response.submitted_at
   questionnaire_title = questionnaire_response.questionnaire.name
 
-  responseItems: BaseManager[ResponseItem] = ResponseItem.objects.filter(response = questionnaire_response).order_by("question__order")
+  responseItems: QuerySet[ResponseItem] = ResponseItem.objects.filter(response = questionnaire_response).order_by("question__order")
 
   questionnaire_explanation_content: str = ""
   questionnaire_score = score_questionnaire_response.score_questionnaire_response(responseItems, questionnaire_title)
@@ -46,6 +58,7 @@ def questionnaire_response_page_context(client_id: str, questionnaire_response: 
       "submitted_at": submitted_date,
       "questionnaire_title": questionnaire_title, 
       "html_result_display": questionnaire_explanation_content, 
-      "response_items": responseItems
+      "response_items": responseItems, 
+      'questionnaire_response_id': questionnaire_response.pk
     }
 

@@ -19,13 +19,15 @@
         <h2 class="st-section-header">{{ module.title }}</h2>
         <div class="st-cards">
           {% for section in module.modules %}
-            <div class="st-card">
-              <img class="st-card-image" src="{% static section.img_url %}">
-              <div class="st-card-description">
-                  <p class="st-card-label"><a href={{section.page_url}}>{{section.title}}</a></p>
-                  <p class="st-card-sublabel">{{section.description}}</p>
+            {% if not section.hide_on_home_page %}
+              <div class="st-card">
+                <img class="st-card-image" src="{% static section.img_url %}">
+                <div class="st-card-description">
+                    <p class="st-card-label"><a href={{section.page_url}}>{{section.title}}</a></p>
+                    <p class="st-card-sublabel">{{section.description}}</p>
+                </div>
               </div>
-            </div>
+            {% endif %}
           {% endfor %}
         </div>
       </section>
