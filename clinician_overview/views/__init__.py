@@ -12,3 +12,5 @@ from .export_csv_route import export_csv_route # type: ignore
 from .delete_responses_route import delete_responses_route # type: ignore
 from .delete_client_route import delete_clients_route # type: ignore
 from .resources_page import resources_page #type: ignore
+from .questionnaire_response_page import print_questionnaire_response # type: ignore
+from .client_responses_table import client_responses_table # type: ignore

@@ -1,6 +1,7 @@
-from typing import Literal
+from typing import Literal, get_args
 import boto3
 from django.conf import settings
+from typing_extensions import TypeIs
 
 s3 = boto3.client(
         's3',
@@ -45,7 +46,12 @@ type VideoName = Literal[
     'st_container', 
     'st_bilateral_tapping',
     'st_4_elements',
-    'st_4_elements_pt2'
+    'st_4_elements_pt2', 
+    'st_protocol_sheet_1',
+    'st_protocol_sheet_2',
+    'st_protocol_sheet_3',
+    'st_protocol_sheet_4',
+    'st_protocol_sheet_5'
 ]
 
 # the path to the resource in the Tigris bucket
@@ -71,11 +77,20 @@ object_key_from_video_name: dict[VideoName, str] = {
     'drawing_guide': 'solo/drawing_guide.mp4',
     'st_self_care_introduction': 'together/Self_Care_Introduction.mp4',
     'st_protocol_sheet': 'together/STEP_Protocol_Sheet.mp4', 
+    'st_protocol_sheet_1': 'together/1 - STEP Together.mp4',
+    'st_protocol_sheet_2': 'together/2 - STEP Together.mp4',
+    'st_protocol_sheet_3': 'together/3 - STEP Together.mp4',
+    'st_protocol_sheet_4': 'together/4 - STEP Together.mp4',
+    'st_protocol_sheet_5': 'together/5 - STEP Together.mp4',
     'st_container': 'together/Container.mp4',
     'st_bilateral_tapping': 'together/Bilateral_Tapping.mp4', 
     'st_4_elements': 'together/4_Elements.mp4', 
     'st_4_elements_pt2': 'together/4_Elements_2.mp4'
 }
+
+def is_video_name(name: str) -> TypeIs[VideoName]:
+    print("testing: ", get_args(VideoName.__value__))
+    return name in get_args(VideoName.__value__)
 
 
 def get_video_url(video_name: VideoName) -> str:

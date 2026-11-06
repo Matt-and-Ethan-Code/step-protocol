@@ -1,0 +1,44 @@
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'clinician_overview/client_response_page.css' %}">
+<link rel="stylesheet" href="{% static 'clinician_overview/client_summary_page.css' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    rel="stylesheet"
+    href="{% static 'clinician_overview/clinician_base_styles.css'%}"
+/>
+{% endblock %}
+
+<div class="title-and-download-container">
+  <h2>
+  {{questionnaire_title}}
+  </h2>
+  <a id="download-link" href="{% url 'print_questionnaire_response' client_id=client_id questionnaire_response_id=questionnaire_response_id %}" class="btn">Download Responses</a>
+</div>
+<span>
+  {{html_result_display}}
+</span>
+
+<div class="etable-container">
+  <table class="etable" id="client-responses-table">
+    <thead>
+      <tr class="etable-header-row">
+        <th class="etable-header-cell">Question</th>
+        <th class="etable-header-cell">Response</th>
+      </tr>
+    </thead>
+    {% for item in response_items %}
+    <tr class="etable-row">
+      <td class="etable-cell">{{item.question.text}}</td>
+      <td class="etable-cell">
+        {% if item.answerID %}
+          {{item.answerID.text}}
+        {% else %}
+          {{item.answer}}
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
