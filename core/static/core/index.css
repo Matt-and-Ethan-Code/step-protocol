@@ -66,3 +66,7 @@ h1 {
   align-items: center;
   margin: 2rem;
 }
+
+body {
+  width: fit-content;
+}
